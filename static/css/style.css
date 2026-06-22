@@ -195,7 +195,7 @@ a:hover { text-decoration: underline; }
 /* ============================================================
    Menu
    ============================================================ */
-.menu-container { max-width: 1100px; margin: 0 auto; padding: 20px 16px; }
+.menu-container { max-width: 760px; margin: 0 auto; padding: 20px 16px; }
 
 /* ── Player banner ─────────────────────────────────────────── */
 .player-banner {
@@ -266,14 +266,14 @@ a:hover { text-decoration: underline; }
 .skin-arrow:active { transform: scale(.93); }
 
 .skin-arrow-lg {
-    width: 44px;
-    height: 44px;
-    font-size: 20px;
+    width: 34px;
+    height: 34px;
+    font-size: 17px;
 }
 
 .skin-picker-img-wrap {
-    width: 76px;
-    height: 76px;
+    width: 56px;
+    height: 56px;
     border-radius: 6px;
     overflow: hidden;
     border: 2px solid var(--gold);
@@ -417,7 +417,7 @@ a:hover { text-decoration: underline; }
    Game board
    ============================================================ */
 .game-wrapper {
-    max-width: 800px;
+    max-width: 520px;
     margin: 0 auto;
     padding: 16px 12px;
     user-select: none;
