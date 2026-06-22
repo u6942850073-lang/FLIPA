@@ -2,6 +2,7 @@ flask
 flask-socketio
 bcrypt
 gunicorn
-eventlet
+gevent
+gevent-websocket
 flipa
 psycopg2-binary
