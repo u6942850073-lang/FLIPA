@@ -22,14 +22,14 @@
             </div>
         </div>
         <div class="skin-picker">
-            <div class="skin-picker-label">Aparência</div>
+            <div class="skin-picker-label">Appearance</div>
             <div class="skin-picker-row">
-                <button class="skin-arrow skin-arrow-lg" id="skin-prev" aria-label="anterior">&#8592;</button>
+                <button class="skin-arrow skin-arrow-lg" id="skin-prev" aria-label="previous">&#8592;</button>
                 <div class="skin-picker-preview">
                     <div class="skin-picker-img-wrap">
                         <img id="skin-picker-img"
                              src="{{ url_for('serve_imgs', filename=user.skin|string + '.png') }}"
-                             alt="skin atual">
+                             alt="current skin">
                     </div>
                     <div class="skin-picker-counter">
                         <span id="skin-picker-current">{{ user.skin }}</span>
@@ -37,7 +37,7 @@
                         <span>{{ skin_count }}</span>
                     </div>
                 </div>
-                <button class="skin-arrow skin-arrow-lg" id="skin-next" aria-label="próxima">&#8594;</button>
+                <button class="skin-arrow skin-arrow-lg" id="skin-next" aria-label="next">&#8594;</button>
             </div>
             <!-- Hidden slots for data (not displayed) -->
             <div id="skin-slots" style="display:none">
@@ -52,49 +52,49 @@
 
         <!-- Training -->
         <div class="menu-section">
-            <h2>Treino</h2>
-            <p class="section-desc">Joga contra o bot sem alterar o teu MMR.</p>
+            <h2>Training</h2>
+            <p class="section-desc">Play against the bot without affecting your MMR.</p>
             <form method="POST" action="{{ url_for('training_start') }}">
                 <div class="difficulty-selector">
                     <label class="diff-option">
                         <input type="radio" name="difficulty" value="min">
                         <span class="diff-label">
-                            <span class="diff-name">Mínima</span>
-                            <span class="diff-desc">Bot fraco</span>
+                            <span class="diff-name">Minimal</span>
+                            <span class="diff-desc">Weak bot</span>
                         </span>
                     </label>
                     <label class="diff-option">
                         <input type="radio" name="difficulty" value="mid">
                         <span class="diff-label">
-                            <span class="diff-name">Média</span>
-                            <span class="diff-desc">Bot médio</span>
+                            <span class="diff-name">Medium</span>
+                            <span class="diff-desc">Average bot</span>
                         </span>
                     </label>
                     <label class="diff-option">
                         <input type="radio" name="difficulty" value="max" checked>
                         <span class="diff-label">
-                            <span class="diff-name">Máxima</span>
-                            <span class="diff-desc">Bot difícil</span>
+                            <span class="diff-name">Maximum</span>
+                            <span class="diff-desc">Hard bot</span>
                         </span>
                     </label>
                 </div>
-                <button type="submit" class="btn btn-secondary btn-full">Jogar vs Bot</button>
+                <button type="submit" class="btn btn-secondary btn-full">Play vs Bot</button>
             </form>
         </div>
 
         <!-- Ranked -->
         <div class="menu-section">
             <h2>Ranked</h2>
-            <p class="section-desc">Joga contra outros jogadores e sobe no ranking.</p>
+            <p class="section-desc">Play against other players and climb the rankings.</p>
             <div id="ranked-idle">
-                <button id="find-game-btn" class="btn btn-primary btn-full">Procurar Jogo</button>
+                <button id="find-game-btn" class="btn btn-primary btn-full">Find Game</button>
             </div>
             <div id="ranked-searching" class="hidden">
                 <div class="searching-box">
                     <div class="spinner"></div>
-                    <span>À procura de jogo...</span>
+                    <span>Searching for a game...</span>
                 </div>
-                <button id="cancel-queue-btn" class="btn btn-ghost btn-full" style="margin-top:12px">Cancelar</button>
+                <button id="cancel-queue-btn" class="btn btn-ghost btn-full" style="margin-top:12px">Cancel</button>
             </div>
         </div>
 
@@ -104,7 +104,7 @@
             {% if leaderboard %}
             <table class="leaderboard-table">
                 <thead>
-                    <tr><th>#</th><th>Jogador</th><th>Rank</th><th>MMR</th><th>V/J</th></tr>
+                    <tr><th>#</th><th>Player</th><th>Rank</th><th>MMR</th><th>W/G</th></tr>
                 </thead>
                 <tbody>
                     {% for entry in leaderboard %}
@@ -124,7 +124,7 @@
                 </tbody>
             </table>
             {% else %}
-            <p class="empty-state">Ainda não há jogos ranked.</p>
+            <p class="empty-state">No ranked games yet.</p>
             {% endif %}
         </div>
 

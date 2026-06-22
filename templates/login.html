@@ -4,7 +4,7 @@
 <div class="auth-container">
     <div class="auth-card">
         <div class="auth-logo">FLIPA</div>
-        <h2>Entrar</h2>
+        <h2>Sign In</h2>
         <form method="POST" action="{{ url_for('login') }}">
             <div class="form-group">
                 <label>Username</label>
@@ -14,9 +14,9 @@
                 <label>Password</label>
                 <input type="password" name="password" autocomplete="current-password" required>
             </div>
-            <button type="submit" class="btn btn-primary btn-full">Entrar</button>
+            <button type="submit" class="btn btn-primary btn-full">Sign In</button>
         </form>
-        <p class="auth-switch">Novo por aqui? <a href="{{ url_for('register') }}">Criar conta</a></p>
+        <p class="auth-switch">New here? <a href="{{ url_for('register') }}">Create account</a></p>
     </div>
 </div>
 {% endblock %}

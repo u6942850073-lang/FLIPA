@@ -1,17 +1,17 @@
 {% extends "base.html" %}
-{% block title %}Histórico — Flipa{% endblock %}
+{% block title %}History — Flipa{% endblock %}
 {% block content %}
 <div class="history-container">
-    <h1>Histórico de Jogos</h1>
+    <h1>Game History</h1>
     {% if records %}
     <table class="history-table">
         <thead>
             <tr>
-                <th>Tipo</th>
-                <th>Adversário</th>
-                <th>Resultado</th>
+                <th>Type</th>
+                <th>Opponent</th>
+                <th>Result</th>
                 <th>MMR</th>
-                <th>Data</th>
+                <th>Date</th>
             </tr>
         </thead>
         <tbody>
@@ -22,7 +22,7 @@
             <tr class="{{ 'win-row' if is_winner else 'loss-row' }}">
                 <td>
                     {% if r.game_type == 'training' %}
-                    <span class="badge badge-training">Treino</span>
+                    <span class="badge badge-training">Training</span>
                     {% else %}
                     <span class="badge badge-ranked">Ranked</span>
                     {% endif %}
@@ -30,16 +30,16 @@
                 <td>
                     {% if r.game_type == 'training' %}
                         Bot
-                        {% if r.bot_depth == 1 %}(Mínima)
-                        {% elif r.bot_depth == 3 %}(Média)
-                        {% else %}(Máxima)
+                        {% if r.bot_depth == 1 %}(Minimal)
+                        {% elif r.bot_depth == 3 %}(Medium)
+                        {% else %}(Maximum)
                         {% endif %}
                     {% else %}
-                        {{ opponent or '—' }}
+                        {{ opponent or 'Unknown' }}
                     {% endif %}
                 </td>
                 <td class="{{ 'result-win' if is_winner else 'result-loss' }}">
-                    {{ 'Vitória' if is_winner else 'Derrota' }}
+                    {{ 'Victory' if is_winner else 'Defeat' }}
                 </td>
                 <td>
                     {% if mmr_change is not none %}
@@ -47,7 +47,7 @@
                             {{ '+' if mmr_change > 0 }}{{ mmr_change }}
                         </span>
                     {% else %}
-                        —
+                        n/a
                     {% endif %}
                 </td>
                 <td class="date-cell">{{ r.played_at[:16] }}</td>
@@ -57,8 +57,8 @@
     </table>
     {% else %}
     <div class="empty-state">
-        <p>Ainda não jogaste nenhum jogo.</p>
-        <a href="{{ url_for('menu') }}" class="btn btn-primary">Ir ao Menu</a>
+        <p>You haven't played any games yet.</p>
+        <a href="{{ url_for('menu') }}" class="btn btn-primary">Go to Menu</a>
     </div>
     {% endif %}
 </div>

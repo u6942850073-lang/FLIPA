@@ -136,8 +136,8 @@
         }
 
         const isMyTurn = data.current_turn === MY_SIDE;
-        turnEl.textContent = isMyTurn ? 'Teu turno'
-            : `Turno de ${MY_SIDE === 'A' ? data.player_b.username : data.player_a.username}`;
+        turnEl.textContent = isMyTurn ? 'Your turn'
+            : `${MY_SIDE === 'A' ? data.player_b.username : data.player_a.username}'s turn`;
         turnEl.className = 'turn-indicator ' + (isMyTurn ? 'your-turn' : 'opponent-turn');
 
         const botTurn = GAME_TYPE === 'training' && data.current_turn === 'B' && data.status !== 'finished';
@@ -155,14 +155,14 @@
     }
 
     function playSound(fn) {
-        try { fn(getAudioCtx()); } catch(e) { /* silencia erros de audio */ }
+        try { fn(getAudioCtx()); } catch(e) { /* suppress audio errors */ }
     }
 
-    // Som de flip de carta — clique crocante + whoosh
+    // Card flip sound: crisp click + whoosh
     function soundFlip() {
         playSound(ctx => {
             const t = ctx.currentTime;
-            // Ruído branco curto (o "clique")
+            // Short white noise (the "click")
             const bufLen = ctx.sampleRate * 0.06;
             const buf = ctx.createBuffer(1, bufLen, ctx.sampleRate);
             const data = buf.getChannelData(0);
@@ -178,7 +178,7 @@
             noiseGain.connect(ctx.destination);
             noise.start(t);
 
-            // Tom whoosh
+            // Whoosh tone
             const osc = ctx.createOscillator();
             osc.type = 'sine';
             osc.frequency.setValueAtTime(320, t);
@@ -205,7 +205,7 @@
             g.gain.setValueAtTime(0.35, t);
             g.gain.exponentialRampToValueAtTime(0.001, t + 0.35);
 
-            // Distorção ligeira
+            // Light distortion
             const wave = ctx.createWaveShaper();
             const curve = new Float32Array(256);
             for (let i = 0; i < 256; i++) {
@@ -222,7 +222,7 @@
         });
     }
 
-    // Som de spell charge — build-up mágico crescente
+    // Spell charge sound: rising magical build-up
     function soundSpellCharge() {
         playSound(ctx => {
             const t = ctx.currentTime;
@@ -244,7 +244,7 @@
         });
     }
 
-    // Som de projétil — zap futurista
+    // Projectile sound: futuristic zap
     function soundProjectile() {
         playSound(ctx => {
             const t = ctx.currentTime;
@@ -269,7 +269,7 @@
         });
     }
 
-    // Som de explosão — boom profundo com estalo
+    // Explosion sound: deep boom with crack
     function soundExplosion() {
         playSound(ctx => {
             const t = ctx.currentTime;
@@ -287,7 +287,7 @@
             sub.start(t);
             sub.stop(t + 0.5);
 
-            // Ruído de estalo
+            // Crack noise
             const bufLen = ctx.sampleRate * 0.4;
             const buf = ctx.createBuffer(1, bufLen, ctx.sampleRate);
             const data = buf.getChannelData(0);
@@ -310,7 +310,7 @@
         });
     }
 
-    // Som de vitória — fanfarra ascendente
+    // Victory sound: ascending fanfare
     function soundVictory() {
         playSound(ctx => {
             const t = ctx.currentTime;
@@ -371,7 +371,7 @@
         setTimeout(() => { ring.remove(); el.style.overflow = ''; }, 500);
     }
 
-    // Overlay de flash de luz para o flip (não toca nas cores da imagem)
+    // Light flash overlay for flip (does not affect card image colours)
     function spawnFlipFlash(el) {
         const flash = document.createElement('div');
         flash.className = 'flip-flash';
@@ -387,7 +387,7 @@
         setTimeout(() => flash.remove(), 480);
     }
 
-    // Overlay de flash branco para explosão
+    // White flash overlay for explosion
     function spawnExplodeFlash(el) {
         const flash = document.createElement('div');
         flash.className = 'explode-flash';
@@ -395,7 +395,7 @@
         setTimeout(() => flash.remove(), 580);
     }
 
-    // ── Normal card: flip → shockwave → desaparecimento suave ────────────
+    // ── Normal card: flip → shockwave → fade out ─────────────────────────
     async function animateNormal(lastMove, boardGrid, skinA, skinB, hueB) {
         const src      = lastMove.src;
         const affected = lastMove.affected;
@@ -433,7 +433,7 @@
 
         if (srcEl) srcEl.classList.remove('anim-flip');
 
-        // 3. Desaparecimento — só se a src foi destruída
+        // 3. Fade out — only if src was destroyed
         if (srcDestroyed && srcEl) {
             srcEl.classList.add('anim-vanish');
             await sleep(320);
@@ -462,12 +462,12 @@
         });
     }
 
-    // ── Figure card: flip → charge → projétil com rastro → explosão ────────
+    // ── Figure card: flip → charge → projectile with trail → explosion ──────
     async function animateFigure(lastMove, boardGrid, skinA, skinB, hueB) {
         const src = lastMove.src;
         const dst = lastMove.dst;
 
-        // 1. Flip da figura
+        // 1. Figure flip
         soundFlip();
         const srcEl = cellEl(src);
         if (srcEl) {
@@ -484,7 +484,7 @@
         if (srcEl) srcEl.classList.add('anim-spell-charge');
         await sleep(400);
 
-        // 3. Lança projétil com rastro de partículas
+        // 3. Launch projectile with particle trail
         soundProjectile();
         const fromC = cellCenter(src);
         const toC   = cellCenter(dst);
@@ -537,7 +537,7 @@
         await sleep(100);
         proj.remove();
 
-        // 4. Explosão nas duas células
+        // 4. Explosion on both cells
         soundExplosion();
         [src, dst].forEach(pos => {
             const el = cellEl(pos);
@@ -584,7 +584,7 @@
                         data.clickable_sources, data.current_turn);
         state = 'IDLE';
 
-        // Se chegou outro estado durante animação, processa agora
+        // If a new state arrived during animation, process it now
         if (pendingState) {
             const d = pendingState;
             pendingState = null;
@@ -654,16 +654,16 @@
     socket.on('game_over', (data) => {
         botThinking && botThinking.classList.add('hidden');
         const iWon = data.winner === MY_SIDE;
-        modalResult.textContent = iWon ? 'Vitória!' : 'Derrota';
+        modalResult.textContent = iWon ? 'Victory!' : 'Defeat';
         modalResult.className   = 'modal-result ' + (iWon ? 'win' : 'loss');
         if (GAME_TYPE === 'ranked') {
             const delta = MY_SIDE === 'A' ? data.mmr_change_a : data.mmr_change_b;
             modalDetails.textContent = `MMR: ${delta >= 0 ? '+' : ''}${delta}`;
         } else {
-            modalDetails.textContent = 'Jogo de treino — MMR não alterado.';
+            modalDetails.textContent = 'Training game. MMR not affected.';
         }
 
-        // Toca som de vitória/derrota
+        // Play victory/defeat sound
         setTimeout(() => {
             if (iWon) soundVictory();
             else soundDefeat();

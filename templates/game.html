@@ -24,7 +24,7 @@
         </div>
 
         <div class="hud-center">
-            <div class="turn-indicator" id="turn-indicator">A aguardar...</div>
+            <div class="turn-indicator" id="turn-indicator">Waiting...</div>
             {% if game_type == 'training' %}
             <div class="difficulty-tag">{{ difficulty_name }}</div>
             {% endif %}
@@ -67,7 +67,7 @@
 
     <!-- Bot thinking indicator -->
     <div class="bot-thinking hidden" id="bot-thinking">
-        <div class="spinner-small"></div> Bot a pensar...
+        <div class="spinner-small"></div> Bot is thinking...
     </div>
 
 </div>
@@ -78,7 +78,7 @@
         <div class="modal-result" id="modal-result"></div>
         <div class="modal-details" id="modal-details"></div>
         <div class="modal-actions">
-            <a href="{{ url_for('menu') }}" class="btn btn-primary">Voltar ao Menu</a>
+            <a href="{{ url_for('menu') }}" class="btn btn-primary">Back to Menu</a>
         </div>
     </div>
 </div>
