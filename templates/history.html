@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}Histórico — Flipa{% endblock %}
+{% block content %}
+<div class="history-container">
+    <h1>Histórico de Jogos</h1>
+    {% if records %}
+    <table class="history-table">
+        <thead>
+            <tr>
+                <th>Tipo</th>
+                <th>Adversário</th>
+                <th>Resultado</th>
+                <th>MMR</th>
+                <th>Data</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for r in records %}
+            {% set is_winner = r.winner == r.your_side %}
+            {% set opponent = r.username_b if r.your_side == 'A' else r.username_a %}
+            {% set mmr_change = r.mmr_change_a if r.your_side == 'A' else r.mmr_change_b %}
+            <tr class="{{ 'win-row' if is_winner else 'loss-row' }}">
+                <td>
+                    {% if r.game_type == 'training' %}
+                    <span class="badge badge-training">Treino</span>
+                    {% else %}
+                    <span class="badge badge-ranked">Ranked</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if r.game_type == 'training' %}
+                        Bot
+                        {% if r.bot_depth == 1 %}(Mínima)
+                        {% elif r.bot_depth == 3 %}(Média)
+                        {% else %}(Máxima)
+                        {% endif %}
+                    {% else %}
+                        {{ opponent or '—' }}
+                    {% endif %}
+                </td>
+                <td class="{{ 'result-win' if is_winner else 'result-loss' }}">
+                    {{ 'Vitória' if is_winner else 'Derrota' }}
+                </td>
+                <td>
+                    {% if mmr_change is not none %}
+                        <span class="{{ 'mmr-gain' if mmr_change > 0 else 'mmr-loss' }}">
+                            {{ '+' if mmr_change > 0 }}{{ mmr_change }}
+                        </span>
+                    {% else %}
+                        —
+                    {% endif %}
+                </td>
+                <td class="date-cell">{{ r.played_at[:16] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="empty-state">
+        <p>Ainda não jogaste nenhum jogo.</p>
+        <a href="{{ url_for('menu') }}" class="btn btn-primary">Ir ao Menu</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

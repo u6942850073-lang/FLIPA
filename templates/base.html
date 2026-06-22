@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Flipa{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    {% block head %}{% endblock %}
+</head>
+<body>
+    {% if session.user_id %}
+    <nav class="navbar">
+        <a href="{{ url_for('menu') }}" class="nav-brand">FLIPA</a>
+        <div class="nav-links">
+            <a href="{{ url_for('menu') }}">Menu</a>
+            <a href="{{ url_for('history') }}">Histórico</a>
+            <form method="POST" action="{{ url_for('logout') }}" style="display:inline">
+                <button type="submit" class="btn-link">Sair</button>
+            </form>
+        </div>
+    </nav>
+    {% endif %}
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="flash-container">
+            {% for msg in messages %}
+            <div class="flash">{{ msg }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+
+    {% block scripts %}{% endblock %}
+</body>
+</html>

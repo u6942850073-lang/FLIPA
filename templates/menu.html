@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+{% block title %}Menu — Flipa{% endblock %}
+{% block head %}
+<script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+{% endblock %}
+{% block content %}
+<div class="menu-container">
+
+    <!-- Player info + skin selector -->
+    <div class="player-banner">
+        <div class="player-info">
+            <div class="skin-preview-wrap">
+                <img id="banner-skin-img" class="banner-skin-img"
+                     src="{{ url_for('serve_imgs', filename=user.skin|string + '.png') }}" alt="skin">
+            </div>
+            <div>
+                <div class="player-name">{{ user.username }}</div>
+                <div class="player-mmr-row">
+                    <div class="rank-badge rank-{{ user.rank | lower }}">{{ user.rank }}</div>
+                    <span class="player-mmr">{{ user.mmr }} MMR</span>
+                </div>
+            </div>
+        </div>
+        <div class="skin-carousel">
+            <button class="skin-arrow" id="skin-prev" aria-label="anterior">&#8592;</button>
+            <div class="skin-slots" id="skin-slots">
+                {% for i in range(1, skin_count + 1) %}
+                <div class="skin-slot {{ 'active' if i == user.skin }}" data-skin="{{ i }}">
+                    <img src="{{ url_for('serve_imgs', filename=i|string + '.png') }}" alt="skin {{ i }}">
+                </div>
+                {% endfor %}
+            </div>
+            <button class="skin-arrow" id="skin-next" aria-label="próxima">&#8594;</button>
+        </div>
+    </div>
+
+    <div class="menu-grid">
+
+        <!-- Training -->
+        <div class="menu-section">
+            <h2>Treino</h2>
+            <p class="section-desc">Joga contra o bot sem alterar o teu MMR.</p>
+            <form method="POST" action="{{ url_for('training_start') }}">
+                <div class="difficulty-selector">
+                    <label class="diff-option">
+                        <input type="radio" name="difficulty" value="min">
+                        <span class="diff-label">
+                            <span class="diff-name">Mínima</span>
+                            <span class="diff-desc">Bot fraco</span>
+                        </span>
+                    </label>
+                    <label class="diff-option">
+                        <input type="radio" name="difficulty" value="mid">
+                        <span class="diff-label">
+                            <span class="diff-name">Média</span>
+                            <span class="diff-desc">Bot médio</span>
+                        </span>
+                    </label>
+                    <label class="diff-option">
+                        <input type="radio" name="difficulty" value="max" checked>
+                        <span class="diff-label">
+                            <span class="diff-name">Máxima</span>
+                            <span class="diff-desc">Bot difícil</span>
+                        </span>
+                    </label>
+                </div>
+                <button type="submit" class="btn btn-secondary btn-full">Jogar vs Bot</button>
+            </form>
+        </div>
+
+        <!-- Ranked -->
+        <div class="menu-section">
+            <h2>Ranked</h2>
+            <p class="section-desc">Joga contra outros jogadores e sobe no ranking.</p>
+            <div id="ranked-idle">
+                <button id="find-game-btn" class="btn btn-primary btn-full">Procurar Jogo</button>
+            </div>
+            <div id="ranked-searching" class="hidden">
+                <div class="searching-box">
+                    <div class="spinner"></div>
+                    <span>À procura de jogo...</span>
+                </div>
+                <button id="cancel-queue-btn" class="btn btn-ghost btn-full" style="margin-top:12px">Cancelar</button>
+            </div>
+        </div>
+
+        <!-- Leaderboard -->
+        <div class="menu-section leaderboard-section">
+            <h2>Leaderboard</h2>
+            {% if leaderboard %}
+            <table class="leaderboard-table">
+                <thead>
+                    <tr><th>#</th><th>Jogador</th><th>Rank</th><th>MMR</th><th>V/J</th></tr>
+                </thead>
+                <tbody>
+                    {% for entry in leaderboard %}
+                    <tr class="{{ 'highlight-row' if entry.username == user.username }}">
+                        <td>{{ loop.index }}</td>
+                        <td>
+                            <span class="lb-skin-icon">
+                                <img src="{{ url_for('serve_imgs', filename=entry.skin|string + '.png') }}" alt="">
+                            </span>
+                            {{ entry.username }}
+                        </td>
+                        <td><span class="rank-badge rank-{{ entry.rank | lower }}">{{ entry.rank }}</span></td>
+                        <td>{{ entry.mmr }}</td>
+                        <td>{{ entry.wins }}/{{ entry.games_played }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p class="empty-state">Ainda não há jogos ranked.</p>
+            {% endif %}
+        </div>
+
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+const SKIN_COUNT = {{ skin_count }};
+const USER_SKIN  = {{ user.skin }};
+</script>
+<script src="{{ url_for('static', filename='js/menu.js') }}"></script>
+{% endblock %}
