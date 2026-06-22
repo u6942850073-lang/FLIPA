@@ -13,7 +13,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY") or secrets.token_hex(32)
-socketio = SocketIO(app, async_mode="gevent", cors_allowed_origins="*")
+socketio = SocketIO(app, async_mode="threading", cors_allowed_origins="*")
 
 
 # ---------------------------------------------------------------------------
@@ -403,4 +403,5 @@ def on_disconnect():
 
 if __name__ == "__main__":
     db.init_db()
-    socketio.run(app, debug=True, host="0.0.0.0", port=5000)
+    port = int(os.environ.get("PORT", 5000))
+    socketio.run(app, debug=False, host="0.0.0.0", port=port)
