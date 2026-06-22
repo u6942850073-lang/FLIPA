@@ -227,6 +227,13 @@ a:hover { text-decoration: underline; }
 .banner-skin-img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
 /* ── Skin picker (arrow-based) ─────────────────────────────── */
+.pickers-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    flex-shrink: 0;
+}
+
 .skin-picker {
     display: flex;
     flex-direction: column;
@@ -1002,11 +1009,22 @@ a:hover { text-decoration: underline; }
     .player-name { font-size: 17px; }
     .skin-preview-wrap { width: 50px; height: 50px; }
 
+    /* Skin + theme pickers — side by side row on mobile */
+    .pickers-row {
+        display: flex;
+        justify-content: center;
+        gap: 24px;
+    }
+
     /* Skin picker — center, bigger arrows & image */
-    .skin-picker { width: 100%; }
+    .skin-picker { width: auto; }
     .skin-picker-row { justify-content: center; gap: 14px; }
     .skin-arrow-lg { width: 52px; height: 52px; font-size: 24px; }
     .skin-picker-img-wrap { width: 88px; height: 88px; }
+
+    /* Theme picker mobile */
+    .theme-picker { width: auto; }
+    .theme-picker-row { justify-content: center; gap: 14px; }
 
     /* Menu grid — single column */
     .menu-grid { grid-template-columns: 1fr; gap: 12px; }
@@ -1066,4 +1084,202 @@ a:hover { text-decoration: underline; }
     .skin-picker-img-wrap { width: 82px; height: 82px; }
     .menu-grid { grid-template-columns: 1fr; gap: 14px; }
     .leaderboard-section { grid-column: 1; }
+}
+
+/* ============================================================
+   Color Themes
+   ============================================================ */
+
+/* Theme 1: Ink & Ember (default — already defined in :root) */
+
+/* Theme 2: Ocean Depths */
+html[data-theme="2"] {
+    --bg-dark:        #060d12;
+    --bg-panel:       #0c1820;
+    --bg-cell:        #111f2a;
+    --bg-cell-empty:  #080e14;
+    --accent-a:       #20a0c8;
+    --accent-b:       #1860c0;
+    --gold:           #40d0f0;
+    --ember:          #20b8e0;
+    --ash:            #507080;
+    --text:           #c8e8f0;
+    --text-muted:     #486070;
+    --border:         #102030;
+    --border-warm:    #182838;
+    --ink:            #040a10;
+}
+
+/* Theme 3: Forest Shadow */
+html[data-theme="3"] {
+    --bg-dark:        #080e08;
+    --bg-panel:       #101a10;
+    --bg-cell:        #162016;
+    --bg-cell-empty:  #0a100a;
+    --accent-a:       #40b840;
+    --accent-b:       #287828;
+    --gold:           #80e040;
+    --ember:          #50c850;
+    --ash:            #507850;
+    --text:           #d0e8d0;
+    --text-muted:     #486848;
+    --border:         #182818;
+    --border-warm:    #204020;
+    --ink:            #040804;
+}
+
+/* Theme 4: Blood Moon */
+html[data-theme="4"] {
+    --bg-dark:        #0e0608;
+    --bg-panel:       #180c10;
+    --bg-cell:        #201018;
+    --bg-cell-empty:  #100608;
+    --accent-a:       #e02840;
+    --accent-b:       #a01828;
+    --gold:           #f06080;
+    --ember:          #d04060;
+    --ash:            #805060;
+    --text:           #f0d0d8;
+    --text-muted:     #785060;
+    --border:         #301020;
+    --border-warm:    #401828;
+    --ink:            #080206;
+}
+
+/* Theme 5: Void Purple */
+html[data-theme="5"] {
+    --bg-dark:        #080610;
+    --bg-panel:       #100c1e;
+    --bg-cell:        #181228;
+    --bg-cell-empty:  #080610;
+    --accent-a:       #9040e0;
+    --accent-b:       #6020b0;
+    --gold:           #c080ff;
+    --ember:          #a060d8;
+    --ash:            #705890;
+    --text:           #e0d0f8;
+    --text-muted:     #605080;
+    --border:         #201838;
+    --border-warm:    #302048;
+    --ink:            #040210;
+}
+
+/* Theme 6: Arctic Frost */
+html[data-theme="6"] {
+    --bg-dark:        #080c12;
+    --bg-panel:       #101620;
+    --bg-cell:        #181e2c;
+    --bg-cell-empty:  #0a0e18;
+    --accent-a:       #80c8f8;
+    --accent-b:       #4890d0;
+    --gold:           #c0e8ff;
+    --ember:          #a0d0f0;
+    --ash:            #6080a0;
+    --text:           #e0eef8;
+    --text-muted:     #506880;
+    --border:         #182030;
+    --border-warm:    #202840;
+    --ink:            #04080e;
+}
+
+/* Theme 7: Toxic Neon */
+html[data-theme="7"] {
+    --bg-dark:        #040806;
+    --bg-panel:       #08120a;
+    --bg-cell:        #0c1a0e;
+    --bg-cell-empty:  #050a06;
+    --accent-a:       #20ff60;
+    --accent-b:       #00cc40;
+    --gold:           #80ff20;
+    --ember:          #40e880;
+    --ash:            #308050;
+    --text:           #c8f8d0;
+    --text-muted:     #306040;
+    --border:         #102016;
+    --border-warm:    #183020;
+    --ink:            #020504;
+}
+
+/* Theme 8: Sandstorm */
+html[data-theme="8"] {
+    --bg-dark:        #120e06;
+    --bg-panel:       #1e1808;
+    --bg-cell:        #2a200c;
+    --bg-cell-empty:  #0e0c04;
+    --accent-a:       #e8a820;
+    --accent-b:       #c07010;
+    --gold:           #f8d060;
+    --ember:          #e09030;
+    --ash:            #907050;
+    --text:           #f0e8c8;
+    --text-muted:     #806040;
+    --border:         #302010;
+    --border-warm:    #483018;
+    --ink:            #0a0804;
+}
+
+/* ── Theme picker ───────────────────────────────────────────── */
+.theme-picker {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.theme-picker-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--text-muted);
+}
+
+.theme-picker-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.theme-swatch-wrap {
+    width: 56px;
+    height: 56px;
+    border-radius: 6px;
+    border: 2px solid var(--gold);
+    background: var(--bg-cell);
+    box-shadow: 0 0 0 2px rgba(240,184,64,.2), 0 0 16px rgba(240,184,64,.15);
+    cursor: pointer;
+    transition: transform .12s;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+.theme-swatch-wrap:active { transform: scale(.95); }
+
+.theme-swatch-bg {
+    flex: 1;
+    width: 100%;
+}
+.theme-swatch-accent {
+    height: 12px;
+    width: 100%;
+}
+
+.theme-picker-counter {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-align: center;
+    margin-top: 4px;
+    letter-spacing: 0.5px;
+}
+
+@media (max-width: 480px) {
+    .theme-picker { width: 100%; }
+    .theme-picker-row { justify-content: center; gap: 14px; }
+    .theme-swatch-wrap { width: 88px; height: 88px; }
+    .theme-swatch-accent { height: 18px; }
+}
+
+@media (min-width: 481px) and (max-width: 640px) {
+    .theme-swatch-wrap { width: 82px; height: 82px; }
 }

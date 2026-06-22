@@ -105,8 +105,9 @@ def menu():
     for entry in leaderboard:
         entry["rank"] = gm.get_rank(entry["mmr"])
     user["rank"] = gm.get_rank(user["mmr"])
+    session["theme"] = user.get("theme", 1)
     return render_template("menu.html", user=user, leaderboard=leaderboard,
-                           skin_count=gm.SKIN_COUNT)
+                           skin_count=gm.SKIN_COUNT, theme_count=gm.THEME_COUNT)
 
 
 @app.route("/skin", methods=["POST"])
@@ -115,6 +116,16 @@ def save_skin():
     skin = int(request.form.get("skin", 1))
     skin = max(1, min(skin, gm.SKIN_COUNT))
     db.update_skin(session["user_id"], skin)
+    return "", 204
+
+
+@app.route("/theme", methods=["POST"])
+@login_required
+def save_theme():
+    theme = int(request.form.get("theme", 1))
+    theme = max(1, min(theme, gm.THEME_COUNT))
+    db.update_theme(session["user_id"], theme)
+    session["theme"] = theme
     return "", 204
 
 

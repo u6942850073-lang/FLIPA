@@ -1,4 +1,17 @@
-/* menu.js — Matchmaking queue + skin picker */
+/* menu.js — Matchmaking queue + skin picker + theme picker */
+
+// Theme palette: [bg, panel, accent] for each theme index (1-based)
+const THEME_PALETTES = [
+    null, // index 0 unused
+    { bg: '#161310', accent: '#e8a020', name: 'Ink & Ember' },
+    { bg: '#0c1820', accent: '#20a0c8', name: 'Ocean Depths' },
+    { bg: '#101a10', accent: '#40b840', name: 'Forest Shadow' },
+    { bg: '#180c10', accent: '#e02840', name: 'Blood Moon' },
+    { bg: '#100c1e', accent: '#9040e0', name: 'Void Purple' },
+    { bg: '#101620', accent: '#80c8f8', name: 'Arctic Frost' },
+    { bg: '#08120a', accent: '#20ff60', name: 'Toxic Neon' },
+    { bg: '#1e1808', accent: '#e8a820', name: 'Sandstorm' },
+];
 
 document.addEventListener('DOMContentLoaded', () => {
     const socket = io();
@@ -35,20 +48,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function selectSkin(n) {
         currentSkin = n;
-
-        // Update all hidden slot data nodes
         slots.forEach(s => {
             s.classList.toggle('active', parseInt(s.dataset.skin) === n);
         });
-
-        // Update banner preview (top-left icon)
         if (bannerImg) bannerImg.src = `/imgs/${n}.png`;
-
-        // Update picker central image + counter
         if (pickerImg)  pickerImg.src = `/imgs/${n}.png`;
         if (pickerCur)  pickerCur.textContent = n;
-
-        // Persist to server (fire-and-forget)
         fetch('/skin', {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -67,7 +72,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Touch swipe support on the picker image
     if (pickerImg) {
         let touchStartX = 0;
         pickerImg.parentElement.addEventListener('touchstart', e => {
@@ -79,6 +83,66 @@ document.addEventListener('DOMContentLoaded', () => {
                 selectSkin(dx < 0
                     ? (currentSkin < skinCount ? currentSkin + 1 : 1)
                     : (currentSkin > 1 ? currentSkin - 1 : skinCount));
+            }
+        }, { passive: true });
+    }
+
+    // ── Theme picker ──────────────────────────────────────────────────────
+    let currentTheme   = typeof USER_THEME !== 'undefined' ? USER_THEME : 1;
+    const themeCount   = typeof THEME_COUNT !== 'undefined' ? THEME_COUNT : 8;
+    const themePrev    = document.getElementById('theme-prev');
+    const themeNext    = document.getElementById('theme-next');
+    const themeSwatchBg     = document.getElementById('theme-swatch-bg');
+    const themeSwatchAccent = document.getElementById('theme-swatch-accent');
+    const themePickerCur    = document.getElementById('theme-picker-current');
+    const htmlEl            = document.documentElement;
+
+    function applyThemeSwatch(n) {
+        const p = THEME_PALETTES[n];
+        if (!p) return;
+        if (themeSwatchBg)     themeSwatchBg.style.background = p.bg;
+        if (themeSwatchAccent) themeSwatchAccent.style.background = p.accent;
+        if (themePickerCur)    themePickerCur.textContent = n;
+    }
+
+    function selectTheme(n) {
+        currentTheme = n;
+        htmlEl.setAttribute('data-theme', n);
+        applyThemeSwatch(n);
+        fetch('/theme', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `theme=${n}`,
+        });
+    }
+
+    // Init swatch on load
+    applyThemeSwatch(currentTheme);
+
+    if (themePrev) {
+        themePrev.addEventListener('click', () => {
+            selectTheme(currentTheme > 1 ? currentTheme - 1 : themeCount);
+        });
+    }
+    if (themeNext) {
+        themeNext.addEventListener('click', () => {
+            selectTheme(currentTheme < themeCount ? currentTheme + 1 : 1);
+        });
+    }
+
+    // Touch swipe on swatch
+    const swatchWrap = document.getElementById('theme-swatch');
+    if (swatchWrap) {
+        let tStartX = 0;
+        swatchWrap.addEventListener('touchstart', e => {
+            tStartX = e.changedTouches[0].clientX;
+        }, { passive: true });
+        swatchWrap.addEventListener('touchend', e => {
+            const dx = e.changedTouches[0].clientX - tStartX;
+            if (Math.abs(dx) > 40) {
+                selectTheme(dx < 0
+                    ? (currentTheme < themeCount ? currentTheme + 1 : 1)
+                    : (currentTheme > 1 ? currentTheme - 1 : themeCount));
             }
         }, { passive: true });
     }

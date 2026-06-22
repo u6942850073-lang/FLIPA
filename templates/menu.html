@@ -21,6 +21,7 @@
                 </div>
             </div>
         </div>
+        <div class="pickers-row">
         <div class="skin-picker">
             <div class="skin-picker-label">Appearance</div>
             <div class="skin-picker-row">
@@ -45,6 +46,26 @@
                 <div class="skin-slot {{ 'active' if i == user.skin }}" data-skin="{{ i }}"></div>
                 {% endfor %}
             </div>
+        </div>
+
+        <div class="theme-picker">
+            <div class="theme-picker-label">Theme</div>
+            <div class="theme-picker-row">
+                <button class="skin-arrow skin-arrow-lg" id="theme-prev" aria-label="previous theme">&#8592;</button>
+                <div>
+                    <div class="theme-swatch-wrap" id="theme-swatch">
+                        <div class="theme-swatch-bg" id="theme-swatch-bg"></div>
+                        <div class="theme-swatch-accent" id="theme-swatch-accent"></div>
+                    </div>
+                    <div class="theme-picker-counter">
+                        <span id="theme-picker-current">{{ user.theme if user.theme else 1 }}</span>
+                        <span class="skin-picker-sep">/</span>
+                        <span>{{ theme_count }}</span>
+                    </div>
+                </div>
+                <button class="skin-arrow skin-arrow-lg" id="theme-next" aria-label="next theme">&#8594;</button>
+            </div>
+        </div>
         </div>
     </div>
 
@@ -133,8 +154,10 @@
 {% endblock %}
 {% block scripts %}
 <script>
-const SKIN_COUNT = {{ skin_count }};
-const USER_SKIN  = {{ user.skin }};
+const SKIN_COUNT  = {{ skin_count }};
+const USER_SKIN   = {{ user.skin }};
+const THEME_COUNT = {{ theme_count }};
+const USER_THEME  = {{ user.theme if user.theme else 1 }};
 </script>
 <script src="{{ url_for('static', filename='js/menu.js') }}"></script>
 {% endblock %}

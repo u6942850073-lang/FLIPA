@@ -27,6 +27,8 @@ def _count_skin_types():
 
 SKIN_COUNT = _count_skin_types()
 
+THEME_COUNT = 8
+
 
 def _parse_board(board):
     lines = str(board).strip().split("\n")

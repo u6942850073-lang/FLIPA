@@ -33,6 +33,7 @@ if DATABASE_URL:
                     password   TEXT NOT NULL,
                     mmr        INTEGER NOT NULL DEFAULT 0,
                     skin       INTEGER NOT NULL DEFAULT 1,
+                    theme      INTEGER NOT NULL DEFAULT 1,
                     created_at TEXT DEFAULT NOW()
                 )
             """)
@@ -80,6 +81,11 @@ if DATABASE_URL:
     def update_skin(user_id, skin):
         with get_conn() as conn:
             _exec(conn, "UPDATE users SET skin = %s WHERE id = %s", (skin, user_id))
+            conn.commit()
+
+    def update_theme(user_id, theme):
+        with get_conn() as conn:
+            _exec(conn, "UPDATE users SET theme = %s WHERE id = %s", (theme, user_id))
             conn.commit()
 
     def save_game(room_id, player_a_id, player_b_id, winner, game_type,
@@ -147,6 +153,7 @@ else:
                     password   TEXT NOT NULL,
                     mmr        INTEGER NOT NULL DEFAULT 0,
                     skin       INTEGER NOT NULL DEFAULT 1,
+                    theme      INTEGER NOT NULL DEFAULT 1,
                     created_at TEXT DEFAULT (datetime('now'))
                 );
 
@@ -166,6 +173,8 @@ else:
             cols = [r[1] for r in conn.execute("PRAGMA table_info(users)").fetchall()]
             if "skin" not in cols:
                 conn.execute("ALTER TABLE users ADD COLUMN skin INTEGER NOT NULL DEFAULT 1")
+            if "theme" not in cols:
+                conn.execute("ALTER TABLE users ADD COLUMN theme INTEGER NOT NULL DEFAULT 1")
 
     def get_user_by_username(username):
         with get_conn() as conn:
@@ -192,6 +201,10 @@ else:
     def update_skin(user_id, skin):
         with get_conn() as conn:
             conn.execute("UPDATE users SET skin = ? WHERE id = ?", (skin, user_id))
+
+    def update_theme(user_id, theme):
+        with get_conn() as conn:
+            conn.execute("UPDATE users SET theme = ? WHERE id = ?", (theme, user_id))
 
     def save_game(room_id, player_a_id, player_b_id, winner, game_type,
                   mmr_change_a, mmr_change_b, bot_depth):
