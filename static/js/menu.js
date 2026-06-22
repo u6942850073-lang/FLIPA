@@ -1,4 +1,4 @@
-/* menu.js — Matchmaking queue + skin carousel */
+/* menu.js — Matchmaking queue + skin picker */
 
 document.addEventListener('DOMContentLoaded', () => {
     const socket = io();
@@ -23,21 +23,31 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = '/game/' + data.room_id;
     });
 
-    // ── Skin carousel ─────────────────────────────────────────────────────
-    let currentSkin = typeof USER_SKIN !== 'undefined' ? USER_SKIN : 1;
-    const slots     = document.querySelectorAll('.skin-slot');
-    const bannerImg = document.getElementById('banner-skin-img');
-    const prevBtn   = document.getElementById('skin-prev');
-    const nextBtn   = document.getElementById('skin-next');
+    // ── Skin picker ───────────────────────────────────────────────────────
+    let currentSkin   = typeof USER_SKIN !== 'undefined' ? USER_SKIN : 1;
+    const skinCount   = typeof SKIN_COUNT !== 'undefined' ? SKIN_COUNT : 9;
+    const slots       = document.querySelectorAll('.skin-slot');
+    const bannerImg   = document.getElementById('banner-skin-img');
+    const pickerImg   = document.getElementById('skin-picker-img');
+    const pickerCur   = document.getElementById('skin-picker-current');
+    const prevBtn     = document.getElementById('skin-prev');
+    const nextBtn     = document.getElementById('skin-next');
 
     function selectSkin(n) {
         currentSkin = n;
+
+        // Update all hidden slot data nodes
         slots.forEach(s => {
             s.classList.toggle('active', parseInt(s.dataset.skin) === n);
         });
-        if (bannerImg) {
-            bannerImg.src = `/imgs/${n}.png`;
-        }
+
+        // Update banner preview (top-left icon)
+        if (bannerImg) bannerImg.src = `/imgs/${n}.png`;
+
+        // Update picker central image + counter
+        if (pickerImg)  pickerImg.src = `/imgs/${n}.png`;
+        if (pickerCur)  pickerCur.textContent = n;
+
         // Persist to server (fire-and-forget)
         fetch('/skin', {
             method: 'POST',
@@ -46,32 +56,30 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Click on any slot
-    slots.forEach(slot => {
-        slot.addEventListener('click', () => selectSkin(parseInt(slot.dataset.skin)));
-    });
-
-    // Arrow buttons
     if (prevBtn) {
         prevBtn.addEventListener('click', () => {
-            const n = currentSkin > 1 ? currentSkin - 1 : SKIN_COUNT;
-            selectSkin(n);
-            scrollToActiveSkin();
+            selectSkin(currentSkin > 1 ? currentSkin - 1 : skinCount);
         });
     }
     if (nextBtn) {
         nextBtn.addEventListener('click', () => {
-            const n = currentSkin < SKIN_COUNT ? currentSkin + 1 : 1;
-            selectSkin(n);
-            scrollToActiveSkin();
+            selectSkin(currentSkin < skinCount ? currentSkin + 1 : 1);
         });
     }
 
-    function scrollToActiveSkin() {
-        const active = document.querySelector('.skin-slot.active');
-        if (active) active.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+    // Touch swipe support on the picker image
+    if (pickerImg) {
+        let touchStartX = 0;
+        pickerImg.parentElement.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].clientX;
+        }, { passive: true });
+        pickerImg.parentElement.addEventListener('touchend', e => {
+            const dx = e.changedTouches[0].clientX - touchStartX;
+            if (Math.abs(dx) > 40) {
+                selectSkin(dx < 0
+                    ? (currentSkin < skinCount ? currentSkin + 1 : 1)
+                    : (currentSkin > 1 ? currentSkin - 1 : skinCount));
+            }
+        }, { passive: true });
     }
-
-    // Scroll active skin into view on load
-    scrollToActiveSkin();
 });

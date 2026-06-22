@@ -21,16 +21,30 @@
                 </div>
             </div>
         </div>
-        <div class="skin-carousel">
-            <button class="skin-arrow" id="skin-prev" aria-label="anterior">&#8592;</button>
-            <div class="skin-slots" id="skin-slots">
-                {% for i in range(1, skin_count + 1) %}
-                <div class="skin-slot {{ 'active' if i == user.skin }}" data-skin="{{ i }}">
-                    <img src="{{ url_for('serve_imgs', filename=i|string + '.png') }}" alt="skin {{ i }}">
+        <div class="skin-picker">
+            <div class="skin-picker-label">Aparência</div>
+            <div class="skin-picker-row">
+                <button class="skin-arrow skin-arrow-lg" id="skin-prev" aria-label="anterior">&#8592;</button>
+                <div class="skin-picker-preview">
+                    <div class="skin-picker-img-wrap">
+                        <img id="skin-picker-img"
+                             src="{{ url_for('serve_imgs', filename=user.skin|string + '.png') }}"
+                             alt="skin atual">
+                    </div>
+                    <div class="skin-picker-counter">
+                        <span id="skin-picker-current">{{ user.skin }}</span>
+                        <span class="skin-picker-sep">/</span>
+                        <span>{{ skin_count }}</span>
+                    </div>
                 </div>
+                <button class="skin-arrow skin-arrow-lg" id="skin-next" aria-label="próxima">&#8594;</button>
+            </div>
+            <!-- Hidden slots for data (not displayed) -->
+            <div id="skin-slots" style="display:none">
+                {% for i in range(1, skin_count + 1) %}
+                <div class="skin-slot {{ 'active' if i == user.skin }}" data-skin="{{ i }}"></div>
                 {% endfor %}
             </div>
-            <button class="skin-arrow" id="skin-next" aria-label="próxima">&#8594;</button>
         </div>
     </div>
 
