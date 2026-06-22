@@ -25,6 +25,15 @@
 
         <div class="hud-center">
             <div class="turn-indicator" id="turn-indicator">Waiting...</div>
+            {% if game_type == 'ranked' %}
+            <div class="turn-timer hidden" id="turn-timer">
+                <svg viewBox="0 0 44 44" class="timer-ring">
+                    <circle class="timer-ring-bg" cx="22" cy="22" r="18"/>
+                    <circle class="timer-ring-fill" id="timer-ring-fill" cx="22" cy="22" r="18"/>
+                </svg>
+                <span class="timer-seconds" id="timer-seconds">60</span>
+            </div>
+            {% endif %}
             {% if game_type == 'training' %}
             <div class="difficulty-tag">{{ difficulty_name }}</div>
             {% endif %}

@@ -30,6 +30,48 @@
     const gameResult   = document.getElementById('game-result');
     const resultText   = document.getElementById('result-text');
     const resultDetails = document.getElementById('result-details');
+    const timerEl      = document.getElementById('turn-timer');
+    const timerFill    = document.getElementById('timer-ring-fill');
+    const timerSecs    = document.getElementById('timer-seconds');
+
+    // ── Turn timer ────────────────────────────────────────────────────────
+    const TIMER_TOTAL   = 60;
+    const TIMER_CIRC    = 113; // 2π × r(18) ≈ 113
+    let   timerRafId    = null;
+    let   timerStartAt  = null; // Unix timestamp (seconds, from server)
+
+    function startTimer(turnStartedAt) {
+        if (!timerEl) return;
+        timerStartAt = turnStartedAt;
+        if (timerRafId) cancelAnimationFrame(timerRafId);
+        timerEl.classList.remove('hidden');
+
+        function tick() {
+            const remaining = Math.max(0, TIMER_TOTAL - (Date.now() / 1000 - timerStartAt));
+            const fraction  = remaining / TIMER_TOTAL;
+            const offset    = TIMER_CIRC * (1 - fraction);
+            const urgent    = remaining <= 10;
+
+            if (timerFill) {
+                timerFill.style.strokeDashoffset = offset;
+                timerFill.classList.toggle('timer-urgent', urgent);
+            }
+            if (timerSecs) {
+                timerSecs.textContent = Math.ceil(remaining);
+                timerSecs.classList.toggle('timer-urgent', urgent);
+            }
+
+            if (remaining > 0) {
+                timerRafId = requestAnimationFrame(tick);
+            }
+        }
+        timerRafId = requestAnimationFrame(tick);
+    }
+
+    function stopTimer() {
+        if (timerRafId) { cancelAnimationFrame(timerRafId); timerRafId = null; }
+        if (timerEl) timerEl.classList.add('hidden');
+    }
 
     function cellEl(pos) { return document.getElementById('cell-' + pos); }
 
@@ -625,6 +667,12 @@
 
     function handleGameState(data) {
         updateHUD(data);
+
+        // Start/restart the turn timer for ranked games
+        if (GAME_TYPE === 'ranked' && data.status === 'active' && data.turn_started_at) {
+            startTimer(data.turn_started_at);
+        }
+
         if (state === 'ANIMATING') {
             pendingState = data;
             return;
@@ -653,6 +701,7 @@
 
     socket.on('game_over', (data) => {
         botThinking && botThinking.classList.add('hidden');
+        stopTimer();
         const isDraw = data.winner === 'DRAW';
         const iWon   = !isDraw && data.winner === MY_SIDE;
 

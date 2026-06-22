@@ -2,6 +2,7 @@ import uuid
 import re
 import os
 import random
+import time
 from flipa.flipa import Board, Player
 
 GAMES = {}
@@ -104,6 +105,7 @@ def _make_game(board, player_a, player_b, game_type, bot_depth):
         "hue_b": hue_b,   # CSS hue-rotate degrees for player B when skins clash
         "status": "active",
         "winner": None,
+        "turn_started_at": time.time(),
     }
 
 
@@ -168,6 +170,7 @@ def build_game_state(room_id, your_side):
         "game_type": game["game_type"],
         "your_side": your_side,
         "status": game["status"],
+        "turn_started_at": game.get("turn_started_at"),
     }
 
 

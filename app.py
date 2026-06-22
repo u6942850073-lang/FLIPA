@@ -1,5 +1,6 @@
 import os
 import secrets
+import time
 import bcrypt
 from flask import (Flask, render_template, request, redirect, url_for,
                    session, flash, send_from_directory)
@@ -179,6 +180,22 @@ def serve_imgs(filename):
 # SocketIO — Game events
 # ---------------------------------------------------------------------------
 
+def _turn_watchdog(room_id, turn_started_at):
+    """Background task: if the turn timestamp hasn't changed after 60s, the active player loses."""
+    time.sleep(60)
+    game = gm.get_game(room_id)
+    if not game or game["status"] != "active":
+        return
+    if game.get("turn_started_at") != turn_started_at:
+        return
+    timed_out_side = game["current_turn"]
+    winner = "B" if timed_out_side == "A" else "A"
+    game["status"] = "finished"
+    game["winner"] = winner
+    socketio.emit("game_state", gm.build_game_state(room_id, "A"), to=room_id)
+    _finish_game(room_id, winner)
+
+
 def _finish_game(room_id, winner):
     game = gm.GAMES[room_id]
     game_type = game["game_type"]
@@ -237,6 +254,10 @@ def on_join_game(data):
     join_room(room_id)
     state = gm.build_game_state(room_id, side)
     emit("game_state", state)
+
+    # Ranked: launch turn watchdog so the first player can't stall indefinitely
+    if game["game_type"] == "ranked" and game["status"] == "active":
+        socketio.start_background_task(_turn_watchdog, room_id, game["turn_started_at"])
 
     # Se é jogo de treino e o bot começa primeiro, arranca-o agora
     if game["game_type"] == "training" and game["current_turn"] == "B" and game["status"] == "active":
@@ -338,6 +359,10 @@ def on_play_move(data):
 
     gm.switch_turn(room_id)
 
+    # Refresh turn timestamp for ranked games and launch a new watchdog
+    if game["game_type"] == "ranked":
+        game["turn_started_at"] = time.time()
+
     # Check if the next player has no moves (game over)
     winner = gm.check_game_over(room_id)
     if winner:
@@ -347,6 +372,9 @@ def on_play_move(data):
 
     # Emit updated state to all in room
     socketio.emit("game_state", gm.build_game_state(room_id, "A"), to=room_id)
+
+    if game["game_type"] == "ranked":
+        socketio.start_background_task(_turn_watchdog, room_id, game["turn_started_at"])
 
     # If training and now bot's turn, compute bot move in background
     if game["game_type"] == "training" and game["current_turn"] == "B":
