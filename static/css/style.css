@@ -895,42 +895,41 @@ a:hover { text-decoration: underline; }
 }
 
 /* ============================================================
-   Game Over Modal
+   Game Over Result Bar
    ============================================================ */
-.modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(5,3,1,.82);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 200;
-    backdrop-filter: blur(5px);
+.game-result {
+    margin-top: 18px;
+    width: 100%;
+    max-width: 480px;
+    animation: resultFadeIn 0.5s ease both;
+}
+@keyframes resultFadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
 
-.modal {
+.game-result-inner {
     background: var(--bg-panel);
     border: 1px solid var(--border-warm);
     border-radius: var(--radius);
-    padding: 40px 36px;
-    max-width: 380px;
-    width: 90%;
+    padding: 22px 24px;
     text-align: center;
 }
 
-.modal-result {
+.game-result-text {
     font-family: 'Space Grotesk', sans-serif;
-    font-size: 30px;
+    font-size: 24px;
     font-weight: 700;
     letter-spacing: 4px;
     text-transform: uppercase;
-    margin-bottom: 12px;
+    margin-bottom: 6px;
 }
-.modal-result.win  { color: var(--gold); text-shadow: 0 0 20px rgba(240,184,64,0.5); }
-.modal-result.loss { color: var(--ash); }
+.game-result-text.win  { color: var(--gold); text-shadow: 0 0 20px rgba(240,184,64,0.5); }
+.game-result-text.loss { color: var(--ash); }
+.game-result-text.draw { color: var(--text-muted); }
 
-.modal-details { color: var(--text-muted); font-size: 14px; margin-bottom: 28px; line-height: 1.6; }
-.modal-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.game-result-details { color: var(--text-muted); font-size: 13px; margin-bottom: 18px; }
+.game-result-actions  { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
 
 /* ============================================================
    History
@@ -958,8 +957,10 @@ a:hover { text-decoration: underline; }
 .history-table td { padding: 12px 12px; border-bottom: 1px solid #18130e; }
 .win-row  { background: rgba(232,160,32,.03); }
 .loss-row { background: rgba(200,67,42,.03); }
+.draw-row { background: rgba(120,120,120,.03); }
 .result-win  { color: var(--gold); font-weight: 600; }
 .result-loss { color: var(--ash); font-weight: 600; }
+.result-draw { color: var(--text-muted); font-weight: 600; }
 .mmr-gain { color: var(--gold); font-weight: 600; }
 .mmr-loss { color: #a05840; font-weight: 600; }
 .date-cell { color: var(--text-muted); font-size: 12px; }

@@ -27,9 +27,9 @@
     const hudSkinImgA  = document.getElementById('hud-skin-img-a');
     const hudSkinImgB  = document.getElementById('hud-skin-img-b');
     const botThinking  = document.getElementById('bot-thinking');
-    const modal        = document.getElementById('game-over-modal');
-    const modalResult  = document.getElementById('modal-result');
-    const modalDetails = document.getElementById('modal-details');
+    const gameResult   = document.getElementById('game-result');
+    const resultText   = document.getElementById('result-text');
+    const resultDetails = document.getElementById('result-details');
 
     function cellEl(pos) { return document.getElementById('cell-' + pos); }
 
@@ -653,23 +653,32 @@
 
     socket.on('game_over', (data) => {
         botThinking && botThinking.classList.add('hidden');
-        const iWon = data.winner === MY_SIDE;
-        modalResult.textContent = iWon ? 'Victory!' : 'Defeat';
-        modalResult.className   = 'modal-result ' + (iWon ? 'win' : 'loss');
-        if (GAME_TYPE === 'ranked') {
+        const isDraw = data.winner === 'DRAW';
+        const iWon   = !isDraw && data.winner === MY_SIDE;
+
+        let label, cls;
+        if (isDraw)      { label = 'Draw';    cls = 'draw'; }
+        else if (iWon)   { label = 'Victory!'; cls = 'win'; }
+        else             { label = 'Defeat';   cls = 'loss'; }
+
+        resultText.textContent = label;
+        resultText.className   = 'game-result-text ' + cls;
+
+        if (GAME_TYPE === 'ranked' && !isDraw) {
             const delta = MY_SIDE === 'A' ? data.mmr_change_a : data.mmr_change_b;
-            modalDetails.textContent = `MMR: ${delta >= 0 ? '+' : ''}${delta}`;
+            resultDetails.textContent = `MMR: ${delta >= 0 ? '+' : ''}${delta}`;
+        } else if (GAME_TYPE === 'ranked' && isDraw) {
+            resultDetails.textContent = 'Draw — no MMR change.';
         } else {
-            modalDetails.textContent = 'Training game. MMR not affected.';
+            resultDetails.textContent = 'Training game. MMR not affected.';
         }
 
-        // Play victory/defeat sound
         setTimeout(() => {
             if (iWon) soundVictory();
-            else soundDefeat();
+            else if (!isDraw) soundDefeat();
         }, 200);
 
-        modal && modal.classList.remove('hidden');
+        gameResult && gameResult.classList.remove('hidden');
     });
 
     socket.on('error', (data) => {

@@ -16,10 +16,11 @@
         </thead>
         <tbody>
             {% for r in records %}
-            {% set is_winner = r.winner == r.your_side %}
+            {% set is_draw   = r.winner == 'DRAW' %}
+            {% set is_winner = not is_draw and r.winner == r.your_side %}
             {% set opponent = r.username_b if r.your_side == 'A' else r.username_a %}
             {% set mmr_change = r.mmr_change_a if r.your_side == 'A' else r.mmr_change_b %}
-            <tr class="{{ 'win-row' if is_winner else 'loss-row' }}">
+            <tr class="{{ 'win-row' if is_winner else 'draw-row' if is_draw else 'loss-row' }}">
                 <td>
                     {% if r.game_type == 'training' %}
                     <span class="badge badge-training">Training</span>
@@ -38,8 +39,8 @@
                         {{ opponent or 'Unknown' }}
                     {% endif %}
                 </td>
-                <td class="{{ 'result-win' if is_winner else 'result-loss' }}">
-                    {{ 'Victory' if is_winner else 'Defeat' }}
+                <td class="{{ 'result-win' if is_winner else 'result-draw' if is_draw else 'result-loss' }}">
+                    {{ 'Victory' if is_winner else 'Draw' if is_draw else 'Defeat' }}
                 </td>
                 <td>
                     {% if mmr_change is not none %}

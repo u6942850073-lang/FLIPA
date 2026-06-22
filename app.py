@@ -155,9 +155,11 @@ def game(room_id):
         flash("Não tens acesso a este jogo.")
         return redirect(url_for("menu"))
     difficulty_name = {1: "Mínima", 5: "Média", 10: "Máxima"}.get(game_data.get("bot_depth"), "")
+    difficulty_key  = {1: "min", 5: "mid", 10: "max"}.get(game_data.get("bot_depth"), "max")
     return render_template("game.html", room_id=room_id, side=side,
                            user=user, game_type=game_data["game_type"],
-                           difficulty_name=difficulty_name)
+                           difficulty_name=difficulty_name,
+                           difficulty_key=difficulty_key)
 
 
 @app.route("/history")
@@ -186,7 +188,7 @@ def _finish_game(room_id, winner):
     mmr_change_a = None
     mmr_change_b = None
 
-    if game_type == "ranked":
+    if game_type == "ranked" and winner != "DRAW":
         if winner == "A":
             delta_w, delta_l, new_w, new_l = gm.calculate_elo(pa["mmr"], pb["mmr"])
             mmr_change_a, mmr_change_b = delta_w, delta_l

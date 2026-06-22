@@ -62,17 +62,25 @@
         <div class="spinner-small"></div> Bot is thinking...
     </div>
 
-</div>
-
-<!-- Game Over Modal -->
-<div class="modal-overlay hidden" id="game-over-modal">
-    <div class="modal">
-        <div class="modal-result" id="modal-result"></div>
-        <div class="modal-details" id="modal-details"></div>
-        <div class="modal-actions">
-            <a href="{{ url_for('menu') }}" class="btn btn-primary">Back to Menu</a>
+    <!-- Game Over Result Bar -->
+    <div class="game-result hidden" id="game-result">
+        <div class="game-result-inner">
+            <div class="game-result-text" id="result-text"></div>
+            <div class="game-result-details" id="result-details"></div>
+            <div class="game-result-actions">
+                {% if game_type == 'training' %}
+                <form method="post" action="{{ url_for('training_start') }}" style="display:inline">
+                    <input type="hidden" name="difficulty" value="{{ difficulty_key }}">
+                    <button type="submit" class="btn btn-primary">Play Again</button>
+                </form>
+                {% else %}
+                <a href="{{ url_for('menu') }}" class="btn btn-primary">Find Match</a>
+                {% endif %}
+                <a href="{{ url_for('menu') }}" class="btn btn-secondary">Back to Menu</a>
+            </div>
         </div>
     </div>
+
 </div>
 {% endblock %}
 {% block scripts %}

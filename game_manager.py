@@ -242,23 +242,37 @@ def check_game_over(room_id):
     current = game["current_turn"]   # player who is about to move
     just_played = "B" if current == "A" else "A"  # player who just moved
 
-    # Check the player who just moved first (figure card can eliminate own last card)
-    if count_player_cards(board, just_played) == 0:
-        winner = current  # the one who still has cards
+    cards_current    = count_player_cards(board, current)
+    cards_just_played = count_player_cards(board, just_played)
+
+    # Both players eliminated simultaneously (e.g. figure card mutual destruction)
+    if cards_just_played == 0 and cards_current == 0:
+        game["status"] = "finished"
+        game["winner"] = "DRAW"
+        return "DRAW"
+
+    # Player who just moved lost all their cards
+    if cards_just_played == 0:
+        winner = current
         game["status"] = "finished"
         game["winner"] = winner
         return winner
 
-    # Check the player who is about to move
-    if count_player_cards(board, current) == 0:
+    # Player who is about to move has no cards left
+    if cards_current == 0:
         winner = just_played
         game["status"] = "finished"
         game["winner"] = winner
         return winner
 
-    # Also check legal moves as a safety net
-    player = Player.A if current == "A" else Player.B
-    if not board.get_legal_moves(player):
+    # Next player has no legal moves — check if the other also has none (draw)
+    player_current = Player.A if current == "A" else Player.B
+    if not board.get_legal_moves(player_current):
+        player_just_played = Player.B if current == "A" else Player.A
+        if not board.get_legal_moves(player_just_played):
+            game["status"] = "finished"
+            game["winner"] = "DRAW"
+            return "DRAW"
         winner = just_played
         game["status"] = "finished"
         game["winner"] = winner
