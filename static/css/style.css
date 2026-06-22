@@ -487,37 +487,7 @@ a:hover { text-decoration: underline; }
 /* Board grid */
 .board-area {
     display: flex;
-    align-items: flex-start;
-    gap: 6px;
 }
-
-.board-labels-col {
-    display: grid;
-    grid-template-rows: repeat(3, 1fr);
-    gap: 8px;
-    padding-top: 34px;
-    color: var(--text-muted);
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 1px;
-    min-width: 16px;
-    text-align: center;
-}
-.board-labels-col div { display: flex; align-items: center; justify-content: center; }
-
-.board-labels-row {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
-    margin-bottom: 5px;
-    color: var(--text-muted);
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 1px;
-    text-align: center;
-    padding: 0 2px;
-}
-.board-labels-row div { padding: 3px 0; }
 
 .board-grid {
     display: grid;
@@ -1070,9 +1040,6 @@ a:hover { text-decoration: underline; }
     .turn-indicator { font-size: 10px; padding: 4px 10px; letter-spacing: 1px; }
 
     /* Board */
-    .board-area { gap: 4px; }
-    .board-labels-col { min-width: 14px; font-size: 10px; padding-top: 28px; gap: 6px; }
-    .board-labels-row { font-size: 10px; margin-bottom: 4px; gap: 6px; }
     .board-grid { gap: 6px; }
 
     /* Buttons */

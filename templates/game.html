@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Jogo — Flipa{% endblock %}
+{% block title %}FLIPA{% endblock %}
 {% block head %}
 <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
 {% endblock %}
@@ -44,24 +44,16 @@
 
     <!-- Board -->
     <div class="board-area">
-        <div class="board-labels-col">
-            <div>A</div><div>B</div><div>C</div>
-        </div>
-        <div style="flex:1">
-            <div class="board-labels-row">
-                <div>1</div><div>2</div><div>3</div><div>4</div>
-            </div>
-            <div class="board-grid" id="board-grid">
-                {% for row in ['A','B','C'] %}
-                    {% for col in ['1','2','3','4'] %}
-                    <div class="cell" id="cell-{{ row }}{{ col }}" data-pos="{{ row }}{{ col }}">
-                        <img class="card-img" src="" alt="">
-                        <div class="cell-overlay"></div>
-                        <div class="move-hint"></div>
-                    </div>
-                    {% endfor %}
+        <div class="board-grid" id="board-grid">
+            {% for row in ['A','B','C'] %}
+                {% for col in ['1','2','3','4'] %}
+                <div class="cell" id="cell-{{ row }}{{ col }}" data-pos="{{ row }}{{ col }}">
+                    <img class="card-img" src="" alt="">
+                    <div class="cell-overlay"></div>
+                    <div class="move-hint"></div>
+                </div>
                 {% endfor %}
-            </div>
+            {% endfor %}
         </div>
     </div>
 
