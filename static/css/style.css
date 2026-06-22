@@ -1010,22 +1010,30 @@ a:hover { text-decoration: underline; }
     .player-name { font-size: 17px; }
     .skin-preview-wrap { width: 50px; height: 50px; }
 
-    /* Skin + theme pickers — side by side row on mobile */
+    /* Skin + theme pickers — stack vertically on mobile, full width */
     .pickers-row {
         display: flex;
-        justify-content: center;
-        gap: 24px;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+        width: 100%;
     }
 
-    /* Skin picker — center, bigger arrows & image */
-    .skin-picker { width: auto; }
-    .skin-picker-row { justify-content: center; gap: 14px; }
-    .skin-arrow-lg { width: 52px; height: 52px; font-size: 24px; }
-    .skin-picker-img-wrap { width: 88px; height: 88px; }
+    /* Each picker takes full width and lays out horizontally */
+    .skin-picker  { width: 100%; flex-direction: row; align-items: center; justify-content: space-between; gap: 10px; }
+    .theme-picker { width: 100%; flex-direction: row; align-items: center; justify-content: space-between; gap: 10px; }
 
-    /* Theme picker mobile */
-    .theme-picker { width: auto; }
-    .theme-picker-row { justify-content: center; gap: 14px; }
+    .skin-picker-label,
+    .theme-picker-label { min-width: 70px; text-align: left; font-size: 10px; }
+
+    .skin-picker-row  { flex: 1; justify-content: center; gap: 10px; }
+    .theme-picker-row { flex: 1; justify-content: center; gap: 10px; }
+
+    .skin-arrow-lg { width: 40px; height: 40px; font-size: 20px; }
+
+    .skin-picker-img-wrap { width: 52px; height: 52px; }
+    .theme-swatch-wrap    { width: 52px; height: 52px; }
+    .theme-swatch-accent  { height: 12px; }
 
     /* Menu grid — single column */
     .menu-grid { grid-template-columns: 1fr; gap: 12px; }
@@ -1080,9 +1088,15 @@ a:hover { text-decoration: underline; }
 @media (min-width: 481px) and (max-width: 640px) {
     .menu-container { padding: 16px 14px; }
     .player-banner { flex-wrap: wrap; padding: 16px 20px; }
-    .skin-picker-row { gap: 12px; }
-    .skin-arrow-lg { width: 46px; height: 46px; font-size: 22px; }
-    .skin-picker-img-wrap { width: 82px; height: 82px; }
+    .pickers-row { flex-direction: column; align-items: stretch; gap: 10px; min-width: 200px; }
+    .skin-picker  { flex-direction: row; align-items: center; justify-content: space-between; gap: 8px; }
+    .theme-picker { flex-direction: row; align-items: center; justify-content: space-between; gap: 8px; }
+    .skin-picker-label, .theme-picker-label { min-width: 60px; }
+    .skin-picker-row  { flex: 1; justify-content: center; gap: 10px; }
+    .theme-picker-row { flex: 1; justify-content: center; gap: 10px; }
+    .skin-arrow-lg { width: 42px; height: 42px; font-size: 20px; }
+    .skin-picker-img-wrap { width: 60px; height: 60px; }
+    .theme-swatch-wrap { width: 60px; height: 60px; }
     .menu-grid { grid-template-columns: 1fr; gap: 14px; }
     .leaderboard-section { grid-column: 1; }
 }
@@ -1275,12 +1289,9 @@ html[data-theme="8"] {
 }
 
 @media (max-width: 480px) {
-    .theme-picker { width: 100%; }
-    .theme-picker-row { justify-content: center; gap: 14px; }
-    .theme-swatch-wrap { width: 88px; height: 88px; }
-    .theme-swatch-accent { height: 18px; }
+    /* theme-picker mobile overrides are handled in the main mobile block above */
 }
 
 @media (min-width: 481px) and (max-width: 640px) {
-    .theme-swatch-wrap { width: 82px; height: 82px; }
+    /* theme-swatch handled in the tablet block above */
 }
