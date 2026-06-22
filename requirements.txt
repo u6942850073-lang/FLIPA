@@ -1,0 +1,7 @@
+flask
+flask-socketio
+bcrypt
+gunicorn
+eventlet
+flipa
+psycopg2-binary
