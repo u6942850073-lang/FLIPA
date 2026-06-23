@@ -30,6 +30,8 @@ SKIN_COUNT = _count_skin_types()
 
 THEME_COUNT = 10
 
+EFFECT_PACK_COUNT = 4
+
 
 def _parse_board(board):
     lines = str(board).strip().split("\n")
@@ -90,8 +92,9 @@ def _make_game(board, player_a, player_b, game_type, bot_depth):
     # If skins clash, pick a hue rotation for player B so colours differ visually
     hue_b = 0
     if skin_a == skin_b:
-        # Pick a hue that isn't used by A (A has hue 0)
         hue_b = ALT_HUES[0]
+    effect_pack_a = player_a.get("effect_pack", 1)
+    effect_pack_b = player_b.get("effect_pack", 1)
     first = random.choice(["A", "B"])
     return {
         "board": board,
@@ -102,21 +105,24 @@ def _make_game(board, player_a, player_b, game_type, bot_depth):
         "bot_depth": bot_depth,
         "skin_a": skin_a,
         "skin_b": skin_b,
-        "hue_b": hue_b,   # CSS hue-rotate degrees for player B when skins clash
+        "hue_b": hue_b,
+        "effect_pack_a": effect_pack_a,
+        "effect_pack_b": effect_pack_b,
         "status": "active",
         "winner": None,
         "turn_started_at": time.time(),
     }
 
 
-def create_training_game(user_id, username, mmr, bot_depth, skin=1):
+def create_training_game(user_id, username, mmr, bot_depth, skin=1, effect_pack=1):
     room_id = str(uuid.uuid4())[:8]
     board = Board()
     bot_skin = random.randint(1, SKIN_COUNT)
+    bot_effect_pack = random.randint(1, EFFECT_PACK_COUNT)
     GAMES[room_id] = _make_game(
         board,
-        player_a={"id": user_id, "username": username, "mmr": mmr, "skin": skin},
-        player_b={"id": None, "username": "Bot", "mmr": 800, "skin": bot_skin},
+        player_a={"id": user_id, "username": username, "mmr": mmr, "skin": skin, "effect_pack": effect_pack},
+        player_b={"id": None, "username": "Bot", "mmr": 800, "skin": bot_skin, "effect_pack": bot_effect_pack},
         game_type="training",
         bot_depth=bot_depth,
     )
@@ -129,9 +135,11 @@ def create_ranked_game(player_a, player_b):
     GAMES[room_id] = _make_game(
         board,
         player_a={"id": player_a["id"], "username": player_a["username"],
-                  "mmr": player_a["mmr"], "skin": player_a.get("skin", 1)},
+                  "mmr": player_a["mmr"], "skin": player_a.get("skin", 1),
+                  "effect_pack": player_a.get("effect_pack", 1)},
         player_b={"id": player_b["id"], "username": player_b["username"],
-                  "mmr": player_b["mmr"], "skin": player_b.get("skin", 1)},
+                  "mmr": player_b["mmr"], "skin": player_b.get("skin", 1),
+                  "effect_pack": player_b.get("effect_pack", 1)},
         game_type="ranked",
         bot_depth=None,
     )
@@ -152,6 +160,8 @@ def build_game_state(room_id, your_side):
         "skin_a": game["skin_a"],
         "skin_b": game["skin_b"],
         "hue_b": game["hue_b"],
+        "effect_pack_a": game["effect_pack_a"],
+        "effect_pack_b": game["effect_pack_b"],
         "clickable_sources": clickable,
         "current_turn": game["current_turn"],
         "last_move": game.get("last_move"),
@@ -174,9 +184,9 @@ def build_game_state(room_id, your_side):
     }
 
 
-def enqueue(user_id, username, mmr, skin, sid):
+def enqueue(user_id, username, mmr, skin, effect_pack, sid):
     dequeue(user_id)
-    QUEUE.append({"id": user_id, "username": username, "mmr": mmr, "skin": skin, "sid": sid})
+    QUEUE.append({"id": user_id, "username": username, "mmr": mmr, "skin": skin, "effect_pack": effect_pack, "sid": sid})
 
 
 def dequeue(user_id):

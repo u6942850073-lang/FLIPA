@@ -66,6 +66,27 @@
                 <button class="skin-arrow skin-arrow-lg" id="theme-next" aria-label="next theme">&#8594;</button>
             </div>
         </div>
+
+        <div class="effect-pack-picker">
+            <div class="effect-pack-picker-label">Effects</div>
+            <div class="theme-picker-row">
+                <button class="skin-arrow skin-arrow-lg" id="ep-prev" aria-label="previous effect pack">&#8592;</button>
+                <div>
+                    <div class="ep-swatch-wrap" id="ep-swatch" data-ep="{{ user.effect_pack if user.effect_pack else 1 }}">
+                        <div class="ep-swatch-dot"></div>
+                        <div class="ep-swatch-dot"></div>
+                        <div class="ep-swatch-dot"></div>
+                    </div>
+                    <div class="ep-pack-name" id="ep-pack-name"></div>
+                    <div class="theme-picker-counter">
+                        <span id="ep-picker-current">{{ user.effect_pack if user.effect_pack else 1 }}</span>
+                        <span class="skin-picker-sep">/</span>
+                        <span>{{ effect_pack_count }}</span>
+                    </div>
+                </div>
+                <button class="skin-arrow skin-arrow-lg" id="ep-next" aria-label="next effect pack">&#8594;</button>
+            </div>
+        </div>
         </div>
     </div>
 
@@ -153,10 +174,12 @@
 {% endblock %}
 {% block scripts %}
 <script>
-const SKIN_COUNT  = {{ skin_count }};
-const USER_SKIN   = {{ user.skin }};
-const THEME_COUNT = {{ theme_count }};
-const USER_THEME  = {{ user.theme if user.theme else 1 }};
+const SKIN_COUNT        = {{ skin_count }};
+const USER_SKIN         = {{ user.skin }};
+const THEME_COUNT       = {{ theme_count }};
+const USER_THEME        = {{ user.theme if user.theme else 1 }};
+const EFFECT_PACK_COUNT = {{ effect_pack_count }};
+const USER_EFFECT_PACK  = {{ user.effect_pack if user.effect_pack else 1 }};
 </script>
 <script src="{{ url_for('static', filename='js/menu.js') }}"></script>
 {% endblock %}

@@ -117,7 +117,8 @@ def menu():
         entry["rank"] = gm.get_rank(entry["mmr"])
     user["rank"] = gm.get_rank(user["mmr"])
     return render_template("menu.html", user=user, leaderboard=leaderboard,
-                           skin_count=gm.SKIN_COUNT, theme_count=gm.THEME_COUNT)
+                           skin_count=gm.SKIN_COUNT, theme_count=gm.THEME_COUNT,
+                           effect_pack_count=gm.EFFECT_PACK_COUNT)
 
 
 @app.route("/skin", methods=["POST"])
@@ -138,6 +139,15 @@ def save_theme():
     return "", 204
 
 
+@app.route("/effect-pack", methods=["POST"])
+@login_required
+def save_effect_pack():
+    ep = int(request.form.get("effect_pack", 1))
+    ep = max(1, min(ep, gm.EFFECT_PACK_COUNT))
+    db.update_effect_pack(session["user_id"], ep)
+    return "", 204
+
+
 @app.route("/training/start", methods=["POST"])
 @login_required
 def training_start():
@@ -146,7 +156,8 @@ def training_start():
     depth = depth_map.get(difficulty, 10)
     user = current_user()
     room_id = gm.create_training_game(
-        user["id"], user["username"], user["mmr"], depth, skin=user.get("skin", 1)
+        user["id"], user["username"], user["mmr"], depth,
+        skin=user.get("skin", 1), effect_pack=user.get("effect_pack", 1)
     )
     return redirect(url_for("game", room_id=room_id))
 
@@ -419,7 +430,7 @@ def on_join_queue():
         return
     # Refresh from DB
     fresh = db.get_user_by_id(user["id"])
-    gm.enqueue(fresh["id"], fresh["username"], fresh["mmr"], fresh.get("skin", 1), request.sid)
+    gm.enqueue(fresh["id"], fresh["username"], fresh["mmr"], fresh.get("skin", 1), fresh.get("effect_pack", 1), request.sid)
     emit("queue_update", {"in_queue": True})
 
     pair = gm.try_match()

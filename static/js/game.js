@@ -14,6 +14,8 @@
     let state = 'IDLE'; // IDLE | AWAITING_MOVES | CARD_SELECTED | ANIMATING
     let validMoveMap = {};
     let pendingState = null; // queued game_state while animating
+    let packA = 1; // effect pack for player A
+    let packB = 1; // effect pack for player B
 
     // ── DOM refs ──────────────────────────────────────────────────────────
     const grid         = document.getElementById('board-grid');
@@ -456,8 +458,14 @@
         setTimeout(() => flash.remove(), 580);
     }
 
+    // ── Effect Pack helper ────────────────────────────────────────────────
+    function applyActivePack(n) {
+        document.documentElement.dataset.ep = n;
+    }
+
     // ── Normal card: flip → shockwave → fade out ─────────────────────────
-    async function animateNormal(lastMove, boardGrid, skinA, skinB, hueB) {
+    async function animateNormal(lastMove, boardGrid, skinA, skinB, hueB, pack) {
+        applyActivePack(pack);
         const src      = lastMove.src;
         const affected = lastMove.affected;
 
@@ -474,7 +482,7 @@
             srcEl.classList.add('anim-flip');
             spawnFlipFlash(srcEl);
             await sleep(150);
-            spawnImpactRing(srcEl, 'rgba(240,160,40,0.9)');
+            spawnImpactRing(srcEl, getComputedStyle(document.documentElement).getPropertyValue('--ep-ring-color').trim());
         }
         await sleep(180);
 
@@ -524,7 +532,8 @@
     }
 
     // ── Figure card: flip → charge → projectile with trail → explosion ──────
-    async function animateFigure(lastMove, boardGrid, skinA, skinB, hueB) {
+    async function animateFigure(lastMove, boardGrid, skinA, skinB, hueB, pack) {
+        applyActivePack(pack);
         const src = lastMove.src;
         const dst = lastMove.dst;
 
@@ -535,7 +544,7 @@
             srcEl.classList.add('anim-flip');
             spawnFlipFlash(srcEl);
             await sleep(150);
-            spawnImpactRing(srcEl, 'rgba(200,60,40,0.9)');
+            spawnImpactRing(srcEl, getComputedStyle(document.documentElement).getPropertyValue('--ep-ring-color').trim());
         }
         await sleep(200);
         if (srcEl) srcEl.classList.remove('anim-flip');
@@ -586,7 +595,7 @@
             trail.style.cssText = `
                 left:${tx}px; top:${ty}px;
                 width:${sz}px; height:${sz}px;
-                background: radial-gradient(circle, rgba(255,200,80,0.85) 0%, rgba(220,80,20,0.4) 55%, transparent 100%);
+                background: ${getComputedStyle(document.documentElement).getPropertyValue('--ep-trail-grad').trim()};
             `;
             document.body.appendChild(trail);
             setTimeout(() => trail.remove(), 320);
@@ -634,10 +643,12 @@
             return;
         }
 
+        const movingPack = lm.side === 'A' ? data.effect_pack_a : data.effect_pack_b;
+
         if (lm.is_figure) {
-            await animateFigure(lm, data.board, data.skin_a, data.skin_b, data.hue_b);
+            await animateFigure(lm, data.board, data.skin_a, data.skin_b, data.hue_b, movingPack);
         } else {
-            await animateNormal(lm, data.board, data.skin_a, data.skin_b, data.hue_b);
+            await animateNormal(lm, data.board, data.skin_a, data.skin_b, data.hue_b, movingPack);
         }
 
         // Aplica estado final com clickable_sources corretos
@@ -690,6 +701,8 @@
     socket.on('connect', () => socket.emit('join_game', { room_id: ROOM_ID }));
 
     function handleGameState(data) {
+        packA = data.effect_pack_a || 1;
+        packB = data.effect_pack_b || 1;
         updateHUD(data);
 
         // Start/restart the turn timer for ranked games

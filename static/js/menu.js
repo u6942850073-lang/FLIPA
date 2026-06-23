@@ -1,4 +1,4 @@
-/* menu.js — Matchmaking queue + skin picker + theme picker */
+/* menu.js — Matchmaking queue + skin picker + theme picker + effect pack picker */
 
 // Theme palette: [bg, panel, accent] for each theme index (1-based)
 const THEME_PALETTES = [
@@ -14,6 +14,8 @@ const THEME_PALETTES = [
     { bg: '#10141c', accent: '#6888c8', name: 'Deep Slate' },
     { bg: '#1a1018', accent: '#e060a0', name: 'Sakura Night' },
 ];
+
+const EFFECT_PACK_NAMES = [null, 'Ember', 'Crystal', 'Shadow', 'Lightning'];
 
 document.addEventListener('DOMContentLoaded', () => {
     const socket = io();
@@ -145,6 +147,57 @@ document.addEventListener('DOMContentLoaded', () => {
                 selectTheme(dx < 0
                     ? (currentTheme < themeCount ? currentTheme + 1 : 1)
                     : (currentTheme > 1 ? currentTheme - 1 : themeCount));
+            }
+        }, { passive: true });
+    }
+
+    // ── Effect Pack picker ────────────────────────────────────────────────
+    let currentEP    = typeof USER_EFFECT_PACK !== 'undefined' ? USER_EFFECT_PACK : 1;
+    const epCount    = typeof EFFECT_PACK_COUNT !== 'undefined' ? EFFECT_PACK_COUNT : 4;
+    const epPrev     = document.getElementById('ep-prev');
+    const epNext     = document.getElementById('ep-next');
+    const epSwatch   = document.getElementById('ep-swatch');
+    const epPackName = document.getElementById('ep-pack-name');
+    const epPickerCur= document.getElementById('ep-picker-current');
+
+    function selectEffectPack(n) {
+        currentEP = n;
+        if (epSwatch)    epSwatch.dataset.ep = n;
+        if (epPackName)  epPackName.textContent = EFFECT_PACK_NAMES[n] || n;
+        if (epPickerCur) epPickerCur.textContent = n;
+        fetch('/effect-pack', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `effect_pack=${n}`,
+        });
+    }
+
+    // Init on load
+    if (epPackName) epPackName.textContent = EFFECT_PACK_NAMES[currentEP] || currentEP;
+
+    if (epPrev) {
+        epPrev.addEventListener('click', () => {
+            selectEffectPack(currentEP > 1 ? currentEP - 1 : epCount);
+        });
+    }
+    if (epNext) {
+        epNext.addEventListener('click', () => {
+            selectEffectPack(currentEP < epCount ? currentEP + 1 : 1);
+        });
+    }
+
+    // Touch swipe on ep swatch
+    if (epSwatch) {
+        let epTStartX = 0;
+        epSwatch.addEventListener('touchstart', e => {
+            epTStartX = e.changedTouches[0].clientX;
+        }, { passive: true });
+        epSwatch.addEventListener('touchend', e => {
+            const dx = e.changedTouches[0].clientX - epTStartX;
+            if (Math.abs(dx) > 40) {
+                selectEffectPack(dx < 0
+                    ? (currentEP < epCount ? currentEP + 1 : 1)
+                    : (currentEP > 1 ? currentEP - 1 : epCount));
             }
         }, { passive: true });
     }

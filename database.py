@@ -28,13 +28,14 @@ if DATABASE_URL:
             cur = conn.cursor()
             cur.execute("""
                 CREATE TABLE IF NOT EXISTS users (
-                    id         SERIAL PRIMARY KEY,
-                    username   TEXT NOT NULL UNIQUE,
-                    password   TEXT NOT NULL,
-                    mmr        INTEGER NOT NULL DEFAULT 0,
-                    skin       INTEGER NOT NULL DEFAULT 1,
-                    theme      INTEGER NOT NULL DEFAULT 1,
-                    created_at TEXT DEFAULT NOW()
+                    id          SERIAL PRIMARY KEY,
+                    username    TEXT NOT NULL UNIQUE,
+                    password    TEXT NOT NULL,
+                    mmr         INTEGER NOT NULL DEFAULT 0,
+                    skin        INTEGER NOT NULL DEFAULT 1,
+                    theme       INTEGER NOT NULL DEFAULT 1,
+                    effect_pack INTEGER NOT NULL DEFAULT 1,
+                    created_at  TEXT DEFAULT NOW()
                 )
             """)
             cur.execute("""
@@ -67,6 +68,12 @@ if DATABASE_URL:
                         WHERE table_name='users' AND column_name='theme'
                     ) THEN
                         ALTER TABLE users ADD COLUMN theme INTEGER NOT NULL DEFAULT 1;
+                    END IF;
+                    IF NOT EXISTS (
+                        SELECT 1 FROM information_schema.columns
+                        WHERE table_name='users' AND column_name='effect_pack'
+                    ) THEN
+                        ALTER TABLE users ADD COLUMN effect_pack INTEGER NOT NULL DEFAULT 1;
                     END IF;
                 END $$;
             """)
@@ -105,6 +112,11 @@ if DATABASE_URL:
     def update_theme(user_id, theme):
         with get_conn() as conn:
             _exec(conn, "UPDATE users SET theme = %s WHERE id = %s", (theme, user_id))
+            conn.commit()
+
+    def update_effect_pack(user_id, effect_pack):
+        with get_conn() as conn:
+            _exec(conn, "UPDATE users SET effect_pack = %s WHERE id = %s", (effect_pack, user_id))
             conn.commit()
 
     def save_game(room_id, player_a_id, player_b_id, winner, game_type,
@@ -175,13 +187,14 @@ else:
         with get_conn() as conn:
             conn.executescript("""
                 CREATE TABLE IF NOT EXISTS users (
-                    id         INTEGER PRIMARY KEY AUTOINCREMENT,
-                    username   TEXT NOT NULL UNIQUE,
-                    password   TEXT NOT NULL,
-                    mmr        INTEGER NOT NULL DEFAULT 0,
-                    skin       INTEGER NOT NULL DEFAULT 1,
-                    theme      INTEGER NOT NULL DEFAULT 1,
-                    created_at TEXT DEFAULT (datetime('now'))
+                    id          INTEGER PRIMARY KEY AUTOINCREMENT,
+                    username    TEXT NOT NULL UNIQUE,
+                    password    TEXT NOT NULL,
+                    mmr         INTEGER NOT NULL DEFAULT 0,
+                    skin        INTEGER NOT NULL DEFAULT 1,
+                    theme       INTEGER NOT NULL DEFAULT 1,
+                    effect_pack INTEGER NOT NULL DEFAULT 1,
+                    created_at  TEXT DEFAULT (datetime('now'))
                 );
 
                 CREATE TABLE IF NOT EXISTS games (
@@ -202,6 +215,8 @@ else:
                 conn.execute("ALTER TABLE users ADD COLUMN skin INTEGER NOT NULL DEFAULT 1")
             if "theme" not in cols:
                 conn.execute("ALTER TABLE users ADD COLUMN theme INTEGER NOT NULL DEFAULT 1")
+            if "effect_pack" not in cols:
+                conn.execute("ALTER TABLE users ADD COLUMN effect_pack INTEGER NOT NULL DEFAULT 1")
 
     def get_user_by_username(username):
         with get_conn() as conn:
@@ -232,6 +247,10 @@ else:
     def update_theme(user_id, theme):
         with get_conn() as conn:
             conn.execute("UPDATE users SET theme = ? WHERE id = ?", (theme, user_id))
+
+    def update_effect_pack(user_id, effect_pack):
+        with get_conn() as conn:
+            conn.execute("UPDATE users SET effect_pack = ? WHERE id = ?", (effect_pack, user_id))
 
     def save_game(room_id, player_a_id, player_b_id, winner, game_type,
                   mmr_change_a, mmr_change_b, bot_depth):

@@ -701,10 +701,7 @@ a:hover { text-decoration: underline; }
     position: absolute;
     inset: 0;
     border-radius: 3px;
-    background: radial-gradient(ellipse at center,
-        rgba(255,240,180,0.95) 0%,
-        rgba(240,160,40,0.6) 45%,
-        transparent 75%);
+    background: var(--ep-flip-grad);
     pointer-events: none;
     z-index: 15;
     animation: flip-flash 0.38s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
@@ -763,7 +760,7 @@ a:hover { text-decoration: underline; }
     position: absolute;
     inset: 0;
     border-radius: 3px;
-    background: rgba(240,160,40,0.25);
+    background: var(--ep-quake-flash);
     pointer-events: none;
     z-index: 8;
     animation: quake-flash 0.45s ease-out forwards;
@@ -780,17 +777,16 @@ a:hover { text-decoration: underline; }
     position: absolute;
     inset: 0;
     border-radius: 3px;
-    background: rgba(240,160,40,0.18);
+    background: var(--ep-settle-flash);
     pointer-events: none;
     z-index: 9;
     animation: settle-flash 0.3s ease-out forwards;
 }
 
 /*
- * SPELL CHARGE: Box-shadow only — no filter. The glow radiates
- * from the cell border outward, never touching the image colours.
+ * SPELL CHARGE: Box-shadow only — no filter. 4 variants per pack.
  */
-@keyframes spell-charge {
+@keyframes spell-charge-p1 {
     0%   { box-shadow: 0 0 0px 0px rgba(200,60,40,0); }
     25%  { box-shadow: 0 0 14px 5px rgba(220,80,40,0.6),
                        0 0 28px 10px rgba(160,30,20,0.3); }
@@ -801,16 +797,52 @@ a:hover { text-decoration: underline; }
                        inset 0 0 18px rgba(240,80,30,0.35); }
 }
 
+@keyframes spell-charge-p2 {
+    0%   { box-shadow: 0 0 0px 0px rgba(40,120,200,0); }
+    25%  { box-shadow: 0 0 14px 5px rgba(60,160,240,0.65),
+                       0 0 28px 10px rgba(20,80,160,0.3); }
+    65%  { box-shadow: 0 0 22px 9px rgba(80,200,255,0.85),
+                       0 0 44px 18px rgba(30,100,200,0.4); }
+    100% { box-shadow: 0 0 32px 14px rgba(180,235,255,1),
+                       0 0 55px 24px rgba(40,120,220,0.65),
+                       inset 0 0 18px rgba(60,180,240,0.35); }
+}
+
+@keyframes spell-charge-p3 {
+    0%   { box-shadow: 0 0 0px 0px rgba(80,10,140,0); }
+    25%  { box-shadow: 0 0 14px 5px rgba(100,20,160,0.65),
+                       0 0 28px 10px rgba(50,0,80,0.35); }
+    65%  { box-shadow: 0 0 22px 9px rgba(140,60,220,0.85),
+                       0 0 44px 18px rgba(60,0,100,0.45); }
+    100% { box-shadow: 0 0 32px 14px rgba(200,100,255,1),
+                       0 0 55px 24px rgba(80,10,140,0.7),
+                       inset 0 0 18px rgba(120,40,200,0.4); }
+}
+
+@keyframes spell-charge-p4 {
+    0%   { box-shadow: 0 0 0px 0px rgba(40,130,0,0); }
+    25%  { box-shadow: 0 0 14px 5px rgba(80,200,20,0.65),
+                       0 0 28px 10px rgba(30,100,0,0.35); }
+    65%  { box-shadow: 0 0 22px 9px rgba(140,255,40,0.85),
+                       0 0 44px 18px rgba(40,130,0,0.45); }
+    100% { box-shadow: 0 0 32px 14px rgba(200,255,80,1),
+                       0 0 55px 24px rgba(50,160,0,0.65),
+                       inset 0 0 18px rgba(100,220,20,0.35); }
+}
+
 .anim-spell-charge {
-    animation: spell-charge 0.42s ease-out forwards;
+    animation-name: var(--ep-charge-anim, spell-charge-p1);
+    animation-duration: 0.42s;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
     z-index: 10;
     position: relative;
 }
 
 /*
- * EXPLODE: Box-shadow + scale only. White-hot flash via injected overlay.
+ * EXPLODE: Box-shadow + scale only. White-hot flash via injected overlay. 4 pack variants.
  */
-@keyframes explode {
+@keyframes explode-p1 {
     0%   { box-shadow: 0 0 0px 0px rgba(255,200,80,0);    transform: scale(1); }
     8%   { box-shadow: 0 0 30px 12px rgba(255,240,160,0.9),
                        0 0 60px 28px rgba(255,160,40,0.8); transform: scale(1.22); }
@@ -821,8 +853,44 @@ a:hover { text-decoration: underline; }
     100% { box-shadow: 0 0 0px 0px rgba(80,15,0,0);        transform: scale(1); }
 }
 
+@keyframes explode-p2 {
+    0%   { box-shadow: 0 0 0px 0px rgba(80,200,255,0);     transform: scale(1); }
+    8%   { box-shadow: 0 0 30px 12px rgba(200,240,255,0.9),
+                       0 0 60px 28px rgba(80,200,255,0.8);  transform: scale(1.22); }
+    22%  { box-shadow: 0 0 40px 20px rgba(40,160,240,0.9),
+                       0 0 70px 35px rgba(10,80,180,0.55);  transform: scale(0.90); }
+    50%  { box-shadow: 0 0 48px 24px rgba(20,100,200,0.65),
+                       0 0 80px 40px rgba(0,40,100,0.3);    transform: scale(1.06); }
+    100% { box-shadow: 0 0 0px 0px rgba(0,20,60,0);         transform: scale(1); }
+}
+
+@keyframes explode-p3 {
+    0%   { box-shadow: 0 0 0px 0px rgba(140,40,220,0);     transform: scale(1); }
+    8%   { box-shadow: 0 0 30px 12px rgba(220,160,255,0.9),
+                       0 0 60px 28px rgba(140,40,220,0.8);  transform: scale(1.22); }
+    22%  { box-shadow: 0 0 40px 20px rgba(100,20,180,0.9),
+                       0 0 70px 35px rgba(50,0,100,0.55);   transform: scale(0.90); }
+    50%  { box-shadow: 0 0 48px 24px rgba(60,10,120,0.65),
+                       0 0 80px 40px rgba(20,0,50,0.3);     transform: scale(1.06); }
+    100% { box-shadow: 0 0 0px 0px rgba(10,0,30,0);         transform: scale(1); }
+}
+
+@keyframes explode-p4 {
+    0%   { box-shadow: 0 0 0px 0px rgba(120,240,40,0);     transform: scale(1); }
+    8%   { box-shadow: 0 0 30px 12px rgba(220,255,140,0.9),
+                       0 0 60px 28px rgba(120,255,20,0.8);  transform: scale(1.22); }
+    22%  { box-shadow: 0 0 40px 20px rgba(80,200,0,0.9),
+                       0 0 70px 35px rgba(20,80,0,0.55);    transform: scale(0.90); }
+    50%  { box-shadow: 0 0 48px 24px rgba(40,120,0,0.65),
+                       0 0 80px 40px rgba(10,40,0,0.3);     transform: scale(1.06); }
+    100% { box-shadow: 0 0 0px 0px rgba(5,20,0,0);          transform: scale(1); }
+}
+
 .anim-explode {
-    animation: explode 0.55s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+    animation-name: var(--ep-explode-anim, explode-p1);
+    animation-duration: 0.55s;
+    animation-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
+    animation-fill-mode: forwards;
     z-index: 10;
     position: relative;
 }
@@ -839,10 +907,7 @@ a:hover { text-decoration: underline; }
     position: absolute;
     inset: 0;
     border-radius: 3px;
-    background: radial-gradient(ellipse at center,
-        rgba(255,255,220,1) 0%,
-        rgba(255,200,80,0.8) 40%,
-        transparent 70%);
+    background: var(--ep-explode-grad);
     pointer-events: none;
     z-index: 15;
     animation: explode-flash 0.55s ease-out forwards;
@@ -869,12 +934,8 @@ a:hover { text-decoration: underline; }
     width: 40px;
     height: 10px;
     border-radius: 50%;
-    background: radial-gradient(ellipse at 20% 50%,
-        #fff5e0 0%, #ffcc60 15%, #ff6020 40%, #cc2800 65%, transparent 100%);
-    box-shadow:
-        0 0 10px 4px rgba(255,100,40,0.9),
-        0 0 24px 10px rgba(200,50,10,0.55),
-        0 0 44px 18px rgba(140,20,0,0.3);
+    background: var(--ep-proj-grad);
+    box-shadow: var(--ep-proj-shadow);
     pointer-events: none;
     z-index: 9999;
     transform-origin: center;
@@ -1324,6 +1385,57 @@ html[data-theme="10"] {
     --ink:            #060204;
 }
 
+/* ── Effect Pack CSS variables ──────────────────────────────── */
+/* Pack 1: Ember (default) */
+:root {
+    --ep-flip-grad:    radial-gradient(ellipse at center, rgba(255,240,180,0.95) 0%, rgba(240,160,40,0.6) 45%, transparent 75%);
+    --ep-quake-flash:  rgba(240,160,40,0.25);
+    --ep-settle-flash: rgba(240,160,40,0.18);
+    --ep-proj-grad:    radial-gradient(ellipse at 20% 50%, #fff5e0 0%, #ffcc60 15%, #ff6020 40%, #cc2800 65%, transparent 100%);
+    --ep-proj-shadow:  0 0 10px 4px rgba(255,100,40,0.9), 0 0 24px 10px rgba(200,50,10,0.55), 0 0 44px 18px rgba(140,20,0,0.3);
+    --ep-trail-grad:   radial-gradient(circle, rgba(255,200,80,0.85) 0%, rgba(220,80,20,0.4) 55%, transparent 100%);
+    --ep-explode-grad: radial-gradient(ellipse at center, rgba(255,255,220,1) 0%, rgba(255,200,80,0.8) 40%, transparent 70%);
+    --ep-ring-color:   rgba(240,160,40,0.9);
+    --ep-charge-anim:  spell-charge-p1;
+    --ep-explode-anim: explode-p1;
+}
+:root[data-ep="2"] {
+    --ep-flip-grad:    radial-gradient(ellipse at center, rgba(220,245,255,0.98) 0%, rgba(100,200,255,0.65) 45%, transparent 75%);
+    --ep-quake-flash:  rgba(80,180,255,0.22);
+    --ep-settle-flash: rgba(100,200,255,0.15);
+    --ep-proj-grad:    radial-gradient(ellipse at 20% 50%, #ffffff 0%, #c0ecff 15%, #40b8ff 40%, #006090 65%, transparent 100%);
+    --ep-proj-shadow:  0 0 10px 4px rgba(80,200,255,0.9), 0 0 24px 10px rgba(20,100,200,0.55), 0 0 44px 18px rgba(0,60,120,0.3);
+    --ep-trail-grad:   radial-gradient(circle, rgba(180,235,255,0.9) 0%, rgba(40,160,255,0.4) 55%, transparent 100%);
+    --ep-explode-grad: radial-gradient(ellipse at center, rgba(240,252,255,1) 0%, rgba(140,220,255,0.85) 40%, transparent 70%);
+    --ep-ring-color:   rgba(80,200,255,0.9);
+    --ep-charge-anim:  spell-charge-p2;
+    --ep-explode-anim: explode-p2;
+}
+:root[data-ep="3"] {
+    --ep-flip-grad:    radial-gradient(ellipse at center, rgba(200,160,255,0.9) 0%, rgba(100,30,160,0.65) 45%, transparent 75%);
+    --ep-quake-flash:  rgba(100,20,160,0.3);
+    --ep-settle-flash: rgba(120,40,180,0.2);
+    --ep-proj-grad:    radial-gradient(ellipse at 20% 50%, #f0e0ff 0%, #c080ff 15%, #6010c0 40%, #200040 65%, transparent 100%);
+    --ep-proj-shadow:  0 0 10px 4px rgba(160,60,255,0.9), 0 0 24px 10px rgba(80,10,160,0.55), 0 0 44px 18px rgba(30,0,60,0.3);
+    --ep-trail-grad:   radial-gradient(circle, rgba(200,120,255,0.85) 0%, rgba(100,20,180,0.4) 55%, transparent 100%);
+    --ep-explode-grad: radial-gradient(ellipse at center, rgba(240,210,255,1) 0%, rgba(160,80,255,0.85) 40%, transparent 70%);
+    --ep-ring-color:   rgba(140,60,220,0.9);
+    --ep-charge-anim:  spell-charge-p3;
+    --ep-explode-anim: explode-p3;
+}
+:root[data-ep="4"] {
+    --ep-flip-grad:    radial-gradient(ellipse at center, rgba(240,255,200,0.95) 0%, rgba(140,255,60,0.6) 45%, transparent 75%);
+    --ep-quake-flash:  rgba(80,220,20,0.22);
+    --ep-settle-flash: rgba(100,240,40,0.16);
+    --ep-proj-grad:    radial-gradient(ellipse at 20% 50%, #f8ffe0 0%, #d4ff60 15%, #60dd00 40%, #204800 65%, transparent 100%);
+    --ep-proj-shadow:  0 0 10px 4px rgba(140,255,40,0.9), 0 0 24px 10px rgba(60,180,0,0.55), 0 0 44px 18px rgba(20,60,0,0.3);
+    --ep-trail-grad:   radial-gradient(circle, rgba(200,255,80,0.85) 0%, rgba(80,200,20,0.4) 55%, transparent 100%);
+    --ep-explode-grad: radial-gradient(ellipse at center, rgba(240,255,200,1) 0%, rgba(160,255,60,0.85) 40%, transparent 70%);
+    --ep-ring-color:   rgba(120,240,40,0.9);
+    --ep-charge-anim:  spell-charge-p4;
+    --ep-explode-anim: explode-p4;
+}
+
 /* ── Theme picker ───────────────────────────────────────────── */
 .theme-picker {
     display: flex;
@@ -1385,4 +1497,74 @@ html[data-theme="10"] {
 
 @media (min-width: 481px) and (max-width: 640px) {
     /* theme-swatch handled in the tablet block above */
+}
+
+/* ── Effect Pack picker ─────────────────────────────────────── */
+.effect-pack-picker {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.effect-pack-picker-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--text-muted);
+}
+
+.ep-swatch-wrap {
+    width: 56px;
+    height: 56px;
+    border-radius: 6px;
+    border: 2px solid var(--gold);
+    background: var(--bg-cell);
+    box-shadow: 0 0 0 2px rgba(240,184,64,.2), 0 0 16px rgba(240,184,64,.15);
+    cursor: pointer;
+    transition: transform .12s;
+    overflow: hidden;
+    position: relative;
+}
+.ep-swatch-wrap:active { transform: scale(.95); }
+
+.ep-swatch-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    position: absolute;
+    animation: ep-pulse 1.4s ease-in-out infinite;
+}
+.ep-swatch-dot:nth-child(1) { top: 8px; left: 8px; }
+.ep-swatch-dot:nth-child(2) { top: 50%; left: 50%; transform: translate(-50%,-50%); animation-delay: .3s; }
+.ep-swatch-dot:nth-child(3) { bottom: 8px; right: 8px; animation-delay: .6s; }
+
+@keyframes ep-pulse {
+    0%,100% { opacity: 0.4; transform: scale(0.8); }
+    50%      { opacity: 1;   transform: scale(1.15); }
+}
+.ep-swatch-dot:nth-child(2) {
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    animation: ep-pulse-mid 1.4s ease-in-out infinite;
+    animation-delay: .3s;
+}
+@keyframes ep-pulse-mid {
+    0%,100% { opacity: 0.4; transform: translate(-50%,-50%) scale(0.8); }
+    50%      { opacity: 1;   transform: translate(-50%,-50%) scale(1.15); }
+}
+
+.ep-swatch-wrap[data-ep="1"] .ep-swatch-dot { background: #f0a830; box-shadow: 0 0 6px rgba(240,168,48,.8); }
+.ep-swatch-wrap[data-ep="2"] .ep-swatch-dot { background: #60c8ff; box-shadow: 0 0 6px rgba(80,200,255,.8); }
+.ep-swatch-wrap[data-ep="3"] .ep-swatch-dot { background: #b060ff; box-shadow: 0 0 6px rgba(160,80,255,.8); }
+.ep-swatch-wrap[data-ep="4"] .ep-swatch-dot { background: #80e830; box-shadow: 0 0 6px rgba(120,232,40,.8); }
+
+.ep-pack-name {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-align: center;
+    margin-top: 2px;
+    color: var(--text-muted);
 }
