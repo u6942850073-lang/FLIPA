@@ -51,6 +51,8 @@ if DATABASE_URL:
                     played_at     TEXT DEFAULT NOW()
                 )
             """)
+            # One-time cleanup: remove bot games from existing data
+            cur.execute("DELETE FROM games WHERE player_b_id IS NULL")
             conn.commit()
 
     def get_user_by_username(username):
@@ -90,6 +92,8 @@ if DATABASE_URL:
 
     def save_game(room_id, player_a_id, player_b_id, winner, game_type,
                   mmr_change_a, mmr_change_b, bot_depth):
+        if player_b_id is None:
+            return
         with get_conn() as conn:
             _exec(conn, """
                 INSERT INTO games
@@ -98,9 +102,21 @@ if DATABASE_URL:
                 VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
             """, (room_id, player_a_id, player_b_id, winner, game_type,
                   mmr_change_a, mmr_change_b, bot_depth))
+            # Keep only the 10 most recent games per player
+            for pid in (player_a_id, player_b_id):
+                _exec(conn, """
+                    DELETE FROM games
+                    WHERE (player_a_id = %s OR player_b_id = %s)
+                      AND id NOT IN (
+                          SELECT id FROM games
+                          WHERE player_a_id = %s OR player_b_id = %s
+                          ORDER BY played_at DESC
+                          LIMIT 10
+                      )
+                """, (pid, pid, pid, pid))
             conn.commit()
 
-    def get_user_history(user_id, limit=20):
+    def get_user_history(user_id, limit=10):
         with get_conn() as conn:
             cur = _exec(conn, """
                 SELECT
@@ -112,7 +128,8 @@ if DATABASE_URL:
                 FROM games g
                 JOIN users ua ON ua.id = g.player_a_id
                 LEFT JOIN users ub ON ub.id = g.player_b_id
-                WHERE g.player_a_id = %s OR g.player_b_id = %s
+                WHERE (g.player_a_id = %s OR g.player_b_id = %s)
+                  AND g.player_b_id IS NOT NULL
                 ORDER BY g.played_at DESC
                 LIMIT %s
             """, (user_id, user_id, user_id, limit))
@@ -208,6 +225,8 @@ else:
 
     def save_game(room_id, player_a_id, player_b_id, winner, game_type,
                   mmr_change_a, mmr_change_b, bot_depth):
+        if player_b_id is None:
+            return
         with get_conn() as conn:
             conn.execute("""
                 INSERT INTO games
@@ -216,8 +235,20 @@ else:
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             """, (room_id, player_a_id, player_b_id, winner, game_type,
                   mmr_change_a, mmr_change_b, bot_depth))
+            # Keep only the 10 most recent games per player
+            for pid in (player_a_id, player_b_id):
+                conn.execute("""
+                    DELETE FROM games
+                    WHERE (player_a_id = ? OR player_b_id = ?)
+                      AND id NOT IN (
+                          SELECT id FROM games
+                          WHERE player_a_id = ? OR player_b_id = ?
+                          ORDER BY played_at DESC
+                          LIMIT 10
+                      )
+                """, (pid, pid, pid, pid))
 
-    def get_user_history(user_id, limit=20):
+    def get_user_history(user_id, limit=10):
         with get_conn() as conn:
             rows = conn.execute("""
                 SELECT
@@ -229,7 +260,8 @@ else:
                 FROM games g
                 JOIN users ua ON ua.id = g.player_a_id
                 LEFT JOIN users ub ON ub.id = g.player_b_id
-                WHERE g.player_a_id = ? OR g.player_b_id = ?
+                WHERE (g.player_a_id = ? OR g.player_b_id = ?)
+                  AND g.player_b_id IS NOT NULL
                 ORDER BY g.played_at DESC
                 LIMIT ?
             """, (user_id, user_id, user_id, limit)).fetchall()

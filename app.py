@@ -167,7 +167,7 @@ def game(room_id):
 @login_required
 def history():
     user = current_user()
-    records = db.get_user_history(user["id"], 30)
+    records = db.get_user_history(user["id"], 10)
     return render_template("history.html", user=user, records=records)
 
 
