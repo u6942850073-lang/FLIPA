@@ -53,6 +53,23 @@ if DATABASE_URL:
             """)
             # One-time cleanup: remove bot games from existing data
             cur.execute("DELETE FROM games WHERE player_b_id IS NULL")
+            # Migrations: add columns if they don't exist yet
+            cur.execute("""
+                DO $$ BEGIN
+                    IF NOT EXISTS (
+                        SELECT 1 FROM information_schema.columns
+                        WHERE table_name='users' AND column_name='skin'
+                    ) THEN
+                        ALTER TABLE users ADD COLUMN skin INTEGER NOT NULL DEFAULT 1;
+                    END IF;
+                    IF NOT EXISTS (
+                        SELECT 1 FROM information_schema.columns
+                        WHERE table_name='users' AND column_name='theme'
+                    ) THEN
+                        ALTER TABLE users ADD COLUMN theme INTEGER NOT NULL DEFAULT 1;
+                    END IF;
+                END $$;
+            """)
             conn.commit()
 
     def get_user_by_username(username):
