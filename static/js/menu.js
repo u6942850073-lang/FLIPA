@@ -10,7 +10,9 @@ const THEME_PALETTES = [
     { bg: '#100c1e', accent: '#9040e0', name: 'Void Purple' },
     { bg: '#101620', accent: '#80c8f8', name: 'Arctic Frost' },
     { bg: '#08120a', accent: '#20ff60', name: 'Toxic Neon' },
-    { bg: '#1e1808', accent: '#e8a820', name: 'Sandstorm' },
+    { bg: '#1a0c10', accent: '#e03818', name: 'Crimson Dusk' },
+    { bg: '#10141c', accent: '#6888c8', name: 'Deep Slate' },
+    { bg: '#1a1018', accent: '#e060a0', name: 'Sakura Night' },
 ];
 
 document.addEventListener('DOMContentLoaded', () => {

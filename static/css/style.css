@@ -1270,22 +1270,58 @@ html[data-theme="7"] {
     --ink:            #020504;
 }
 
-/* Theme 8: Sandstorm */
+/* Theme 8: Crimson Dusk */
 html[data-theme="8"] {
-    --bg-dark:        #120e06;
-    --bg-panel:       #1e1808;
-    --bg-cell:        #2a200c;
-    --bg-cell-empty:  #0e0c04;
-    --accent-a:       #e8a820;
-    --accent-b:       #c07010;
-    --gold:           #f8d060;
-    --ember:          #e09030;
-    --ash:            #907050;
-    --text:           #f0e8c8;
-    --text-muted:     #806040;
-    --border:         #302010;
-    --border-warm:    #483018;
-    --ink:            #0a0804;
+    --bg-dark:        #0e0608;
+    --bg-panel:       #1a0c10;
+    --bg-cell:        #260e14;
+    --bg-cell-empty:  #0a0406;
+    --accent-a:       #e03818;
+    --accent-b:       #a02010;
+    --gold:           #f07840;
+    --ember:          #c84020;
+    --ash:            #905060;
+    --text:           #f0d8d0;
+    --text-muted:     #7a4840;
+    --border:         #301018;
+    --border-warm:    #481820;
+    --ink:            #080204;
+}
+
+/* Theme 9: Deep Slate */
+html[data-theme="9"] {
+    --bg-dark:        #080a0e;
+    --bg-panel:       #10141c;
+    --bg-cell:        #181e28;
+    --bg-cell-empty:  #060810;
+    --accent-a:       #6888c8;
+    --accent-b:       #3858a0;
+    --gold:           #90b0e8;
+    --ember:          #5878b8;
+    --ash:            #485870;
+    --text:           #d0d8e8;
+    --text-muted:     #485060;
+    --border:         #182030;
+    --border-warm:    #202838;
+    --ink:            #040608;
+}
+
+/* Theme 10: Sakura Night */
+html[data-theme="10"] {
+    --bg-dark:        #0e080c;
+    --bg-panel:       #1a1018;
+    --bg-cell:        #261824;
+    --bg-cell-empty:  #0a060a;
+    --accent-a:       #e060a0;
+    --accent-b:       #b03878;
+    --gold:           #f8a0c8;
+    --ember:          #d05090;
+    --ash:            #906080;
+    --text:           #f0d8e8;
+    --text-muted:     #784868;
+    --border:         #301028;
+    --border-warm:    #481838;
+    --ink:            #060204;
 }
 
 /* ── Theme picker ───────────────────────────────────────────── */

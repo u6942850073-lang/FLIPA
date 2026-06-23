@@ -28,7 +28,7 @@ def _count_skin_types():
 
 SKIN_COUNT = _count_skin_types()
 
-THEME_COUNT = 8
+THEME_COUNT = 10
 
 
 def _parse_board(board):
