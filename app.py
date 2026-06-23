@@ -36,6 +36,16 @@ def current_user():
     return db.get_user_by_id(uid) if uid else None
 
 
+@app.context_processor
+def inject_theme():
+    uid = session.get("user_id")
+    if uid:
+        user = db.get_user_by_id(uid)
+        if user:
+            return {"session_theme": user.get("theme", 1)}
+    return {"session_theme": 1}
+
+
 def socket_user():
     uid = session.get("user_id")
     return db.get_user_by_id(uid) if uid else None
@@ -106,7 +116,6 @@ def menu():
     for entry in leaderboard:
         entry["rank"] = gm.get_rank(entry["mmr"])
     user["rank"] = gm.get_rank(user["mmr"])
-    session["theme"] = user.get("theme", 1)
     return render_template("menu.html", user=user, leaderboard=leaderboard,
                            skin_count=gm.SKIN_COUNT, theme_count=gm.THEME_COUNT)
 
@@ -126,7 +135,6 @@ def save_theme():
     theme = int(request.form.get("theme", 1))
     theme = max(1, min(theme, gm.THEME_COUNT))
     db.update_theme(session["user_id"], theme)
-    session["theme"] = theme
     return "", 204
 
 
