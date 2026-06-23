@@ -27,12 +27,31 @@
     const hudSkinImgA  = document.getElementById('hud-skin-img-a');
     const hudSkinImgB  = document.getElementById('hud-skin-img-b');
     const botThinking  = document.getElementById('bot-thinking');
-    const gameResult   = document.getElementById('game-result');
-    const resultText   = document.getElementById('result-text');
-    const resultDetails = document.getElementById('result-details');
-    const timerEl      = document.getElementById('turn-timer');
-    const timerFill    = document.getElementById('timer-ring-fill');
-    const timerSecs    = document.getElementById('timer-seconds');
+    const gameResult      = document.getElementById('game-result');
+    const resultText      = document.getElementById('result-text');
+    const resultDetails   = document.getElementById('result-details');
+    const timerEl         = document.getElementById('turn-timer');
+    const timerFill       = document.getElementById('timer-ring-fill');
+    const timerSecs       = document.getElementById('timer-seconds');
+    const findMatchBtn    = document.getElementById('find-match-btn');
+    const searchOverlay   = document.getElementById('searching-overlay');
+    const cancelSearchBtn = document.getElementById('cancel-search-btn');
+
+    if (findMatchBtn) {
+        findMatchBtn.addEventListener('click', () => {
+            gameResult.classList.add('hidden');
+            searchOverlay.classList.remove('hidden');
+            socket.emit('join_queue');
+        });
+    }
+
+    if (cancelSearchBtn) {
+        cancelSearchBtn.addEventListener('click', () => {
+            socket.emit('leave_queue');
+            searchOverlay.classList.add('hidden');
+            gameResult.classList.remove('hidden');
+        });
+    }
 
     // ── Turn timer ────────────────────────────────────────────────────────
     const TIMER_TOTAL   = 60;
@@ -733,6 +752,10 @@
         }, 200);
 
         gameResult && gameResult.classList.remove('hidden');
+    });
+
+    socket.on('matched', (data) => {
+        window.location.href = '/game/' + data.room_id;
     });
 
     socket.on('error', (data) => {

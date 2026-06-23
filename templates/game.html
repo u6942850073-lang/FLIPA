@@ -83,10 +83,21 @@
                     <button type="submit" class="btn btn-primary">Play Again</button>
                 </form>
                 {% else %}
-                <a href="{{ url_for('menu') }}" class="btn btn-primary">Find Match</a>
+                <button id="find-match-btn" class="btn btn-primary">Find Match</button>
                 {% endif %}
                 <a href="{{ url_for('menu') }}" class="btn btn-secondary">Back to Menu</a>
             </div>
+        </div>
+    </div>
+
+    <!-- Searching overlay (shown after clicking Find Match) -->
+    <div class="game-result hidden" id="searching-overlay">
+        <div class="game-result-inner">
+            <div class="searching-box">
+                <div class="spinner"></div>
+                <span>Searching for a game...</span>
+            </div>
+            <button id="cancel-search-btn" class="btn btn-ghost" style="margin-top:16px">Cancel</button>
         </div>
     </div>
 

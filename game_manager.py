@@ -184,6 +184,11 @@ def dequeue(user_id):
     QUEUE = [p for p in QUEUE if p["id"] != user_id]
 
 
+def dequeue_by_sid(sid):
+    global QUEUE
+    QUEUE = [p for p in QUEUE if p["sid"] != sid]
+
+
 def try_match():
     if len(QUEUE) >= 2:
         p_a = QUEUE.pop(0)

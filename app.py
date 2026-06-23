@@ -441,9 +441,7 @@ def on_leave_queue():
 
 @socketio.on("disconnect")
 def on_disconnect():
-    user = socket_user()
-    if user:
-        gm.dequeue(user["id"])
+    gm.dequeue_by_sid(request.sid)
 
 
 # ---------------------------------------------------------------------------
