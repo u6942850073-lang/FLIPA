@@ -125,7 +125,7 @@
             {% if leaderboard %}
             <table class="leaderboard-table">
                 <thead>
-                    <tr><th>#</th><th>Player</th><th>Rank</th><th>MMR</th><th>W/G</th></tr>
+                    <tr><th>#</th><th>Player</th><th>Rank</th><th>MMR</th></tr>
                 </thead>
                 <tbody>
                     {% for entry in leaderboard %}
@@ -139,7 +139,6 @@
                         </td>
                         <td><span class="rank-badge rank-{{ entry.rank | lower }}">{{ entry.rank }}</span></td>
                         <td>{{ entry.mmr }}</td>
-                        <td>{{ entry.wins }}/{{ entry.games_played }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>

@@ -138,14 +138,7 @@ if DATABASE_URL:
     def get_leaderboard(limit=10):
         with get_conn() as conn:
             cur = _exec(conn, """
-                SELECT username, mmr, skin,
-                       (SELECT COUNT(*) FROM games
-                        WHERE (player_a_id = u.id OR player_b_id = u.id)
-                        AND game_type = 'ranked') AS games_played,
-                       (SELECT COUNT(*) FROM games
-                        WHERE game_type = 'ranked'
-                        AND ((player_a_id = u.id AND winner = 'A')
-                          OR (player_b_id = u.id AND winner = 'B'))) AS wins
+                SELECT username, mmr, skin
                 FROM users u
                 ORDER BY mmr DESC
                 LIMIT %s
@@ -270,14 +263,7 @@ else:
     def get_leaderboard(limit=10):
         with get_conn() as conn:
             rows = conn.execute("""
-                SELECT username, mmr, skin,
-                       (SELECT COUNT(*) FROM games
-                        WHERE (player_a_id = u.id OR player_b_id = u.id)
-                        AND game_type = 'ranked') AS games_played,
-                       (SELECT COUNT(*) FROM games
-                        WHERE game_type = 'ranked'
-                        AND ((player_a_id = u.id AND winner = 'A')
-                          OR (player_b_id = u.id AND winner = 'B'))) AS wins
+                SELECT username, mmr, skin
                 FROM users u
                 ORDER BY mmr DESC
                 LIMIT ?
