@@ -419,6 +419,8 @@ a:hover { text-decoration: underline; }
 .rank-silver   { background: #181818; color: #b8b0a0; border: 1px solid #606050; }
 .rank-gold     { background: #1e1408; color: #e8b030; border: 1px solid #8a6010; }
 .rank-platinum { background: #0e1820; color: #80b8d8; border: 1px solid #305878; }
+.rank-diamond  { background: #0a1020; color: #a0d8ff; border: 1px solid #4090c0; text-shadow: 0 0 6px rgba(100,180,255,0.5); }
+.rank-master   { background: #180820; color: #d080ff; border: 1px solid #7030a0; text-shadow: 0 0 8px rgba(180,80,255,0.6); }
 
 /* ============================================================
    Game board
