@@ -30,7 +30,7 @@ SKIN_COUNT = _count_skin_types()
 
 THEME_COUNT = 10
 
-EFFECT_PACK_COUNT = 4
+EFFECT_PACK_COUNT = 10
 
 
 def _parse_board(board):

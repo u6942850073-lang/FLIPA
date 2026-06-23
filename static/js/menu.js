@@ -15,7 +15,7 @@ const THEME_PALETTES = [
     { bg: '#1a1018', accent: '#e060a0', name: 'Sakura Night' },
 ];
 
-const EFFECT_PACK_NAMES = [null, 'Ember', 'Crystal', 'Shadow', 'Lightning'];
+const EFFECT_PACK_NAMES = [null, 'Ember', 'Crystal', 'Shadow', 'Lightning', 'Void', 'Water', 'Fire', 'Rainbow', 'Matrix', 'Bombastic'];
 
 document.addEventListener('DOMContentLoaded', () => {
     const socket = io();
