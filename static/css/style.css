@@ -696,6 +696,24 @@ a:hover { text-decoration: underline; }
     70%  { opacity: 0.3; }
     100% { opacity: 0; }
 }
+/* Shadow: darkness pulse — opacity inverted, card dims */
+@keyframes flip-flash-shadow {
+    0%   { opacity: 0; }
+    25%  { opacity: 0; }
+    45%  { opacity: 0.95; }
+    65%  { opacity: 0.6; }
+    100% { opacity: 0; }
+}
+/* Lightning: instant white-out then gone */
+@keyframes flip-flash-lightning {
+    0%   { opacity: 0; }
+    20%  { opacity: 0; }
+    28%  { opacity: 1; }
+    42%  { opacity: 0.1; }
+    55%  { opacity: 0.7; }
+    70%  { opacity: 0; }
+    100% { opacity: 0; }
+}
 
 .flip-flash {
     position: absolute;
@@ -704,35 +722,106 @@ a:hover { text-decoration: underline; }
     background: var(--ep-flip-grad);
     pointer-events: none;
     z-index: 15;
-    animation: flip-flash 0.38s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+    animation-name: var(--ep-flip-flash-anim, flip-flash);
+    animation-duration: 0.38s;
+    animation-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
+    animation-fill-mode: forwards;
 }
 
 /*
- * IMPACT RING: Ember-colored expanding ring — warm amber burst
- * instead of cold blue.
+ * IMPACT RING: Shape and animation vary by pack via --ep-ring-shape.
+ * Ember=rounded rect, Crystal=sharp rect, Shadow=circle, Lightning=tight rect.
  */
 @keyframes ring-pulse {
     0%   { transform: translate(-50%,-50%) scale(0.2); opacity: 1; }
     60%  { opacity: 0.6; }
     100% { transform: translate(-50%,-50%) scale(3.2); opacity: 0; }
 }
+/* Crystal ring: slower, wider spread */
+@keyframes ring-pulse-crystal {
+    0%   { transform: translate(-50%,-50%) scale(0.1); opacity: 1; }
+    40%  { opacity: 0.9; }
+    100% { transform: translate(-50%,-50%) scale(4.5); opacity: 0; }
+}
+/* Shadow ring: implodes — starts big and collapses */
+@keyframes ring-pulse-shadow {
+    0%   { transform: translate(-50%,-50%) scale(2.8); opacity: 0.8; }
+    100% { transform: translate(-50%,-50%) scale(0.1); opacity: 0; }
+}
+/* Lightning ring: double-flash — fast spike out, flicker */
+@keyframes ring-pulse-lightning {
+    0%   { transform: translate(-50%,-50%) scale(0.15); opacity: 1; }
+    20%  { transform: translate(-50%,-50%) scale(2.4); opacity: 0.9; }
+    30%  { transform: translate(-50%,-50%) scale(2.2); opacity: 0.3; }
+    45%  { transform: translate(-50%,-50%) scale(2.8); opacity: 0.7; }
+    100% { transform: translate(-50%,-50%) scale(3.6); opacity: 0; }
+}
 
 .impact-ring {
     position: absolute;
     left: 50%; top: 50%;
     width: 100%; height: 100%;
-    border-radius: 4px;
+    border-radius: var(--ep-ring-shape, 4px);
     border: 2px solid rgba(240,160,40,0.9);
     box-shadow: 0 0 8px rgba(240,160,40,0.5), inset 0 0 6px rgba(240,160,40,0.2);
     pointer-events: none;
     z-index: 20;
-    animation: ring-pulse 0.45s ease-out forwards;
+    animation-name: var(--ep-ring-anim, ring-pulse);
+    animation-duration: 0.45s;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
 }
 
 /*
- * QUAKE: Physical displacement only — no filter.
- * A brief amber overlay flash is injected via JS.
+ * QUAKE: Each pack has a distinct displacement character.
+ * Ember: standard shake. Crystal: slow heavy thud. Shadow: violent single slam. Lightning: rapid micro-vibration.
  */
+/* Ember (default): medium shake, organic */
+@keyframes quake-ember {
+    0%   { transform: translate(0,0) scale(1); }
+    10%  { transform: translate(-6px,-5px) scale(1.07); }
+    25%  { transform: translate(6px, 5px) scale(0.94); }
+    42%  { transform: translate(-4px, 3px) scale(1.04); }
+    58%  { transform: translate(3px,-3px) scale(0.97); }
+    74%  { transform: translate(-2px, 2px) scale(1.01); }
+    88%  { transform: translate(1px,-1px) scale(0.99); }
+    100% { transform: translate(0,0) scale(1); }
+}
+/* Crystal: slow heavy impact, settles like ice */
+@keyframes quake-crystal {
+    0%   { transform: translate(0,0) scale(1); }
+    8%   { transform: translate(-9px,-2px) scale(1.1); }
+    24%  { transform: translate(8px, 3px) scale(0.91); }
+    44%  { transform: translate(-5px,-2px) scale(1.05); }
+    65%  { transform: translate(3px, 1px) scale(0.97); }
+    82%  { transform: translate(-1px, 0px) scale(1.01); }
+    100% { transform: translate(0,0) scale(1); }
+}
+/* Shadow: single violent slam then stillness */
+@keyframes quake-shadow {
+    0%   { transform: translate(0,0) scale(1); }
+    6%   { transform: translate(0,0) scale(1); }
+    12%  { transform: translate(-12px, 8px) scale(0.88); }
+    22%  { transform: translate(10px,-6px) scale(1.12); }
+    35%  { transform: translate(-3px, 2px) scale(0.97); }
+    50%  { transform: translate(1px,-1px) scale(1.01); }
+    100% { transform: translate(0,0) scale(1); }
+}
+/* Lightning: rapid high-freq micro-vibration */
+@keyframes quake-lightning {
+    0%   { transform: translate(0,0) scale(1); }
+    7%   { transform: translate(-5px,-4px) scale(1.04); }
+    14%  { transform: translate(5px, 4px) scale(0.97); }
+    21%  { transform: translate(-4px,-3px) scale(1.03); }
+    28%  { transform: translate(4px, 3px) scale(0.98); }
+    35%  { transform: translate(-3px,-2px) scale(1.02); }
+    42%  { transform: translate(3px, 2px) scale(0.99); }
+    50%  { transform: translate(-2px,-1px) scale(1.01); }
+    58%  { transform: translate(2px, 1px) scale(1); }
+    70%  { transform: translate(-1px, 0px) scale(1); }
+    100% { transform: translate(0,0) scale(1); }
+}
+/* Legacy alias for anything still referencing plain `quake` */
 @keyframes quake {
     0%   { transform: translate(0,0) scale(1); }
     10%  { transform: translate(-6px,-5px) scale(1.07); }
@@ -745,7 +834,10 @@ a:hover { text-decoration: underline; }
 }
 
 .anim-quake {
-    animation: quake 0.48s cubic-bezier(0.36, 0.07, 0.19, 0.97) forwards;
+    animation-name: var(--ep-quake-anim, quake-ember);
+    animation-duration: 0.48s;
+    animation-timing-function: cubic-bezier(0.36, 0.07, 0.19, 0.97);
+    animation-fill-mode: forwards;
     z-index: 5;
     position: relative;
 }
@@ -780,12 +872,14 @@ a:hover { text-decoration: underline; }
     background: var(--ep-settle-flash);
     pointer-events: none;
     z-index: 9;
-    animation: settle-flash 0.3s ease-out forwards;
+    animation: settle-flash var(--ep-settle-dur, 0.3s) ease-out forwards;
 }
 
 /*
  * SPELL CHARGE: Box-shadow only — no filter. 4 variants per pack.
  */
+/* ── Spell charge — 4 distinct identities ─────────────────── */
+/* Ember: slow build, pulsing heat */
 @keyframes spell-charge-p1 {
     0%   { box-shadow: 0 0 0px 0px rgba(200,60,40,0); }
     25%  { box-shadow: 0 0 14px 5px rgba(220,80,40,0.6),
@@ -797,37 +891,48 @@ a:hover { text-decoration: underline; }
                        inset 0 0 18px rgba(240,80,30,0.35); }
 }
 
+/* Crystal: rapid freeze — spreads outward then crystallizes */
 @keyframes spell-charge-p2 {
     0%   { box-shadow: 0 0 0px 0px rgba(40,120,200,0); }
-    25%  { box-shadow: 0 0 14px 5px rgba(60,160,240,0.65),
-                       0 0 28px 10px rgba(20,80,160,0.3); }
-    65%  { box-shadow: 0 0 22px 9px rgba(80,200,255,0.85),
-                       0 0 44px 18px rgba(30,100,200,0.4); }
-    100% { box-shadow: 0 0 32px 14px rgba(180,235,255,1),
-                       0 0 55px 24px rgba(40,120,220,0.65),
-                       inset 0 0 18px rgba(60,180,240,0.35); }
+    15%  { box-shadow: 0 0 28px 12px rgba(180,240,255,0.8),
+                       0 0 50px 22px rgba(60,180,255,0.45); }
+    40%  { box-shadow: 0 0 12px 5px rgba(140,220,255,0.5),
+                       0 0 30px 14px rgba(40,140,220,0.3); }
+    70%  { box-shadow: 0 0 20px 9px rgba(200,245,255,0.9),
+                       0 0 42px 18px rgba(80,180,255,0.5); }
+    100% { box-shadow: 0 0 30px 13px rgba(220,250,255,1),
+                       0 0 52px 22px rgba(100,200,255,0.6),
+                       inset 0 0 14px rgba(160,230,255,0.4); }
 }
 
+/* Shadow: drain — light is pulled in, darkness grows */
 @keyframes spell-charge-p3 {
     0%   { box-shadow: 0 0 0px 0px rgba(80,10,140,0); }
-    25%  { box-shadow: 0 0 14px 5px rgba(100,20,160,0.65),
-                       0 0 28px 10px rgba(50,0,80,0.35); }
-    65%  { box-shadow: 0 0 22px 9px rgba(140,60,220,0.85),
-                       0 0 44px 18px rgba(60,0,100,0.45); }
-    100% { box-shadow: 0 0 32px 14px rgba(200,100,255,1),
-                       0 0 55px 24px rgba(80,10,140,0.7),
-                       inset 0 0 18px rgba(120,40,200,0.4); }
+    20%  { box-shadow: 0 0 8px 3px rgba(60,0,100,0.9),
+                       0 0 20px 8px rgba(20,0,50,0.6); }
+    50%  { box-shadow: 0 0 4px 2px rgba(40,0,80,1),
+                       0 0 14px 6px rgba(10,0,30,0.8),
+                       inset 0 0 12px rgba(80,0,120,0.5); }
+    100% { box-shadow: 0 0 2px 1px rgba(20,0,40,1),
+                       0 0 10px 4px rgba(0,0,0,1),
+                       inset 0 0 24px rgba(60,0,100,0.8),
+                       inset 0 0 8px rgba(0,0,0,1); }
 }
 
+/* Lightning: instant spike — rapid on/off strobe */
 @keyframes spell-charge-p4 {
-    0%   { box-shadow: 0 0 0px 0px rgba(40,130,0,0); }
-    25%  { box-shadow: 0 0 14px 5px rgba(80,200,20,0.65),
-                       0 0 28px 10px rgba(30,100,0,0.35); }
-    65%  { box-shadow: 0 0 22px 9px rgba(140,255,40,0.85),
-                       0 0 44px 18px rgba(40,130,0,0.45); }
-    100% { box-shadow: 0 0 32px 14px rgba(200,255,80,1),
-                       0 0 55px 24px rgba(50,160,0,0.65),
-                       inset 0 0 18px rgba(100,220,20,0.35); }
+    0%   { box-shadow: 0 0 0px 0px rgba(200,255,0,0); }
+    8%   { box-shadow: 0 0 30px 12px rgba(240,255,120,1),
+                       0 0 55px 22px rgba(160,255,20,0.8); }
+    16%  { box-shadow: 0 0 4px 2px rgba(140,220,0,0.3); }
+    30%  { box-shadow: 0 0 24px 10px rgba(220,255,80,0.9),
+                       0 0 48px 20px rgba(120,220,0,0.6); }
+    42%  { box-shadow: 0 0 6px 2px rgba(160,240,0,0.4); }
+    60%  { box-shadow: 0 0 28px 11px rgba(230,255,100,1),
+                       0 0 52px 22px rgba(140,255,0,0.7); }
+    100% { box-shadow: 0 0 36px 15px rgba(255,255,160,1),
+                       0 0 60px 26px rgba(180,255,20,0.75),
+                       inset 0 0 16px rgba(220,255,60,0.4); }
 }
 
 .anim-spell-charge {
@@ -840,8 +945,9 @@ a:hover { text-decoration: underline; }
 }
 
 /*
- * EXPLODE: Box-shadow + scale only. White-hot flash via injected overlay. 4 pack variants.
+ * EXPLODE: 4 distinct identities — shape, timing, and character differ per pack.
  */
+/* Ember: outward fireball — expands hot then fades */
 @keyframes explode-p1 {
     0%   { box-shadow: 0 0 0px 0px rgba(255,200,80,0);    transform: scale(1); }
     8%   { box-shadow: 0 0 30px 12px rgba(255,240,160,0.9),
@@ -853,42 +959,51 @@ a:hover { text-decoration: underline; }
     100% { box-shadow: 0 0 0px 0px rgba(80,15,0,0);        transform: scale(1); }
 }
 
+/* Crystal: freeze shatter — spreads wide then snaps inward to nothing */
 @keyframes explode-p2 {
-    0%   { box-shadow: 0 0 0px 0px rgba(80,200,255,0);     transform: scale(1); }
-    8%   { box-shadow: 0 0 30px 12px rgba(200,240,255,0.9),
-                       0 0 60px 28px rgba(80,200,255,0.8);  transform: scale(1.22); }
-    22%  { box-shadow: 0 0 40px 20px rgba(40,160,240,0.9),
-                       0 0 70px 35px rgba(10,80,180,0.55);  transform: scale(0.90); }
-    50%  { box-shadow: 0 0 48px 24px rgba(20,100,200,0.65),
-                       0 0 80px 40px rgba(0,40,100,0.3);    transform: scale(1.06); }
-    100% { box-shadow: 0 0 0px 0px rgba(0,20,60,0);         transform: scale(1); }
+    0%   { box-shadow: 0 0 0px 0px rgba(180,240,255,0);    transform: scale(1); }
+    5%   { box-shadow: 0 0 50px 28px rgba(220,248,255,0.95),
+                       0 0 90px 45px rgba(120,210,255,0.7); transform: scale(1.35); }
+    18%  { box-shadow: 0 0 60px 32px rgba(160,230,255,0.85),
+                       0 0 100px 50px rgba(80,180,255,0.5);  transform: scale(1.15); }
+    50%  { box-shadow: 0 0 40px 18px rgba(100,200,255,0.55),
+                       0 0 70px 35px rgba(40,140,220,0.25);  transform: scale(1.08); }
+    80%  { box-shadow: 0 0 8px 3px rgba(60,160,220,0.2),
+                       0 0 20px 8px rgba(20,80,140,0.1);     transform: scale(0.97); }
+    100% { box-shadow: 0 0 0px 0px rgba(0,40,80,0);          transform: scale(1); }
 }
 
+/* Shadow: implosion — collapses inward, void grows then vanishes */
 @keyframes explode-p3 {
-    0%   { box-shadow: 0 0 0px 0px rgba(140,40,220,0);     transform: scale(1); }
-    8%   { box-shadow: 0 0 30px 12px rgba(220,160,255,0.9),
-                       0 0 60px 28px rgba(140,40,220,0.8);  transform: scale(1.22); }
-    22%  { box-shadow: 0 0 40px 20px rgba(100,20,180,0.9),
-                       0 0 70px 35px rgba(50,0,100,0.55);   transform: scale(0.90); }
-    50%  { box-shadow: 0 0 48px 24px rgba(60,10,120,0.65),
-                       0 0 80px 40px rgba(20,0,50,0.3);     transform: scale(1.06); }
+    0%   { box-shadow: 0 0 30px 14px rgba(0,0,0,0);        transform: scale(1.1); }
+    6%   { box-shadow: 0 0 2px 1px rgba(0,0,0,1),
+                       inset 0 0 20px rgba(40,0,80,0.9);    transform: scale(0.78); }
+    20%  { box-shadow: 0 0 4px 2px rgba(10,0,20,1),
+                       inset 0 0 30px rgba(60,0,100,0.7),
+                       0 0 24px 10px rgba(100,20,180,0.4);  transform: scale(0.88); }
+    50%  { box-shadow: 0 0 18px 8px rgba(80,0,140,0.6),
+                       0 0 36px 16px rgba(40,0,80,0.3);     transform: scale(1.02); }
     100% { box-shadow: 0 0 0px 0px rgba(10,0,30,0);         transform: scale(1); }
 }
 
+/* Lightning: instant white flash then crackling discharge */
 @keyframes explode-p4 {
-    0%   { box-shadow: 0 0 0px 0px rgba(120,240,40,0);     transform: scale(1); }
-    8%   { box-shadow: 0 0 30px 12px rgba(220,255,140,0.9),
-                       0 0 60px 28px rgba(120,255,20,0.8);  transform: scale(1.22); }
-    22%  { box-shadow: 0 0 40px 20px rgba(80,200,0,0.9),
-                       0 0 70px 35px rgba(20,80,0,0.55);    transform: scale(0.90); }
-    50%  { box-shadow: 0 0 48px 24px rgba(40,120,0,0.65),
-                       0 0 80px 40px rgba(10,40,0,0.3);     transform: scale(1.06); }
-    100% { box-shadow: 0 0 0px 0px rgba(5,20,0,0);          transform: scale(1); }
+    0%   { box-shadow: 0 0 0px 0px rgba(255,255,255,0);     transform: scale(1); }
+    4%   { box-shadow: 0 0 60px 30px rgba(255,255,255,1),
+                       0 0 100px 50px rgba(220,255,80,0.9);  transform: scale(1.3); }
+    10%  { box-shadow: 0 0 10px 4px rgba(200,255,60,0.4),
+                       0 0 24px 10px rgba(120,220,0,0.3);    transform: scale(0.95); }
+    18%  { box-shadow: 0 0 40px 18px rgba(180,255,40,0.85),
+                       0 0 70px 30px rgba(100,200,0,0.55);   transform: scale(1.12); }
+    28%  { box-shadow: 0 0 8px 3px rgba(140,220,0,0.3);      transform: scale(0.98); }
+    45%  { box-shadow: 0 0 30px 12px rgba(160,240,40,0.65),
+                       0 0 55px 24px rgba(80,180,0,0.35);    transform: scale(1.05); }
+    100% { box-shadow: 0 0 0px 0px rgba(60,120,0,0);         transform: scale(1); }
 }
 
 .anim-explode {
     animation-name: var(--ep-explode-anim, explode-p1);
-    animation-duration: 0.55s;
+    animation-duration: var(--ep-explode-dur, 0.55s);
     animation-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
     animation-fill-mode: forwards;
     z-index: 10;
@@ -1083,14 +1198,23 @@ a:hover { text-decoration: underline; }
     }
 
     /* Each picker takes full width and lays out horizontally */
-    .skin-picker  { width: 100%; flex-direction: row; align-items: center; justify-content: space-between; gap: 10px; }
-    .theme-picker { width: 100%; flex-direction: row; align-items: center; justify-content: space-between; gap: 10px; }
+    .skin-picker,
+    .theme-picker,
+    .effect-pack-picker {
+        width: 100%;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+    }
 
     .skin-picker-label,
-    .theme-picker-label { min-width: 70px; text-align: left; font-size: 10px; }
+    .theme-picker-label,
+    .effect-pack-picker-label { min-width: 70px; text-align: left; font-size: 10px; }
 
-    .skin-picker-row  { flex: 1; justify-content: center; gap: 10px; }
-    .theme-picker-row { flex: 1; justify-content: center; gap: 10px; }
+    .skin-picker-row,
+    .theme-picker-row,
+    .effect-pack-picker .theme-picker-row { flex: 1; justify-content: center; gap: 10px; }
 
     .skin-arrow-lg { width: 40px; height: 40px; font-size: 20px; }
 
@@ -1156,11 +1280,13 @@ a:hover { text-decoration: underline; }
     .menu-container { padding: 16px 14px; }
     .player-banner { flex-wrap: wrap; padding: 16px 20px; }
     .pickers-row { flex-direction: column; align-items: stretch; gap: 10px; min-width: 200px; }
-    .skin-picker  { flex-direction: row; align-items: center; justify-content: space-between; gap: 8px; }
-    .theme-picker { flex-direction: row; align-items: center; justify-content: space-between; gap: 8px; }
-    .skin-picker-label, .theme-picker-label { min-width: 60px; }
-    .skin-picker-row  { flex: 1; justify-content: center; gap: 10px; }
-    .theme-picker-row { flex: 1; justify-content: center; gap: 10px; }
+    .skin-picker,
+    .theme-picker,
+    .effect-pack-picker { flex-direction: row; align-items: center; justify-content: space-between; gap: 8px; }
+    .skin-picker-label, .theme-picker-label, .effect-pack-picker-label { min-width: 60px; }
+    .skin-picker-row,
+    .theme-picker-row,
+    .effect-pack-picker .theme-picker-row { flex: 1; justify-content: center; gap: 10px; }
     .skin-arrow-lg { width: 42px; height: 42px; font-size: 20px; }
     .skin-picker-img-wrap { width: 60px; height: 60px; }
     .theme-swatch-wrap { width: 60px; height: 60px; }
@@ -1386,7 +1512,7 @@ html[data-theme="10"] {
 }
 
 /* ── Effect Pack CSS variables ──────────────────────────────── */
-/* Pack 1: Ember (default) */
+/* Pack 1: Ember — fire, radial burst, warm displacement */
 :root {
     --ep-flip-grad:    radial-gradient(ellipse at center, rgba(255,240,180,0.95) 0%, rgba(240,160,40,0.6) 45%, transparent 75%);
     --ep-quake-flash:  rgba(240,160,40,0.25);
@@ -1396,44 +1522,69 @@ html[data-theme="10"] {
     --ep-trail-grad:   radial-gradient(circle, rgba(255,200,80,0.85) 0%, rgba(220,80,20,0.4) 55%, transparent 100%);
     --ep-explode-grad: radial-gradient(ellipse at center, rgba(255,255,220,1) 0%, rgba(255,200,80,0.8) 40%, transparent 70%);
     --ep-ring-color:   rgba(240,160,40,0.9);
+    --ep-ring-anim:    ring-pulse;
     --ep-charge-anim:  spell-charge-p1;
     --ep-explode-anim: explode-p1;
+    --ep-explode-dur:  0.55s;
+    --ep-quake-anim:   quake-ember;
+    --ep-ring-shape:   4px;
+    --ep-settle-dur:   0.3s;
 }
+/* Pack 2: Crystal — ice, slow freeze, wide spread */
 :root[data-ep="2"] {
     --ep-flip-grad:    radial-gradient(ellipse at center, rgba(220,245,255,0.98) 0%, rgba(100,200,255,0.65) 45%, transparent 75%);
-    --ep-quake-flash:  rgba(80,180,255,0.22);
-    --ep-settle-flash: rgba(100,200,255,0.15);
+    --ep-quake-flash:  rgba(160,230,255,0.18);
+    --ep-settle-flash: rgba(180,240,255,0.22);
     --ep-proj-grad:    radial-gradient(ellipse at 20% 50%, #ffffff 0%, #c0ecff 15%, #40b8ff 40%, #006090 65%, transparent 100%);
     --ep-proj-shadow:  0 0 10px 4px rgba(80,200,255,0.9), 0 0 24px 10px rgba(20,100,200,0.55), 0 0 44px 18px rgba(0,60,120,0.3);
-    --ep-trail-grad:   radial-gradient(circle, rgba(180,235,255,0.9) 0%, rgba(40,160,255,0.4) 55%, transparent 100%);
+    --ep-trail-grad:   radial-gradient(circle, rgba(220,248,255,0.9) 0%, rgba(80,200,255,0.35) 55%, transparent 100%);
     --ep-explode-grad: radial-gradient(ellipse at center, rgba(240,252,255,1) 0%, rgba(140,220,255,0.85) 40%, transparent 70%);
-    --ep-ring-color:   rgba(80,200,255,0.9);
+    --ep-ring-color:   rgba(120,220,255,0.9);
+    --ep-ring-anim:    ring-pulse-crystal;
     --ep-charge-anim:  spell-charge-p2;
     --ep-explode-anim: explode-p2;
+    --ep-explode-dur:  0.75s;
+    --ep-quake-anim:   quake-crystal;
+    --ep-ring-shape:   0px;
+    --ep-settle-dur:   0.7s;
 }
+/* Pack 3: Shadow — void, implosion, dark collapse */
 :root[data-ep="3"] {
-    --ep-flip-grad:    radial-gradient(ellipse at center, rgba(200,160,255,0.9) 0%, rgba(100,30,160,0.65) 45%, transparent 75%);
-    --ep-quake-flash:  rgba(100,20,160,0.3);
-    --ep-settle-flash: rgba(120,40,180,0.2);
-    --ep-proj-grad:    radial-gradient(ellipse at 20% 50%, #f0e0ff 0%, #c080ff 15%, #6010c0 40%, #200040 65%, transparent 100%);
-    --ep-proj-shadow:  0 0 10px 4px rgba(160,60,255,0.9), 0 0 24px 10px rgba(80,10,160,0.55), 0 0 44px 18px rgba(30,0,60,0.3);
-    --ep-trail-grad:   radial-gradient(circle, rgba(200,120,255,0.85) 0%, rgba(100,20,180,0.4) 55%, transparent 100%);
-    --ep-explode-grad: radial-gradient(ellipse at center, rgba(240,210,255,1) 0%, rgba(160,80,255,0.85) 40%, transparent 70%);
-    --ep-ring-color:   rgba(140,60,220,0.9);
-    --ep-charge-anim:  spell-charge-p3;
-    --ep-explode-anim: explode-p3;
+    --ep-flip-grad:          radial-gradient(ellipse at center, rgba(80,0,120,0.85) 0%, rgba(30,0,60,0.9) 50%, transparent 80%);
+    --ep-flip-flash-anim:    flip-flash-shadow;
+    --ep-quake-flash:        rgba(60,0,100,0.45);
+    --ep-settle-flash:       rgba(40,0,80,0.3);
+    --ep-proj-grad:          radial-gradient(ellipse at 20% 50%, #200030 0%, #6010a0 20%, #8020c0 45%, #200040 70%, transparent 100%);
+    --ep-proj-shadow:        0 0 8px 3px rgba(120,0,200,0.8), 0 0 20px 8px rgba(60,0,120,0.5), 0 0 38px 15px rgba(20,0,60,0.35);
+    --ep-trail-grad:         radial-gradient(circle, rgba(100,20,160,0.7) 0%, rgba(40,0,80,0.5) 55%, transparent 100%);
+    --ep-explode-grad:       radial-gradient(ellipse at center, rgba(0,0,0,1) 0%, rgba(60,0,100,0.9) 35%, transparent 65%);
+    --ep-ring-color:         rgba(100,0,160,0.95);
+    --ep-ring-anim:          ring-pulse-shadow;
+    --ep-charge-anim:        spell-charge-p3;
+    --ep-explode-anim:       explode-p3;
+    --ep-explode-dur:        0.6s;
+    --ep-quake-anim:         quake-shadow;
+    --ep-ring-shape:         50%;
+    --ep-settle-dur:         0.5s;
 }
+/* Pack 4: Lightning — electric, instant flash, rapid strobe */
 :root[data-ep="4"] {
-    --ep-flip-grad:    radial-gradient(ellipse at center, rgba(240,255,200,0.95) 0%, rgba(140,255,60,0.6) 45%, transparent 75%);
-    --ep-quake-flash:  rgba(80,220,20,0.22);
-    --ep-settle-flash: rgba(100,240,40,0.16);
-    --ep-proj-grad:    radial-gradient(ellipse at 20% 50%, #f8ffe0 0%, #d4ff60 15%, #60dd00 40%, #204800 65%, transparent 100%);
-    --ep-proj-shadow:  0 0 10px 4px rgba(140,255,40,0.9), 0 0 24px 10px rgba(60,180,0,0.55), 0 0 44px 18px rgba(20,60,0,0.3);
-    --ep-trail-grad:   radial-gradient(circle, rgba(200,255,80,0.85) 0%, rgba(80,200,20,0.4) 55%, transparent 100%);
-    --ep-explode-grad: radial-gradient(ellipse at center, rgba(240,255,200,1) 0%, rgba(160,255,60,0.85) 40%, transparent 70%);
-    --ep-ring-color:   rgba(120,240,40,0.9);
-    --ep-charge-anim:  spell-charge-p4;
-    --ep-explode-anim: explode-p4;
+    --ep-flip-grad:          radial-gradient(ellipse at center, rgba(255,255,255,1) 0%, rgba(200,255,80,0.7) 30%, transparent 65%);
+    --ep-flip-flash-anim:    flip-flash-lightning;
+    --ep-quake-flash:        rgba(200,255,60,0.35);
+    --ep-settle-flash:       rgba(160,255,40,0.2);
+    --ep-proj-grad:          radial-gradient(ellipse at 20% 50%, #ffffff 0%, #eeff80 10%, #a0ff00 35%, #3a7000 65%, transparent 100%);
+    --ep-proj-shadow:        0 0 6px 2px rgba(220,255,80,1), 0 0 18px 7px rgba(140,255,0,0.7), 0 0 36px 14px rgba(60,160,0,0.4);
+    --ep-trail-grad:         radial-gradient(circle, rgba(240,255,100,0.95) 0%, rgba(140,255,0,0.5) 45%, transparent 100%);
+    --ep-explode-grad:       radial-gradient(ellipse at center, rgba(255,255,255,1) 0%, rgba(200,255,60,0.9) 30%, transparent 60%);
+    --ep-ring-color:         rgba(180,255,40,1);
+    --ep-ring-anim:          ring-pulse-lightning;
+    --ep-charge-anim:        spell-charge-p4;
+    --ep-explode-anim:       explode-p4;
+    --ep-explode-dur:        0.38s;
+    --ep-quake-anim:         quake-lightning;
+    --ep-ring-shape:         2px;
+    --ep-settle-dur:         0.2s;
 }
 
 /* ── Theme picker ───────────────────────────────────────────── */
@@ -1515,56 +1666,37 @@ html[data-theme="10"] {
     color: var(--text-muted);
 }
 
-.ep-swatch-wrap {
-    width: 56px;
-    height: 56px;
-    border-radius: 6px;
-    border: 2px solid var(--gold);
-    background: var(--bg-cell);
-    box-shadow: 0 0 0 2px rgba(240,184,64,.2), 0 0 16px rgba(240,184,64,.15);
-    cursor: pointer;
-    transition: transform .12s;
-    overflow: hidden;
-    position: relative;
+.ep-name-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    min-width: 72px;
+    text-align: center;
 }
-.ep-swatch-wrap:active { transform: scale(.95); }
-
-.ep-swatch-dot {
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    position: absolute;
-    animation: ep-pulse 1.4s ease-in-out infinite;
-}
-.ep-swatch-dot:nth-child(1) { top: 8px; left: 8px; }
-.ep-swatch-dot:nth-child(2) { top: 50%; left: 50%; transform: translate(-50%,-50%); animation-delay: .3s; }
-.ep-swatch-dot:nth-child(3) { bottom: 8px; right: 8px; animation-delay: .6s; }
-
-@keyframes ep-pulse {
-    0%,100% { opacity: 0.4; transform: scale(0.8); }
-    50%      { opacity: 1;   transform: scale(1.15); }
-}
-.ep-swatch-dot:nth-child(2) {
-    top: 50%; left: 50%;
-    transform: translate(-50%,-50%);
-    animation: ep-pulse-mid 1.4s ease-in-out infinite;
-    animation-delay: .3s;
-}
-@keyframes ep-pulse-mid {
-    0%,100% { opacity: 0.4; transform: translate(-50%,-50%) scale(0.8); }
-    50%      { opacity: 1;   transform: translate(-50%,-50%) scale(1.15); }
-}
-
-.ep-swatch-wrap[data-ep="1"] .ep-swatch-dot { background: #f0a830; box-shadow: 0 0 6px rgba(240,168,48,.8); }
-.ep-swatch-wrap[data-ep="2"] .ep-swatch-dot { background: #60c8ff; box-shadow: 0 0 6px rgba(80,200,255,.8); }
-.ep-swatch-wrap[data-ep="3"] .ep-swatch-dot { background: #b060ff; box-shadow: 0 0 6px rgba(160,80,255,.8); }
-.ep-swatch-wrap[data-ep="4"] .ep-swatch-dot { background: #80e830; box-shadow: 0 0 6px rgba(120,232,40,.8); }
 
 .ep-pack-name {
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.5px;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 1px;
     text-align: center;
-    margin-top: 2px;
-    color: var(--text-muted);
+    text-transform: uppercase;
+    transition: color .2s, text-shadow .2s;
+}
+
+.ep-name-block[data-ep="1"] .ep-pack-name {
+    color: #f0a830;
+    text-shadow: 0 0 10px rgba(240,168,48,.7), 0 0 22px rgba(220,80,20,.4);
+}
+.ep-name-block[data-ep="2"] .ep-pack-name {
+    color: #60c8ff;
+    text-shadow: 0 0 10px rgba(80,200,255,.7), 0 0 22px rgba(40,140,255,.35);
+}
+.ep-name-block[data-ep="3"] .ep-pack-name {
+    color: #c07aff;
+    text-shadow: 0 0 10px rgba(180,80,255,.7), 0 0 22px rgba(100,20,180,.4);
+}
+.ep-name-block[data-ep="4"] .ep-pack-name {
+    color: #80e830;
+    text-shadow: 0 0 10px rgba(120,232,40,.7), 0 0 22px rgba(60,180,0,.4);
 }

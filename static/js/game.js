@@ -423,15 +423,18 @@
 
     function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
-    // Anel de impacto radial
+    // Anel de impacto radial — animação varia por pack
     function spawnImpactRing(el, color = 'rgba(240,160,40,0.9)') {
         const ring = document.createElement('div');
         ring.className = 'impact-ring';
         ring.style.borderColor = color;
         ring.style.boxShadow = `0 0 8px ${color}`;
+        const cs = getComputedStyle(document.documentElement);
+        const packAnim = cs.getPropertyValue('--ep-ring-anim').trim();
+        if (packAnim) ring.style.animationName = packAnim;
         el.style.overflow = 'visible';
         el.appendChild(ring);
-        setTimeout(() => { ring.remove(); el.style.overflow = ''; }, 500);
+        setTimeout(() => { ring.remove(); el.style.overflow = ''; }, 600);
     }
 
     // Light flash overlay for flip (does not affect card image colours)
@@ -450,12 +453,13 @@
         setTimeout(() => flash.remove(), 480);
     }
 
-    // White flash overlay for explosion
+    // White flash overlay for explosion — duration matches pack
     function spawnExplodeFlash(el) {
         const flash = document.createElement('div');
         flash.className = 'explode-flash';
         el.appendChild(flash);
-        setTimeout(() => flash.remove(), 580);
+        const dur = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--ep-explode-dur') || '0.55') * 1000;
+        setTimeout(() => flash.remove(), dur + 80);
     }
 
     // ── Effect Pack helper ────────────────────────────────────────────────
@@ -617,7 +621,8 @@
             }
         });
 
-        await sleep(650);
+        const explodeDur = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--ep-explode-dur') || '0.55') * 1000;
+        await sleep(explodeDur + 120);
 
         // 5. Aplica estado final
         applyBoardState(boardGrid, skinA, skinB, hueB, [], 'X');

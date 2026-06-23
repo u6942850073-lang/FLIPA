@@ -174,7 +174,7 @@ def game(room_id):
     if not side:
         flash("Não tens acesso a este jogo.")
         return redirect(url_for("menu"))
-    difficulty_name = {1: "Mínima", 5: "Média", 10: "Máxima"}.get(game_data.get("bot_depth"), "")
+    difficulty_name = {1: "Minimal", 5: "Medium", 10: "Maximum"}.get(game_data.get("bot_depth"), "")
     difficulty_key  = {1: "min", 5: "mid", 10: "max"}.get(game_data.get("bot_depth"), "max")
     return render_template("game.html", room_id=room_id, side=side,
                            user=user, game_type=game_data["game_type"],
