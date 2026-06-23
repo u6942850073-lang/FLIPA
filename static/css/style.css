@@ -1210,11 +1210,11 @@ a:hover { text-decoration: underline; }
 
     .skin-picker-label,
     .theme-picker-label,
-    .effect-pack-picker-label { min-width: 70px; text-align: left; font-size: 10px; }
+    .effect-pack-picker-label { min-width: 56px; text-align: left; font-size: 10px; }
 
     .skin-picker-row,
     .theme-picker-row,
-    .effect-pack-picker .theme-picker-row { flex: 1; justify-content: center; gap: 10px; }
+    .effect-pack-picker .theme-picker-row { flex: 1; justify-content: flex-end; gap: 10px; }
 
     .skin-arrow-lg { width: 40px; height: 40px; font-size: 20px; }
 
@@ -1283,10 +1283,10 @@ a:hover { text-decoration: underline; }
     .skin-picker,
     .theme-picker,
     .effect-pack-picker { flex-direction: row; align-items: center; justify-content: space-between; gap: 8px; }
-    .skin-picker-label, .theme-picker-label, .effect-pack-picker-label { min-width: 60px; }
+    .skin-picker-label, .theme-picker-label, .effect-pack-picker-label { min-width: 50px; }
     .skin-picker-row,
     .theme-picker-row,
-    .effect-pack-picker .theme-picker-row { flex: 1; justify-content: center; gap: 10px; }
+    .effect-pack-picker .theme-picker-row { flex: 1; justify-content: flex-end; gap: 10px; }
     .skin-arrow-lg { width: 42px; height: 42px; font-size: 20px; }
     .skin-picker-img-wrap { width: 60px; height: 60px; }
     .theme-swatch-wrap { width: 60px; height: 60px; }
