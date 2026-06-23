@@ -650,6 +650,11 @@
                 return;
             }
             if (el.classList.contains('clickable')) {
+                if (el.classList.contains('selected')) {
+                    clearHighlights();
+                    state = 'IDLE';
+                    return;
+                }
                 clearHighlights();
                 state = 'AWAITING_MOVES';
                 socket.emit('request_moves', { room_id: ROOM_ID, position: pos });
