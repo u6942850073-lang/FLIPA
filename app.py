@@ -182,6 +182,12 @@ def game(room_id):
                            difficulty_key=difficulty_key)
 
 
+@app.route("/how-to-play")
+@login_required
+def how_to_play():
+    return render_template("how_to_play.html")
+
+
 @app.route("/history")
 @login_required
 def history():

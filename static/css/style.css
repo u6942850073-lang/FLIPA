@@ -2172,3 +2172,352 @@ html[data-theme="10"] {
     from { text-shadow: 0 0 8px rgba(255,200,0,.9),  0 0 18px rgba(255,60,0,.6),  0 0 32px rgba(180,10,0,.3); }
     to   { text-shadow: 0 0 16px rgba(255,240,80,1), 0 0 34px rgba(255,100,0,.85), 0 0 56px rgba(220,20,0,.5); }
 }
+
+/* ============================================================
+   How to Play page
+   ============================================================ */
+.htp-container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 40px 24px 64px;
+}
+
+.htp-hero {
+    text-align: center;
+    margin-bottom: 48px;
+}
+.htp-title {
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-shadow: 0 0 24px rgba(240,184,64,0.35);
+    margin-bottom: 8px;
+}
+.htp-subtitle {
+    color: var(--text-muted);
+    font-size: 14px;
+    letter-spacing: 1px;
+}
+
+.htp-section {
+    margin-bottom: 48px;
+}
+.htp-section-title {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent-a);
+    border-bottom: 1px solid var(--border-warm);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+.htp-text {
+    color: var(--text);
+    line-height: 1.7;
+    margin-bottom: 20px;
+}
+.htp-text strong { color: var(--gold); }
+
+.htp-tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    padding: 2px 8px;
+    border-radius: var(--radius-sm);
+    text-transform: uppercase;
+}
+.htp-tag-normal  { background: #241e18; border: 1px solid var(--border-warm); color: var(--text); }
+.htp-tag-figure  { background: #201428; border: 1px solid #5a3a80; color: #c070f0; }
+.htp-tag-draw    { background: #18181e; border: 1px solid #404060; color: #8888bb; }
+.htp-tag-destroyed { background: #1a0808; border: 1px solid #6a1a10; color: #e87060; }
+
+/* ── Shared board demo wrapper ── */
+.htp-board-demo {
+    background: var(--bg-panel);
+    border: 1px solid var(--border-warm);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 28px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+/* ── Interactive 4×3 grid (Normal card demo) ── */
+.htp-interactive-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 7px;
+    width: 100%;
+    max-width: 440px;
+}
+
+/* ── Base cell (used in both static and interactive grids) ── */
+.htp-cell {
+    aspect-ratio: 1;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-warm);
+    background: var(--bg-cell);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition: transform .15s, box-shadow .15s, border-color .15s;
+    cursor: default;
+    user-select: none;
+}
+.htp-cell-a { border-color: var(--accent-a); box-shadow: 0 0 8px rgba(232,160,32,0.18); }
+.htp-cell-b { border-color: var(--accent-b); box-shadow: 0 0 8px rgba(200,67,42,0.18); }
+.htp-cell-empty { background: var(--bg-cell-empty); border-color: var(--border); opacity: .4; }
+.htp-cell-destroyed {
+    background: var(--bg-cell-empty);
+    border: 1px solid #3a1a10;
+    opacity: .75;
+}
+.htp-cell-figure { border-style: dashed; }
+
+/* Clickable: player's cards they can play */
+.htp-cell-clickable {
+    cursor: pointer;
+    border-width: 2.5px;
+    border-color: var(--gold);
+    animation: htp-pulse-gold 1.8s ease-in-out infinite;
+}
+.htp-cell-clickable:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 0 18px rgba(240,184,64,0.7);
+    border-color: var(--gold);
+}
+@keyframes htp-pulse-gold {
+    0%,100% { box-shadow: 0 0 6px rgba(240,184,64,0.35); }
+    50%      { box-shadow: 0 0 18px rgba(240,184,64,0.65); }
+}
+
+/* Face-down card that can be removed (XXXXXX clickable) */
+.htp-cell-x-clickable {
+    cursor: pointer;
+    border-width: 2.5px;
+    border-color: #c8432a;
+    animation: htp-pulse-red 1.8s ease-in-out infinite;
+}
+.htp-cell-x-clickable:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 0 18px rgba(200,67,42,0.7);
+}
+@keyframes htp-pulse-red {
+    0%,100% { box-shadow: 0 0 6px rgba(200,67,42,0.3); }
+    50%      { box-shadow: 0 0 18px rgba(200,67,42,0.65); }
+}
+
+/* Selected figure card */
+.htp-cell-selected {
+    border-width: 2.5px;
+    border-color: var(--gold) !important;
+    border-style: solid !important;
+    box-shadow: 0 0 20px rgba(240,184,64,0.7) !important;
+    transform: translateY(-2px) scale(1.06);
+}
+
+/* Valid target for figure move */
+.htp-cell-valid-target {
+    cursor: pointer;
+    border-width: 2px;
+    border-color: #c070f0 !important;
+    border-style: dashed !important;
+    animation: htp-pulse-purple 1.2s ease-in-out infinite;
+}
+.htp-cell-valid-target:hover {
+    background: #1e0a2a;
+    border-color: #d090ff !important;
+    transform: scale(1.05);
+    box-shadow: 0 0 16px rgba(180,80,240,0.6);
+}
+@keyframes htp-pulse-purple {
+    0%,100% { box-shadow: 0 0 4px rgba(180,80,240,0.25); }
+    50%      { box-shadow: 0 0 14px rgba(180,80,240,0.6); }
+}
+
+/* Flash for all demos */
+.htp-cell-flash {
+    animation: htp-cell-flash-anim .32s ease;
+}
+@keyframes htp-cell-flash-anim {
+    0%   { transform: scale(1);    opacity: 1; }
+    40%  { transform: scale(1.12); opacity: 0.65; box-shadow: 0 0 28px rgba(240,184,64,0.9); }
+    100% { transform: scale(1);    opacity: 1; }
+}
+
+.htp-card-img { width: 100%; height: 100%; object-fit: cover; border-radius: 3px; pointer-events: none; }
+.htp-figure-badge {
+    position: absolute;
+    top: 3px; right: 4px;
+    font-size: 9px;
+    font-weight: 700;
+    color: #c070f0;
+    background: rgba(0,0,0,0.55);
+    border-radius: 3px;
+    padding: 1px 3px;
+    letter-spacing: 0.5px;
+    pointer-events: none;
+}
+
+/* Labels row above board */
+.htp-label-row {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 440px;
+}
+.htp-label-side {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+.htp-label-b { color: var(--accent-b); }
+.htp-label-a { color: var(--accent-a); }
+
+/* ── Card type blocks ── */
+.htp-card-types {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 0;
+}
+.htp-card-type-block {
+    flex: 1;
+    min-width: 200px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: var(--bg-panel);
+    border: 1px solid var(--border-warm);
+    border-radius: var(--radius);
+    padding: 16px;
+}
+.htp-demo-card {
+    width: 64px;
+    height: 64px;
+    flex-shrink: 0;
+    aspect-ratio: 1;
+    overflow: hidden;
+}
+.htp-card-type-desc strong { display: block; color: var(--text); margin-bottom: 4px; font-size: 13px; }
+.htp-card-type-desc p { color: var(--text-muted); font-size: 12px; line-height: 1.5; margin: 0; }
+
+/* ── Figure mini-demo (no longer used — kept for safety) ── */
+.htp-mini-demo { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.htp-mini-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 52px);
+    grid-template-rows: repeat(3, 52px);
+    gap: 6px;
+}
+.htp-mini-cell {
+    width: 52px; height: 52px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    transition: background .2s, border-color .2s, transform .15s, box-shadow .15s;
+    cursor: default;
+}
+.htp-mini-empty { background: var(--bg-cell-empty); opacity: .3; border-color: transparent; }
+.htp-mini-a { background: #2a1e08; border-color: var(--accent-a); color: var(--gold); }
+.htp-mini-b { background: #200808; border-color: var(--accent-b); }
+.htp-mini-figure-idle { cursor: pointer; animation: htp-pulse-gold 2s ease-in-out infinite; }
+.htp-mini-figure-idle:hover { transform: scale(1.08); box-shadow: 0 0 14px rgba(240,184,64,0.5); }
+.htp-mini-figure-active { background: #1e0a2a; border-color: var(--gold); color: var(--gold); box-shadow: 0 0 14px rgba(240,184,64,0.5); transform: scale(1.05); }
+.htp-mini-choosable { cursor: pointer; border-color: #604090 !important; border-style: dashed !important; animation: htp-pulse-purple 1.2s ease-in-out infinite; }
+.htp-mini-choosable:hover { background: #1e0a2a; border-color: #c070f0 !important; transform: scale(1.08); }
+.htp-mini-flipped { animation: htp-flip-in .3s ease; }
+@keyframes htp-flip-in { 0% { transform: scaleX(0); } 100% { transform: scaleX(1); } }
+
+.htp-demo-btn {
+    background: #241e18;
+    border: 1px solid var(--border-warm);
+    color: var(--text-muted);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 7px 18px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: color .2s, border-color .2s;
+}
+.htp-demo-btn:hover { color: var(--text); border-color: var(--accent-a); }
+
+.htp-demo-hint {
+    font-size: 12px;
+    color: var(--text-muted);
+    letter-spacing: 0.3px;
+    text-align: center;
+    margin: 0;
+    min-height: 18px;
+    transition: color .3s;
+}
+
+/* ── Tips ── */
+.htp-tips {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 16px;
+}
+.htp-tip {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 12px 16px;
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+.htp-tip-icon { color: var(--accent-a); flex-shrink: 0; margin-top: 1px; }
+
+/* ── Game modes ── */
+.htp-modes-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+@media (max-width: 600px) { .htp-modes-grid { grid-template-columns: 1fr; } }
+
+.htp-mode-card {
+    background: var(--bg-panel);
+    border: 1px solid var(--border-warm);
+    border-radius: var(--radius);
+    padding: 24px 20px;
+}
+.htp-mode-icon { font-size: 24px; margin-bottom: 10px; color: var(--accent-a); }
+.htp-mode-card h3 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
+}
+.htp-mode-card p { color: var(--text-muted); font-size: 13px; line-height: 1.6; margin: 0; }
+.htp-mode-card strong { color: var(--text); }
+
+/* ── CTA ── */
+.htp-cta {
+    text-align: center;
+    padding-top: 16px;
+}
+
+@media (max-width: 480px) {
+    .htp-title { font-size: 24px; letter-spacing: 3px; }
+    .htp-card-types { flex-direction: column; }
+    .htp-container { padding: 24px 16px 48px; }
+}

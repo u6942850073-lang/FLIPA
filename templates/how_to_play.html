@@ -1,0 +1,415 @@
+{% extends "base.html" %}
+{% block title %}How to Play — FLIPA{% endblock %}
+{% block content %}
+<div class="htp-container">
+
+    <div class="htp-hero">
+        <h1 class="htp-title">How to Play</h1>
+        <p class="htp-subtitle">Flip your opponent's cards. Leave them with nothing.</p>
+    </div>
+
+    <!-- CARD TYPES -->
+    <section class="htp-section">
+        <h2 class="htp-section-title">The Board &amp; Card Types</h2>
+        <p class="htp-text">
+            FLIPA is played on a <strong>4 × 3 grid</strong> (12 cells). Cards are placed randomly at the start. Each player has exactly <strong>6 cards</strong>: 4 Normal and 2 Figure. Both players choose a skin (character 1–16) that defines how all their cards look.
+        </p>
+        <div class="htp-card-types">
+            <div class="htp-card-type-block">
+                <div class="htp-cell htp-cell-a htp-demo-card"><img src="/imgs/2_.png" alt="" class="htp-card-img"></div>
+                <div class="htp-card-type-desc">
+                    <strong>Normal Card <span class="htp-tag htp-tag-normal">N</span></strong>
+                    <p>When played, flips itself and all adjacent cards. Face-up cards become face-down and face-down cards become face-up.</p>
+                </div>
+            </div>
+            <div class="htp-card-type-block">
+                <div class="htp-cell htp-cell-a htp-demo-card htp-cell-figure"><img src="/imgs/2.png" alt="" class="htp-card-img"><span class="htp-figure-badge">F</span></div>
+                <div class="htp-card-type-desc">
+                    <strong>Figure Card <span class="htp-tag htp-tag-figure">F</span></strong>
+                    <p>Select it, then pick any card on the board to flip it. The Figure itself is also flipped face-down after use.</p>
+                </div>
+            </div>
+            <div class="htp-card-type-block">
+                <div class="htp-cell htp-cell-destroyed htp-demo-card"><img src="/imgs/back.png" alt="" class="htp-card-img"></div>
+                <div class="htp-card-type-desc">
+                    <strong>Face-down Card <span class="htp-tag htp-tag-destroyed">✕</span></strong>
+                    <p>A card that was flipped during play. Click it on your turn to remove it from the board permanently.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NORMAL CARD DEMO -->
+    <section class="htp-section">
+        <h2 class="htp-section-title">Normal Card</h2>
+        <p class="htp-text">
+            Click any of <strong>your Normal cards</strong> (pulsing gold outline). It flips itself and every adjacent card. Face-up cards become face-down <span class="htp-tag htp-tag-destroyed">✕</span> and face-down cards flip back up.
+        </p>
+        <div class="htp-board-demo">
+            <div class="htp-label-row">
+                <span class="htp-label-side htp-label-b">Opponent</span>
+                <span class="htp-label-side htp-label-a">You</span>
+            </div>
+            <div class="htp-interactive-grid" id="iGrid"></div>
+            <p class="htp-demo-hint" id="iHint">Click a pulsing Normal card to play it</p>
+            <button class="htp-demo-btn" id="iReset">Reset</button>
+        </div>
+    </section>
+
+    <!-- FIGURE CARD DEMO -->
+    <section class="htp-section">
+        <h2 class="htp-section-title">Figure Card</h2>
+        <p class="htp-text">
+            Click a <strong>Figure card</strong> (dashed border, <strong>F</strong> badge) to select it. Then click any card to flip it. Face-up becomes face-down, face-down becomes face-up. The Figure itself is also flipped face-down after use.
+        </p>
+        <div class="htp-board-demo">
+            <div class="htp-label-row">
+                <span class="htp-label-side htp-label-b">Opponent</span>
+                <span class="htp-label-side htp-label-a">You</span>
+            </div>
+            <div class="htp-interactive-grid" id="fGrid"></div>
+            <p class="htp-demo-hint" id="fHint">Click a Figure card (dashed border, F badge)</p>
+            <button class="htp-demo-btn" id="fReset">Reset</button>
+        </div>
+    </section>
+
+    <!-- FACE-DOWN CARD DEMO -->
+    <section class="htp-section">
+        <h2 class="htp-section-title">Face-down Card</h2>
+        <p class="htp-text">
+            When it is your turn you can click a <strong>face-down card</strong> <span class="htp-tag htp-tag-destroyed">✕</span> to remove it from the board permanently. It becomes an empty cell and cannot be affected by Normal cards anymore.
+        </p>
+        <div class="htp-board-demo">
+            <div class="htp-label-row">
+                <span class="htp-label-side htp-label-b">Opponent</span>
+                <span class="htp-label-side htp-label-a">You</span>
+            </div>
+            <div class="htp-interactive-grid" id="xGrid"></div>
+            <p class="htp-demo-hint" id="xHint">Click any face-down card to remove it from the board</p>
+            <button class="htp-demo-btn" id="xReset">Reset</button>
+        </div>
+    </section>
+
+    <!-- WINNING -->
+    <section class="htp-section">
+        <h2 class="htp-section-title">Winning the Game</h2>
+        <p class="htp-text">
+            The game ends when a player has <strong>no face-up cards left</strong>. That player loses. If both players lose their last face-up card at the same time, it is a <span class="htp-tag htp-tag-draw">Draw</span>.
+        </p>
+        <div class="htp-tips">
+            <div class="htp-tip">
+                <span class="htp-tip-icon">&#9651;</span>
+                <span>Removing a face-down <span class="htp-tag htp-tag-destroyed">✕</span> card passes your turn. Use that to your advantage.</span>
+            </div>
+            <div class="htp-tip">
+                <span class="htp-tip-icon">&#9651;</span>
+                <span>Figure cards are worth more than they seem. They can snipe any card on the board and also swap the turn.</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- GAME MODES -->
+    <section class="htp-section">
+        <h2 class="htp-section-title">Game Modes</h2>
+        <div class="htp-modes-grid">
+            <div class="htp-mode-card">
+                <div class="htp-mode-icon">&#9881;</div>
+                <h3>Training</h3>
+                <p>Play against the bot. Choose <strong>Minimal</strong>, <strong>Medium</strong>, or <strong>Maximum</strong> difficulty. No MMR at stake, perfect for learning.</p>
+            </div>
+            <div class="htp-mode-card">
+                <div class="htp-mode-icon">&#9876;</div>
+                <h3>Ranked</h3>
+                <p>Matched against a real opponent of similar MMR. Wins gain MMR, losses lose it. You have <strong>60 seconds</strong> per turn. Climb the leaderboard.</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="htp-cta">
+        <a href="{{ url_for('menu') }}" class="btn btn-primary">Back to Menu</a>
+    </div>
+
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+(function () {
+    // ── Helpers ────────────────────────────────────────────────────────────
+    const SKIN_A = 3, SKIN_B = 5;
+
+    function imgSrc(skin, isF) {
+        return `/imgs/${skin}${isF ? '' : '_'}.png`;
+    }
+
+    function adjacents(ri, ci) {
+        return [[ri-1,ci],[ri+1,ci],[ri,ci-1],[ri,ci+1]]
+            .filter(([r,c]) => r >= 0 && r < 3 && c >= 0 && c < 4);
+    }
+
+    function setHint(id, text) {
+        const el = document.getElementById(id);
+        if (el) el.textContent = text;
+    }
+
+    // Build one cell DOM element
+    // val: 'AN'|'AF'|'BN'|'BF'|'X'|null
+    function makeCell(val, {clickable=false, selected=false, validTarget=false, xClickable=false} = {}) {
+        const el = document.createElement('div');
+        el.className = 'htp-cell';
+
+        if (val === null) {
+            el.classList.add('htp-cell-empty');
+            return el;
+        }
+        if (val === 'X') {
+            el.classList.add('htp-cell-destroyed');
+            if (validTarget)  el.classList.add('htp-cell-valid-target');
+            if (xClickable)   el.classList.add('htp-cell-x-clickable');
+            const img = document.createElement('img');
+            img.src = '/imgs/back.png';
+            img.className = 'htp-card-img';
+            el.appendChild(img);
+            return el;
+        }
+
+        const owner = val[0], isF = val[1] === 'F';
+        el.classList.add(owner === 'A' ? 'htp-cell-a' : 'htp-cell-b');
+        if (isF)         el.classList.add('htp-cell-figure');
+        if (selected)    el.classList.add('htp-cell-selected');
+        if (validTarget) el.classList.add('htp-cell-valid-target');
+        if (clickable)   el.classList.add('htp-cell-clickable');
+
+        const img = document.createElement('img');
+        img.src = imgSrc(owner === 'A' ? SKIN_A : SKIN_B, isF);
+        img.className = 'htp-card-img';
+        if (owner === 'B') img.style.filter = 'hue-rotate(180deg)';
+        el.appendChild(img);
+
+        if (isF) {
+            const badge = document.createElement('span');
+            badge.className = 'htp-figure-badge';
+            badge.textContent = 'F';
+            el.appendChild(badge);
+        }
+        return el;
+    }
+
+    // ══════════════════════════════════════════════════════════════════════
+    // DEMO 1 — Normal card
+    // ══════════════════════════════════════════════════════════════════════
+    const N_INIT = [
+        ['BN', 'BF', 'BN', 'BN'],
+        ['X',  'AN', 'X',  'AF'],
+        ['AN', 'AN', 'BF', 'AN'],
+    ];
+    // fixed original identity for every cell — never mutated
+    const N_ORIG = [
+        ['BN', 'BF', 'BN', 'BN'],
+        ['BN', 'AN', 'BN', 'AF'],
+        ['AN', 'AN', 'BF', 'AN'],
+    ];
+    let nBoard, nBusy;
+
+    function nReset() {
+        nBoard = N_INIT.map(r => [...r]);
+        nBusy = false;
+        renderN();
+        setHint('iHint', 'Click a pulsing Normal card to play it');
+    }
+
+    function renderN() {
+        const grid = document.getElementById('iGrid');
+        grid.innerHTML = '';
+        for (let ri = 0; ri < 3; ri++) {
+            for (let ci = 0; ci < 4; ci++) {
+                const val = nBoard[ri][ci];
+                const el = makeCell(val, {clickable: !nBusy && val === 'AN'});
+                el.addEventListener('click', () => {
+                    if (nBusy || val !== 'AN') return;
+                    nBusy = true;
+                    setHint('iHint', '');
+
+                    const affected = [[ri,ci], ...adjacents(ri,ci).filter(([r,c]) => nBoard[r][c] !== null)];
+                    renderNFlash(affected);
+
+                    setTimeout(() => {
+                        affected.forEach(([r,c]) => {
+                            if (nBoard[r][c] === 'X') {
+                                nBoard[r][c] = N_ORIG[r][c]; // face-down → flip back to original
+                            } else {
+                                nBoard[r][c] = 'X';          // face-up → flip to face-down
+                            }
+                        });
+                        nBusy = false;
+                        renderN();
+                        const faceDown = affected.filter(([r,c]) => nBoard[r][c] === 'X').length;
+                        const faceUp   = affected.filter(([r,c]) => nBoard[r][c] !== 'X').length;
+                        const parts = [];
+                        if (faceDown > 0) parts.push(`${faceDown} flipped face-down`);
+                        if (faceUp   > 0) parts.push(`${faceUp} flipped face-up`);
+                        setHint('iHint', `Flipped! ${parts.join(', ')}.`);
+                    }, 320);
+                });
+                grid.appendChild(el);
+            }
+        }
+    }
+
+    function renderNFlash(flashList) {
+        const grid = document.getElementById('iGrid');
+        grid.innerHTML = '';
+        for (let ri = 0; ri < 3; ri++) {
+            for (let ci = 0; ci < 4; ci++) {
+                const val = nBoard[ri][ci];
+                const el = makeCell(val, {});
+                if (flashList.some(([r,c]) => r===ri && c===ci)) el.classList.add('htp-cell-flash');
+                grid.appendChild(el);
+            }
+        }
+    }
+
+    // ══════════════════════════════════════════════════════════════════════
+    // DEMO 2 — Figure card
+    // ══════════════════════════════════════════════════════════════════════
+    const F_INIT = [
+        ['BN', 'BF', 'BN', 'BN'],
+        ['BN', 'AF', 'BN', 'BN'],
+        ['AN', 'AN', 'AF', 'BN'],
+    ];
+    // fixed original identity for flip-back (same as F_INIT, never mutated)
+    const F_ORIG = [
+        ['BN', 'BF', 'BN', 'BN'],
+        ['BN', 'AF', 'BN', 'BN'],
+        ['AN', 'AN', 'AF', 'BN'],
+    ];
+    let fBoard, fSel, fBusy;
+
+    function fReset() {
+        fBoard = F_INIT.map(r => [...r]);
+        fSel = null;
+        fBusy = false;
+        renderF();
+        setHint('fHint', 'Click a Figure card (dashed border, F badge)');
+    }
+
+    function renderF() {
+        const grid = document.getElementById('fGrid');
+        grid.innerHTML = '';
+        for (let ri = 0; ri < 3; ri++) {
+            for (let ci = 0; ci < 4; ci++) {
+                const val = fBoard[ri][ci];
+                const isSel     = fSel && fSel[0]===ri && fSel[1]===ci;
+                const isTarget  = fSel && !isSel && val !== null;
+                const isClickable = !fBusy && !fSel && val === 'AF';
+
+                const el = makeCell(val, {
+                    clickable: isClickable,
+                    selected: isSel,
+                    validTarget: isTarget,
+                });
+
+                el.addEventListener('click', () => onFClick(ri, ci));
+                grid.appendChild(el);
+            }
+        }
+    }
+
+    function onFClick(ri, ci) {
+        if (fBusy) return;
+        const val = fBoard[ri][ci];
+
+        if (!fSel) {
+            if (val !== 'AF') return;
+            fSel = [ri, ci];
+            renderF();
+            setHint('fHint', 'Now click any card to flip it');
+            return;
+        }
+
+        const [sr, sc] = fSel;
+        if (sr === ri && sc === ci) {
+            fSel = null; renderF();
+            setHint('fHint', 'Click a Figure card (dashed border, F badge)');
+            return;
+        }
+        if (val === null) {
+            setHint('fHint', 'Empty cells cannot be targeted — pick any card');
+            return;
+        }
+
+        fBusy = true; fSel = null;
+
+        const grid = document.getElementById('fGrid');
+        const elSrc = grid.children[sr * 4 + sc];
+        const elDst = grid.children[ri * 4 + ci];
+        if (elSrc) elSrc.classList.add('htp-cell-flash');
+        if (elDst) elDst.classList.add('htp-cell-flash');
+
+        setTimeout(() => {
+            // flip target: face-up → X, face-down → original
+            fBoard[ri][ci] = fBoard[ri][ci] === 'X' ? F_ORIG[ri][ci] : 'X';
+            // figure itself goes face-down
+            fBoard[sr][sc] = 'X';
+            fBusy = false;
+            renderF();
+            setHint('fHint', 'Figure used! Target flipped, figure is now face-down.');
+        }, 320);
+    }
+
+    // ══════════════════════════════════════════════════════════════════════
+    // DEMO 3 — Face-down (XXXXXX) card removal
+    // ══════════════════════════════════════════════════════════════════════
+    const X_INIT = [
+        ['BN', 'X',  'BN','BN'],
+        ['X',  'AN', 'BN','BN'],
+        ['AN', 'BN', 'X', 'AN'],
+    ];
+    let xBoard, xBusy;
+
+    function xReset() {
+        xBoard = X_INIT.map(r => [...r]);
+        xBusy = false;
+        renderX();
+        setHint('xHint', 'Click any face-down card to remove it from the board');
+    }
+
+    function renderX() {
+        const grid = document.getElementById('xGrid');
+        grid.innerHTML = '';
+        for (let ri = 0; ri < 3; ri++) {
+            for (let ci = 0; ci < 4; ci++) {
+                const val = xBoard[ri][ci];
+                const isX = val === 'X';
+                const el = makeCell(val, {xClickable: !xBusy && isX});
+                el.addEventListener('click', () => {
+                    if (xBusy || val !== 'X') return;
+                    xBusy = true;
+                    setHint('xHint', '');
+
+                    const elFlash = document.getElementById('xGrid').children[ri * 4 + ci];
+                    if (elFlash) elFlash.classList.add('htp-cell-flash');
+
+                    setTimeout(() => {
+                        xBoard[ri][ci] = null; // permanently gone
+                        xBusy = false;
+                        renderX();
+                        const remaining = xBoard.flat().filter(v => v === 'X').length;
+                        setHint('xHint', remaining > 0
+                            ? `Gone! ${remaining} face-down card${remaining!==1?'s':''} remaining — click one to remove it.`
+                            : 'All face-down cards removed. The board is cleared!');
+                    }, 320);
+                });
+                grid.appendChild(el);
+            }
+        }
+    }
+
+    // ── Init all demos ─────────────────────────────────────────────────────
+    document.getElementById('iReset').addEventListener('click', nReset);
+    document.getElementById('fReset').addEventListener('click', fReset);
+    document.getElementById('xReset').addEventListener('click', xReset);
+
+    nReset(); fReset(); xReset();
+})();
+</script>
+{% endblock %}
