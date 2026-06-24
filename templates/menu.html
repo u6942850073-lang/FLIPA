@@ -72,7 +72,9 @@
             <div class="theme-picker-row">
                 <button class="skin-arrow skin-arrow-lg" id="ep-prev" aria-label="previous effect pack">&#8592;</button>
                 <div class="ep-name-block" id="ep-swatch" data-ep="{{ user.effect_pack if user.effect_pack else 1 }}">
-                    <div class="ep-pack-name" id="ep-pack-name"></div>
+                    <div class="ep-pack-name-wrap">
+                        <div class="ep-pack-name" id="ep-pack-name"></div>
+                    </div>
                     <div class="theme-picker-counter">
                         <span id="ep-picker-current">{{ user.effect_pack if user.effect_pack else 1 }}</span>
                         <span class="skin-picker-sep">/</span>

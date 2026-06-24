@@ -13,9 +13,20 @@ const THEME_PALETTES = [
     { bg: '#1a0c10', accent: '#e03818', name: 'Crimson Dusk' },
     { bg: '#10141c', accent: '#6888c8', name: 'Deep Slate' },
     { bg: '#1a1018', accent: '#e060a0', name: 'Sakura Night' },
+    { bg: '#0a0a0a', accent: '#ffffff', name: 'Mono Inferno' },
+    { bg: '#18102e', accent: '#ffd820', name: 'Royal Voltage' },
+    { bg: '#060c06', accent: '#c8ff00', name: 'Cyber Lime' },
+    { bg: '#160a06', accent: '#ff5808', name: 'Magma Core' },
+    { bg: '#0a2028', accent: '#ff8868', name: 'Coral Reef' },
+    { bg: '#0a1020', accent: '#ffcc40', name: 'Midnight Gold' },
+    { bg: '#14082a', accent: '#ff40c0', name: 'Synthwave' },
+    { bg: '#061c16', accent: '#00e8b0', name: 'Emerald Tide' },
+    { bg: '#1a1408', accent: '#ffe800', name: 'Solar Flare' },
+    { bg: '#08081a', accent: '#ff00d0', name: 'Plasma Storm' },
 ];
 
-const EFFECT_PACK_NAMES = [null, 'Ember', 'Crystal', 'Shadow', 'Lightning', 'Void', 'Water', 'Fire', 'Rainbow', 'Matrix', 'Bombastic'];
+const EFFECT_PACK_NAMES = [null, 'Ember', 'Crystal', 'Shadow', 'Lightning', 'Void', 'Water', 'Fire', 'Rainbow', 'Matrix', 'Bombastic',
+    'Galaxy', 'Money', 'Flower', 'Math', 'Music', 'Time Travel', 'Chinese', 'Black Hole', 'Blood', 'Legendary'];
 
 document.addEventListener('DOMContentLoaded', () => {
     const socket = io();

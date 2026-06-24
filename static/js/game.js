@@ -467,6 +467,46 @@
         document.documentElement.dataset.ep = n;
     }
 
+    // ── Pack-themed minimal particles ─────────────────────────────────────
+    // Spawns 3 small Unicode glyphs that drift upward & fade, themed by pack.
+    // Returns silently for packs that don't define glyphs.
+    const PACK_PARTICLES = {
+        12: { glyphs: ['金', '钱', '富', '宝', '银'],       color: '#ffe040', shadow: 'rgba(120,200,40,.7)' },   // Money — gold/wealth
+        13: { glyphs: ['花', '樱', '春', '蓮', '梅'],       color: '#ffaad8', shadow: 'rgba(220,100,180,.55)' }, // Flower — blossoms
+        14: { glyphs: ['数', '算', '理', '零', '九'],       color: '#e0e8ff', shadow: 'rgba(140,180,240,.55)' }, // Math — numbers/logic
+        15: { glyphs: ['音', '乐', '声', '韵', '歌'],       color: '#ff80d8', shadow: 'rgba(80,200,255,.6)' },   // Music — sound/melody
+        17: { glyphs: ['福', '禄', '寿', '喜', '财', '吉'], color: '#ffc040', shadow: 'rgba(220,30,30,.7)' },    // Chinese — fortune
+        19: { glyphs: ['血', '红', '殇', '魂', '死'],       color: '#ff2020', shadow: 'rgba(120,0,0,.8)' },      // Blood — visceral
+    };
+
+    function spawnPackParticles(el, pack) {
+        const cfg = PACK_PARTICLES[pack];
+        if (!cfg || !el) return;
+        const r = el.getBoundingClientRect();
+        const count = 3;
+        // Scatter particles across the full cell area with random offset on
+        // both axes so they spread out instead of bunching in the centre.
+        const spanX = r.width  * 0.85;
+        const spanY = r.height * 0.7;
+        for (let i = 0; i < count; i++) {
+            const p = document.createElement('div');
+            p.className = 'pack-particle';
+            if (pack === 19) p.classList.add('pack-particle-drop'); // blood falls
+            p.textContent = cfg.glyphs[Math.floor(Math.random() * cfg.glyphs.length)];
+            const startX = r.left + r.width  / 2 + (Math.random() - 0.5) * spanX;
+            const startY = r.top  + r.height / 2 + (Math.random() - 0.5) * spanY;
+            const driftX = (Math.random() - 0.5) * 24;
+            p.style.cssText = `
+                left:${startX}px; top:${startY}px;
+                color:${cfg.color};
+                text-shadow: 0 0 6px ${cfg.shadow}, 0 0 12px ${cfg.shadow};
+                --drift-x:${driftX}px;
+            `;
+            document.body.appendChild(p);
+            setTimeout(() => p.remove(), 1000);
+        }
+    }
+
     // ── Normal card: flip → shockwave → fade out ─────────────────────────
     async function animateNormal(lastMove, boardGrid, skinA, skinB, hueB, pack) {
         applyActivePack(pack);
@@ -485,6 +525,7 @@
         if (srcEl) {
             srcEl.classList.add('anim-flip');
             spawnFlipFlash(srcEl);
+            spawnPackParticles(srcEl, pack);
             await sleep(150);
             spawnImpactRing(srcEl, getComputedStyle(document.documentElement).getPropertyValue('--ep-ring-color').trim());
         }
@@ -618,6 +659,7 @@
             if (el) {
                 el.classList.add('anim-explode');
                 spawnExplodeFlash(el);
+                spawnPackParticles(el, pack);
             }
         });
 

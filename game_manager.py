@@ -19,18 +19,17 @@ ALT_HUES = [180, 120, 240, 60, 300, 30]
 def _count_skin_types():
     imgs_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "imgs")
     count = 0
-    for i in range(1, 20):
-        if os.path.exists(os.path.join(imgs_dir, f"{i}.png")):
-            count = i
-        else:
-            break
+    i = 1
+    while os.path.exists(os.path.join(imgs_dir, f"{i}.png")):
+        count = i
+        i += 1
     return max(count, 1)
 
 SKIN_COUNT = _count_skin_types()
 
-THEME_COUNT = 10
+THEME_COUNT = 20
 
-EFFECT_PACK_COUNT = 10
+EFFECT_PACK_COUNT = 20
 
 
 def _parse_board(board):

@@ -1072,6 +1072,31 @@ a:hover { text-decoration: underline; }
     100% { opacity: 0; transform: translate(-50%,-50%) scale(0.15); }
 }
 
+/* ── Pack-themed minimal particles (coins, flowers, math, notes, drops) ── */
+.pack-particle {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1;
+    transform: translate(-50%, -50%);
+    animation: pack-particle-rise 0.9s ease-out forwards;
+}
+.pack-particle-drop {
+    animation: pack-particle-fall 0.9s ease-in forwards;
+}
+@keyframes pack-particle-rise {
+    0%   { opacity: 0;   transform: translate(-50%, -50%) scale(0.5); }
+    20%  { opacity: 1;   transform: translate(calc(-50% + var(--drift-x) * 0.3), calc(-50% - 14px)) scale(1.05); }
+    100% { opacity: 0;   transform: translate(calc(-50% + var(--drift-x)), calc(-50% - 42px)) scale(0.85); }
+}
+@keyframes pack-particle-fall {
+    0%   { opacity: 0;   transform: translate(-50%, -50%) scale(0.6); }
+    25%  { opacity: 1;   transform: translate(calc(-50% + var(--drift-x) * 0.3), calc(-50% + 6px)) scale(1.05); }
+    100% { opacity: 0;   transform: translate(calc(-50% + var(--drift-x) * 0.6), calc(-50% + 38px)) scale(0.9); }
+}
+
 /* ============================================================
    Game Over Result Bar
    ============================================================ */
@@ -1511,6 +1536,186 @@ html[data-theme="10"] {
     --ink:            #060204;
 }
 
+/* Theme 11: Mono Inferno — HIGH CONTRAST pure black & white */
+html[data-theme="11"] {
+    --bg-dark:        #000000;
+    --bg-panel:       #0a0a0a;
+    --bg-cell:        #141414;
+    --bg-cell-empty:  #050505;
+    --accent-a:       #ffffff;
+    --accent-b:       #b0b0b0;
+    --gold:           #ffffff;
+    --ember:          #e0e0e0;
+    --ash:            #808080;
+    --text:           #ffffff;
+    --text-muted:     #707070;
+    --border:         #2a2a2a;
+    --border-warm:    #404040;
+    --ink:            #000000;
+}
+
+/* Theme 12: Royal Voltage — deep purple velvet + electric yellow */
+html[data-theme="12"] {
+    --bg-dark:        #0e0820;
+    --bg-panel:       #18102e;
+    --bg-cell:        #221640;
+    --bg-cell-empty:  #0a0618;
+    --accent-a:       #ffd820;
+    --accent-b:       #8040e0;
+    --gold:           #fff060;
+    --ember:          #ffe040;
+    --ash:            #8068a8;
+    --text:           #fff4c8;
+    --text-muted:     #7868a0;
+    --border:         #281c4a;
+    --border-warm:    #382858;
+    --ink:            #060410;
+}
+
+/* Theme 13: Cyber Lime — pitch black + acid lime neon */
+html[data-theme="13"] {
+    --bg-dark:        #020402;
+    --bg-panel:       #060c06;
+    --bg-cell:        #0a160a;
+    --bg-cell-empty:  #010401;
+    --accent-a:       #c8ff00;
+    --accent-b:       #80cc00;
+    --gold:           #e8ff40;
+    --ember:          #b0ff20;
+    --ash:            #608040;
+    --text:           #e8ffd0;
+    --text-muted:     #506040;
+    --border:         #0e1808;
+    --border-warm:    #182810;
+    --ink:            #000200;
+}
+
+/* Theme 14: Magma Core — black basalt + molten orange/red */
+html[data-theme="14"] {
+    --bg-dark:        #0a0604;
+    --bg-panel:       #160a06;
+    --bg-cell:        #1f0e08;
+    --bg-cell-empty:  #060302;
+    --accent-a:       #ff5808;
+    --accent-b:       #c01010;
+    --gold:           #ffb030;
+    --ember:          #ff7020;
+    --ash:            #8a5030;
+    --text:           #ffd8b0;
+    --text-muted:     #805040;
+    --border:         #2a1008;
+    --border-warm:    #401810;
+    --ink:            #060200;
+}
+
+/* Theme 15: Coral Reef — deep teal water + warm coral/peach */
+html[data-theme="15"] {
+    --bg-dark:        #04141a;
+    --bg-panel:       #0a2028;
+    --bg-cell:        #102e38;
+    --bg-cell-empty:  #04101a;
+    --accent-a:       #ff8868;
+    --accent-b:       #28b0a0;
+    --gold:           #ffb088;
+    --ember:          #ff9070;
+    --ash:            #608878;
+    --text:           #e8f4e8;
+    --text-muted:     #4a8078;
+    --border:         #102c30;
+    --border-warm:    #184048;
+    --ink:            #020a10;
+}
+
+/* Theme 16: Midnight Gold — luxe navy + opulent gold */
+html[data-theme="16"] {
+    --bg-dark:        #050810;
+    --bg-panel:       #0a1020;
+    --bg-cell:        #101828;
+    --bg-cell-empty:  #04060c;
+    --accent-a:       #ffcc40;
+    --accent-b:       #b08020;
+    --gold:           #ffd860;
+    --ember:          #f0b830;
+    --ash:            #80704a;
+    --text:           #f8ecc8;
+    --text-muted:     #807050;
+    --border:         #181820;
+    --border-warm:    #281f10;
+    --ink:            #020408;
+}
+
+/* Theme 17: Synthwave — neon pink + cyan retro grid */
+html[data-theme="17"] {
+    --bg-dark:        #080418;
+    --bg-panel:       #14082a;
+    --bg-cell:        #200c40;
+    --bg-cell-empty:  #060212;
+    --accent-a:       #ff40c0;
+    --accent-b:       #20e8f0;
+    --gold:           #ff80e8;
+    --ember:          #ff60d0;
+    --ash:            #807090;
+    --text:           #f8d8f8;
+    --text-muted:     #806890;
+    --border:         #281248;
+    --border-warm:    #401860;
+    --ink:            #040210;
+}
+
+/* Theme 18: Emerald Tide — deep forest + turquoise glow */
+html[data-theme="18"] {
+    --bg-dark:        #02100c;
+    --bg-panel:       #061c16;
+    --bg-cell:        #0a2820;
+    --bg-cell-empty:  #020c08;
+    --accent-a:       #00e8b0;
+    --accent-b:       #008060;
+    --gold:           #40ffc8;
+    --ember:          #20d8a0;
+    --ash:            #408070;
+    --text:           #c8f0e0;
+    --text-muted:     #406858;
+    --border:         #0a2820;
+    --border-warm:    #103830;
+    --ink:            #020806;
+}
+
+/* Theme 19: Solar Flare — charcoal + searing yellow + sunburn orange */
+html[data-theme="19"] {
+    --bg-dark:        #100c08;
+    --bg-panel:       #1a1408;
+    --bg-cell:        #261c0a;
+    --bg-cell-empty:  #0a0804;
+    --accent-a:       #ffe800;
+    --accent-b:       #ff8000;
+    --gold:           #fff040;
+    --ember:          #ffc020;
+    --ash:            #908050;
+    --text:           #fff8c8;
+    --text-muted:     #807040;
+    --border:         #2a1f08;
+    --border-warm:    #403010;
+    --ink:            #060402;
+}
+
+/* Theme 20: Plasma Storm — black core + magenta + electric blue */
+html[data-theme="20"] {
+    --bg-dark:        #04060e;
+    --bg-panel:       #08081a;
+    --bg-cell:        #100e28;
+    --bg-cell-empty:  #04040c;
+    --accent-a:       #ff00d0;
+    --accent-b:       #0080ff;
+    --gold:           #ff60e8;
+    --ember:          #ff20c0;
+    --ash:            #6068a0;
+    --text:           #e0d8f8;
+    --text-muted:     #5060a0;
+    --border:         #181830;
+    --border-warm:    #281f40;
+    --ink:            #020208;
+}
+
 /* ── Effect Pack CSS variables ──────────────────────────────── */
 /* Pack 1: Ember — fire, radial burst, warm displacement */
 :root {
@@ -1698,6 +1903,196 @@ html[data-theme="10"] {
     --ep-quake-anim:         quake-bombastic;
     --ep-ring-shape:         2px;
     --ep-settle-dur:         0.45s;
+}
+
+/* Pack 11: Galaxy — cosmic swirl, starlight, deep-space nebula */
+:root[data-ep="11"] {
+    --ep-flip-grad:          radial-gradient(ellipse at center, rgba(255,240,200,0.95) 0%, rgba(180,80,220,0.6) 35%, rgba(40,20,120,0.3) 65%, transparent 85%);
+    --ep-flip-flash-anim:    flip-flash-galaxy;
+    --ep-quake-flash:        rgba(120,60,200,0.3);
+    --ep-settle-flash:       rgba(60,40,160,0.22);
+    --ep-proj-grad:          radial-gradient(ellipse at 20% 50%, #ffffff 0%, #d8b8ff 12%, #8040d0 35%, #2010a0 60%, #050020 80%, transparent 100%);
+    --ep-proj-shadow:        0 0 10px 4px rgba(200,160,255,0.95), 0 0 24px 10px rgba(100,40,200,0.6), 0 0 50px 22px rgba(20,0,80,0.4);
+    --ep-trail-grad:         radial-gradient(circle, rgba(220,200,255,0.9) 0%, rgba(120,60,220,0.4) 50%, transparent 100%);
+    --ep-explode-grad:       radial-gradient(ellipse at center, rgba(255,250,220,1) 0%, rgba(180,100,240,0.85) 30%, rgba(40,20,120,0.4) 60%, transparent 80%);
+    --ep-ring-color:         rgba(180,120,255,0.95);
+    --ep-ring-anim:          ring-pulse-galaxy;
+    --ep-charge-anim:        spell-charge-p11;
+    --ep-explode-anim:       explode-p11;
+    --ep-explode-dur:        0.75s;
+    --ep-quake-anim:         quake-galaxy;
+    --ep-ring-shape:         50%;
+    --ep-settle-dur:         0.6s;
+}
+/* Pack 12: Money — gold cash burst, dollar-green glow */
+:root[data-ep="12"] {
+    --ep-flip-grad:          radial-gradient(ellipse at center, rgba(255,250,180,0.98) 0%, rgba(80,200,80,0.55) 40%, transparent 75%);
+    --ep-flip-flash-anim:    flip-flash-money;
+    --ep-quake-flash:        rgba(120,220,80,0.28);
+    --ep-settle-flash:       rgba(220,180,40,0.22);
+    --ep-proj-grad:          radial-gradient(ellipse at 20% 50%, #fffce0 0%, #ffe060 12%, #80c040 38%, #205020 65%, transparent 100%);
+    --ep-proj-shadow:        0 0 10px 4px rgba(255,220,60,1), 0 0 24px 10px rgba(120,200,40,0.6), 0 0 44px 18px rgba(40,100,20,0.35);
+    --ep-trail-grad:         radial-gradient(circle, rgba(255,240,120,0.9) 0%, rgba(120,200,80,0.4) 50%, transparent 100%);
+    --ep-explode-grad:       radial-gradient(ellipse at center, rgba(255,255,200,1) 0%, rgba(180,220,80,0.8) 35%, rgba(40,100,40,0.4) 65%, transparent 80%);
+    --ep-ring-color:         rgba(200,220,40,0.95);
+    --ep-ring-anim:          ring-pulse-money;
+    --ep-charge-anim:        spell-charge-p12;
+    --ep-explode-anim:       explode-p12;
+    --ep-explode-dur:        0.55s;
+    --ep-quake-anim:         quake-money;
+    --ep-ring-shape:         3px;
+    --ep-settle-dur:         0.35s;
+}
+/* Pack 13: Flower — petal bloom, soft pink/spring pastels */
+:root[data-ep="13"] {
+    --ep-flip-grad:          radial-gradient(ellipse at center, rgba(255,240,250,0.95) 0%, rgba(255,160,210,0.55) 40%, rgba(180,80,160,0.25) 70%, transparent 85%);
+    --ep-quake-flash:        rgba(255,160,210,0.22);
+    --ep-settle-flash:       rgba(255,200,230,0.18);
+    --ep-proj-grad:          radial-gradient(ellipse at 20% 50%, #fff0f8 0%, #ffc0e0 18%, #ff70b0 42%, #a04088 70%, transparent 100%);
+    --ep-proj-shadow:        0 0 10px 4px rgba(255,180,220,0.9), 0 0 24px 10px rgba(220,80,160,0.5), 0 0 44px 18px rgba(120,30,100,0.28);
+    --ep-trail-grad:         radial-gradient(circle, rgba(255,200,230,0.9) 0%, rgba(220,120,180,0.4) 55%, transparent 100%);
+    --ep-explode-grad:       radial-gradient(ellipse at center, rgba(255,240,250,1) 0%, rgba(255,160,210,0.85) 35%, rgba(120,200,120,0.4) 65%, transparent 85%);
+    --ep-ring-color:         rgba(255,140,200,0.9);
+    --ep-ring-anim:          ring-pulse-flower;
+    --ep-charge-anim:        spell-charge-p13;
+    --ep-explode-anim:       explode-p13;
+    --ep-explode-dur:        0.8s;
+    --ep-quake-anim:         quake-flower;
+    --ep-ring-shape:         50%;
+    --ep-settle-dur:         0.7s;
+}
+/* Pack 14: Math — chalk-white equations on slate, geometric precision */
+:root[data-ep="14"] {
+    --ep-flip-grad:          radial-gradient(ellipse at center, rgba(240,250,255,0.95) 0%, rgba(180,200,240,0.45) 40%, transparent 75%);
+    --ep-flip-flash-anim:    flip-flash-math;
+    --ep-quake-flash:        rgba(220,230,255,0.22);
+    --ep-settle-flash:       rgba(200,220,255,0.18);
+    --ep-proj-grad:          radial-gradient(ellipse at 20% 50%, #ffffff 0%, #e0e8ff 18%, #8090c0 42%, #303860 70%, transparent 100%);
+    --ep-proj-shadow:        0 0 6px 2px rgba(240,245,255,1), 0 0 16px 6px rgba(160,180,240,0.6), 0 0 36px 14px rgba(60,80,160,0.3);
+    --ep-trail-grad:         radial-gradient(circle, rgba(240,245,255,0.95) 0%, rgba(140,160,220,0.4) 55%, transparent 100%);
+    --ep-explode-grad:       radial-gradient(ellipse at center, rgba(255,255,255,1) 0%, rgba(200,215,255,0.75) 40%, transparent 70%);
+    --ep-ring-color:         rgba(220,230,255,0.95);
+    --ep-ring-anim:          ring-pulse-math;
+    --ep-charge-anim:        spell-charge-p14;
+    --ep-explode-anim:       explode-p14;
+    --ep-explode-dur:        0.5s;
+    --ep-quake-anim:         quake-math;
+    --ep-ring-shape:         0px;
+    --ep-settle-dur:         0.3s;
+}
+/* Pack 15: Music — sound-wave ripple, vibrant cyan/magenta synesthesia */
+:root[data-ep="15"] {
+    --ep-flip-grad:          radial-gradient(ellipse at center, rgba(255,255,255,1) 0%, rgba(255,80,220,0.6) 30%, rgba(40,220,255,0.4) 60%, transparent 80%);
+    --ep-flip-flash-anim:    flip-flash-music;
+    --ep-quake-flash:        rgba(255,80,220,0.3);
+    --ep-settle-flash:       rgba(40,220,255,0.22);
+    --ep-proj-grad:          radial-gradient(ellipse at 20% 50%, #ffffff 0%, #ff80e0 18%, #4080ff 45%, #20204a 70%, transparent 100%);
+    --ep-proj-shadow:        0 0 10px 4px rgba(255,120,220,0.95), 0 0 24px 10px rgba(80,180,255,0.6), 0 0 44px 18px rgba(40,40,140,0.35);
+    --ep-trail-grad:         radial-gradient(circle, rgba(255,160,240,0.9) 0%, rgba(80,200,255,0.45) 50%, transparent 100%);
+    --ep-explode-grad:       radial-gradient(ellipse at center, rgba(255,255,255,1) 0%, rgba(255,120,220,0.85) 30%, rgba(40,200,255,0.55) 60%, transparent 80%);
+    --ep-ring-color:         rgba(255,120,220,0.95);
+    --ep-ring-anim:          ring-pulse-music;
+    --ep-charge-anim:        spell-charge-p15;
+    --ep-explode-anim:       explode-p15;
+    --ep-explode-dur:        0.6s;
+    --ep-quake-anim:         quake-music;
+    --ep-ring-shape:         50%;
+    --ep-settle-dur:         0.45s;
+}
+/* Pack 16: Time Travel — chrono-warp, gold rings, temporal blue */
+:root[data-ep="16"] {
+    --ep-flip-grad:          radial-gradient(ellipse at center, rgba(255,255,255,1) 0%, rgba(255,200,80,0.55) 30%, rgba(40,140,255,0.35) 60%, transparent 85%);
+    --ep-flip-flash-anim:    flip-flash-time;
+    --ep-quake-flash:        rgba(80,180,255,0.28);
+    --ep-settle-flash:       rgba(255,200,80,0.22);
+    --ep-proj-grad:          radial-gradient(ellipse at 20% 50%, #ffffff 0%, #fff080 15%, #ffaa00 38%, #2060c0 65%, transparent 100%);
+    --ep-proj-shadow:        0 0 10px 4px rgba(255,220,80,0.95), 0 0 24px 10px rgba(80,160,255,0.55), 0 0 44px 18px rgba(40,80,180,0.35);
+    --ep-trail-grad:         radial-gradient(circle, rgba(255,240,160,0.9) 0%, rgba(120,180,255,0.4) 55%, transparent 100%);
+    --ep-explode-grad:       radial-gradient(ellipse at center, rgba(255,255,240,1) 0%, rgba(255,180,40,0.85) 30%, rgba(40,140,255,0.55) 65%, transparent 85%);
+    --ep-ring-color:         rgba(255,200,80,0.95);
+    --ep-ring-anim:          ring-pulse-time;
+    --ep-charge-anim:        spell-charge-p16;
+    --ep-explode-anim:       explode-p16;
+    --ep-explode-dur:        0.85s;
+    --ep-quake-anim:         quake-time;
+    --ep-ring-shape:         50%;
+    --ep-settle-dur:         0.75s;
+}
+/* Pack 17: Chinese — imperial red & gold, lantern glow, paper-cut bursts */
+:root[data-ep="17"] {
+    --ep-flip-grad:          radial-gradient(ellipse at center, rgba(255,240,160,0.98) 0%, rgba(255,40,40,0.65) 40%, transparent 75%);
+    --ep-flip-flash-anim:    flip-flash-chinese;
+    --ep-quake-flash:        rgba(220,20,20,0.35);
+    --ep-settle-flash:       rgba(255,200,40,0.22);
+    --ep-proj-grad:          radial-gradient(ellipse at 20% 50%, #fff0c0 0%, #ffd040 14%, #e02020 40%, #800808 68%, transparent 100%);
+    --ep-proj-shadow:        0 0 10px 4px rgba(255,200,40,1), 0 0 24px 10px rgba(220,30,30,0.65), 0 0 48px 20px rgba(120,10,10,0.4);
+    --ep-trail-grad:         radial-gradient(circle, rgba(255,220,80,0.95) 0%, rgba(220,40,40,0.5) 50%, transparent 100%);
+    --ep-explode-grad:       radial-gradient(ellipse at center, rgba(255,250,200,1) 0%, rgba(255,180,40,0.9) 25%, rgba(200,20,20,0.65) 55%, transparent 80%);
+    --ep-ring-color:         rgba(255,180,40,1);
+    --ep-ring-anim:          ring-pulse-chinese;
+    --ep-charge-anim:        spell-charge-p17;
+    --ep-explode-anim:       explode-p17;
+    --ep-explode-dur:        0.6s;
+    --ep-quake-anim:         quake-chinese;
+    --ep-ring-shape:         4px;
+    --ep-settle-dur:         0.4s;
+}
+/* Pack 18: Black Hole — event horizon, gravitational collapse, accretion ring */
+:root[data-ep="18"] {
+    --ep-flip-grad:          radial-gradient(ellipse at center, rgba(255,200,80,0.85) 0%, rgba(80,20,0,0.7) 30%, rgba(0,0,0,0.95) 60%, transparent 85%);
+    --ep-flip-flash-anim:    flip-flash-blackhole;
+    --ep-quake-flash:        rgba(0,0,0,0.7);
+    --ep-settle-flash:       rgba(20,0,40,0.5);
+    --ep-proj-grad:          radial-gradient(ellipse at 20% 50%, #000000 0%, #200010 25%, #401020 50%, #ff8040 70%, transparent 100%);
+    --ep-proj-shadow:        0 0 10px 4px rgba(0,0,0,1), 0 0 24px 10px rgba(60,0,30,0.85), 0 0 48px 22px rgba(255,140,40,0.5);
+    --ep-trail-grad:         radial-gradient(circle, rgba(0,0,0,0.95) 0%, rgba(80,20,40,0.55) 55%, transparent 100%);
+    --ep-explode-grad:       radial-gradient(ellipse at center, rgba(0,0,0,1) 0%, rgba(60,10,30,0.95) 30%, rgba(255,140,40,0.6) 65%, transparent 80%);
+    --ep-ring-color:         rgba(255,140,40,0.95);
+    --ep-ring-anim:          ring-pulse-blackhole;
+    --ep-charge-anim:        spell-charge-p18;
+    --ep-explode-anim:       explode-p18;
+    --ep-explode-dur:        0.95s;
+    --ep-quake-anim:         quake-blackhole;
+    --ep-ring-shape:         50%;
+    --ep-settle-dur:         0.85s;
+}
+/* Pack 19: Blood — visceral crimson, pulsing arteries, dark splatter */
+:root[data-ep="19"] {
+    --ep-flip-grad:          radial-gradient(ellipse at center, rgba(255,100,80,0.95) 0%, rgba(180,10,10,0.75) 35%, rgba(60,0,0,0.5) 70%, transparent 85%);
+    --ep-flip-flash-anim:    flip-flash-blood;
+    --ep-quake-flash:        rgba(180,0,0,0.45);
+    --ep-settle-flash:       rgba(120,0,0,0.32);
+    --ep-proj-grad:          radial-gradient(ellipse at 20% 50%, #ffa080 0%, #d02020 18%, #800808 42%, #300000 68%, transparent 100%);
+    --ep-proj-shadow:        0 0 10px 4px rgba(220,40,40,0.95), 0 0 24px 10px rgba(120,0,0,0.7), 0 0 48px 22px rgba(60,0,0,0.45);
+    --ep-trail-grad:         radial-gradient(circle, rgba(220,40,40,0.9) 0%, rgba(100,0,0,0.5) 50%, transparent 100%);
+    --ep-explode-grad:       radial-gradient(ellipse at center, rgba(255,160,140,1) 0%, rgba(200,20,20,0.92) 28%, rgba(80,0,0,0.65) 60%, transparent 80%);
+    --ep-ring-color:         rgba(200,20,20,0.95);
+    --ep-ring-anim:          ring-pulse-blood;
+    --ep-charge-anim:        spell-charge-p19;
+    --ep-explode-anim:       explode-p19;
+    --ep-explode-dur:        0.7s;
+    --ep-quake-anim:         quake-blood;
+    --ep-ring-shape:         50%;
+    --ep-settle-dur:         0.55s;
+}
+/* Pack 20: Legendary — mythic radiance, prismatic aurora, divine ascension */
+:root[data-ep="20"] {
+    --ep-flip-grad:          radial-gradient(ellipse at center, rgba(255,255,255,1) 0%, rgba(255,220,120,0.85) 18%, rgba(180,120,255,0.55) 42%, rgba(40,200,255,0.35) 65%, transparent 85%);
+    --ep-flip-flash-anim:    flip-flash-legendary;
+    --ep-quake-flash:        rgba(255,220,120,0.45);
+    --ep-settle-flash:       rgba(255,200,80,0.32);
+    --ep-proj-grad:          radial-gradient(ellipse at 20% 50%, #ffffff 0%, #fff0a0 8%, #ffcc40 22%, #c080ff 48%, #40c0ff 70%, transparent 100%);
+    --ep-proj-shadow:        0 0 14px 6px rgba(255,240,160,1), 0 0 32px 14px rgba(200,140,255,0.85), 0 0 60px 28px rgba(80,180,255,0.55), 0 0 100px 44px rgba(255,200,80,0.4);
+    --ep-trail-grad:         radial-gradient(circle, rgba(255,240,180,1) 0%, rgba(220,160,255,0.6) 40%, rgba(80,200,255,0.3) 75%, transparent 100%);
+    --ep-explode-grad:       radial-gradient(ellipse at center, rgba(255,255,255,1) 0%, rgba(255,240,140,0.95) 15%, rgba(220,160,255,0.75) 40%, rgba(80,200,255,0.5) 65%, transparent 85%);
+    --ep-ring-color:         rgba(255,220,120,1);
+    --ep-ring-anim:          ring-pulse-legendary;
+    --ep-charge-anim:        spell-charge-p20;
+    --ep-explode-anim:       explode-p20;
+    --ep-explode-dur:        1.1s;
+    --ep-quake-anim:         quake-legendary;
+    --ep-ring-shape:         50%;
+    --ep-settle-dur:         0.9s;
 }
 
 /* ── Extra flip-flash keyframes ─────────────────────────────── */
@@ -2009,6 +2404,540 @@ html[data-theme="10"] {
     100% { box-shadow: 0 0 0px 0px rgba(40,5,0,0);         transform: scale(1); }
 }
 
+/* ============================================================
+   Effect Packs 11-20 — keyframes
+   ============================================================ */
+
+/* ── Flip-flash ──────────────────────────────────────────────── */
+/* Galaxy: shimmering star-twinkle */
+@keyframes flip-flash-galaxy {
+    0%   { opacity: 0; }
+    18%  { opacity: 0.85; }
+    32%  { opacity: 0.25; }
+    50%  { opacity: 1; }
+    68%  { opacity: 0.4; }
+    100% { opacity: 0; }
+}
+/* Money: cha-ching double pop */
+@keyframes flip-flash-money {
+    0%   { opacity: 0; }
+    20%  { opacity: 1; }
+    35%  { opacity: 0.3; }
+    55%  { opacity: 0.9; }
+    100% { opacity: 0; }
+}
+/* Math: clean precise pulse */
+@keyframes flip-flash-math {
+    0%   { opacity: 0; }
+    25%  { opacity: 1; }
+    100% { opacity: 0; }
+}
+/* Music: rhythmic 4-beat */
+@keyframes flip-flash-music {
+    0%   { opacity: 0; }
+    12%  { opacity: 0.9; }
+    24%  { opacity: 0.2; }
+    36%  { opacity: 0.85; }
+    48%  { opacity: 0.2; }
+    62%  { opacity: 1; }
+    78%  { opacity: 0.3; }
+    100% { opacity: 0; }
+}
+/* Time Travel: dilated stretch — slow build, hold, snap */
+@keyframes flip-flash-time {
+    0%   { opacity: 0; }
+    35%  { opacity: 0.6; }
+    55%  { opacity: 1; }
+    65%  { opacity: 1; }
+    100% { opacity: 0; }
+}
+/* Chinese: firecracker — bright snap with afterglow */
+@keyframes flip-flash-chinese {
+    0%   { opacity: 0; }
+    10%  { opacity: 1; }
+    18%  { opacity: 0.4; }
+    32%  { opacity: 0.85; }
+    100% { opacity: 0; }
+}
+/* Black Hole: blink-out — flash then darkness */
+@keyframes flip-flash-blackhole {
+    0%   { opacity: 0; }
+    15%  { opacity: 1; }
+    25%  { opacity: 0; }
+    60%  { opacity: 0.7; }
+    100% { opacity: 0; }
+}
+/* Blood: arterial throb — heartbeat double-thump */
+@keyframes flip-flash-blood {
+    0%   { opacity: 0; }
+    15%  { opacity: 0.95; }
+    28%  { opacity: 0.25; }
+    42%  { opacity: 0.85; }
+    100% { opacity: 0; }
+}
+/* Legendary: divine cascade — multiple radiant pulses */
+@keyframes flip-flash-legendary {
+    0%   { opacity: 0; }
+    10%  { opacity: 1; }
+    22%  { opacity: 0.5; }
+    36%  { opacity: 1; }
+    52%  { opacity: 0.45; }
+    70%  { opacity: 0.95; }
+    100% { opacity: 0; }
+}
+
+/* ── Ring-pulse ──────────────────────────────────────────────── */
+/* Galaxy: nebular spiral — expand with rotation feel */
+@keyframes ring-pulse-galaxy {
+    0%   { transform: translate(-50%,-50%) scale(0.15) rotate(0deg);  opacity: 1; }
+    50%  { transform: translate(-50%,-50%) scale(2.4) rotate(120deg); opacity: 0.7; }
+    100% { transform: translate(-50%,-50%) scale(4.2) rotate(240deg); opacity: 0; }
+}
+/* Money: stacked rings — bouncy double pulse */
+@keyframes ring-pulse-money {
+    0%   { transform: translate(-50%,-50%) scale(0.2); opacity: 1; }
+    25%  { transform: translate(-50%,-50%) scale(2.1); opacity: 0.85; }
+    40%  { transform: translate(-50%,-50%) scale(1.9); opacity: 0.4; }
+    60%  { transform: translate(-50%,-50%) scale(3.0); opacity: 0.7; }
+    100% { transform: translate(-50%,-50%) scale(4.0); opacity: 0; }
+}
+/* Flower: petal bloom — soft round expansion */
+@keyframes ring-pulse-flower {
+    0%   { transform: translate(-50%,-50%) scale(0.25); opacity: 0.9; }
+    30%  { transform: translate(-50%,-50%) scale(1.6);  opacity: 0.95; }
+    60%  { transform: translate(-50%,-50%) scale(2.9);  opacity: 0.55; }
+    100% { transform: translate(-50%,-50%) scale(3.8);  opacity: 0; }
+}
+/* Math: instant clean square */
+@keyframes ring-pulse-math {
+    0%   { transform: translate(-50%,-50%) scale(0.2); opacity: 1; }
+    35%  { transform: translate(-50%,-50%) scale(2.0); opacity: 0.95; }
+    100% { transform: translate(-50%,-50%) scale(3.2); opacity: 0; }
+}
+/* Music: harmonic — pulses on beat */
+@keyframes ring-pulse-music {
+    0%   { transform: translate(-50%,-50%) scale(0.2); opacity: 1; }
+    18%  { transform: translate(-50%,-50%) scale(1.6); opacity: 0.9; }
+    32%  { transform: translate(-50%,-50%) scale(1.3); opacity: 0.4; }
+    48%  { transform: translate(-50%,-50%) scale(2.4); opacity: 0.85; }
+    65%  { transform: translate(-50%,-50%) scale(2.1); opacity: 0.35; }
+    100% { transform: translate(-50%,-50%) scale(3.8); opacity: 0; }
+}
+/* Time Travel: chrono rewind — expands then retracts then expands */
+@keyframes ring-pulse-time {
+    0%   { transform: translate(-50%,-50%) scale(0.2); opacity: 1; }
+    30%  { transform: translate(-50%,-50%) scale(2.6); opacity: 0.9; }
+    50%  { transform: translate(-50%,-50%) scale(1.4); opacity: 0.6; }
+    75%  { transform: translate(-50%,-50%) scale(3.4); opacity: 0.7; }
+    100% { transform: translate(-50%,-50%) scale(4.6); opacity: 0; }
+}
+/* Chinese: lantern bloom — wide gentle expand */
+@keyframes ring-pulse-chinese {
+    0%   { transform: translate(-50%,-50%) scale(0.25); opacity: 1; }
+    40%  { transform: translate(-50%,-50%) scale(2.2);  opacity: 0.85; }
+    100% { transform: translate(-50%,-50%) scale(3.8);  opacity: 0; }
+}
+/* Black Hole: accretion — expands then collapses inward */
+@keyframes ring-pulse-blackhole {
+    0%   { transform: translate(-50%,-50%) scale(0.2); opacity: 0.95; }
+    25%  { transform: translate(-50%,-50%) scale(3.4); opacity: 0.9; }
+    55%  { transform: translate(-50%,-50%) scale(2.2); opacity: 0.7; }
+    80%  { transform: translate(-50%,-50%) scale(0.7); opacity: 0.5; }
+    100% { transform: translate(-50%,-50%) scale(0);   opacity: 0; }
+}
+/* Blood: arterial pulse — rhythmic throbs */
+@keyframes ring-pulse-blood {
+    0%   { transform: translate(-50%,-50%) scale(0.2); opacity: 1; }
+    20%  { transform: translate(-50%,-50%) scale(2.0); opacity: 0.9; }
+    35%  { transform: translate(-50%,-50%) scale(1.7); opacity: 0.45; }
+    55%  { transform: translate(-50%,-50%) scale(2.8); opacity: 0.8; }
+    72%  { transform: translate(-50%,-50%) scale(2.5); opacity: 0.3; }
+    100% { transform: translate(-50%,-50%) scale(3.8); opacity: 0; }
+}
+/* Legendary: quad-ring divine cascade — wide reach, slow majesty */
+@keyframes ring-pulse-legendary {
+    0%   { transform: translate(-50%,-50%) scale(0.15); opacity: 1;
+           border-color: rgba(255,240,160,1); }
+    18%  { transform: translate(-50%,-50%) scale(2.0);  opacity: 0.95;
+           border-color: rgba(255,220,120,0.95); }
+    32%  { transform: translate(-50%,-50%) scale(1.7);  opacity: 0.45;
+           border-color: rgba(255,200,80,0.7); }
+    50%  { transform: translate(-50%,-50%) scale(3.4);  opacity: 0.9;
+           border-color: rgba(220,140,255,0.9); }
+    68%  { transform: translate(-50%,-50%) scale(3.1);  opacity: 0.45;
+           border-color: rgba(80,200,255,0.7); }
+    85%  { transform: translate(-50%,-50%) scale(4.6);  opacity: 0.7;
+           border-color: rgba(255,255,200,0.6); }
+    100% { transform: translate(-50%,-50%) scale(5.4);  opacity: 0;
+           border-color: rgba(255,240,160,0); }
+}
+
+/* ── Quake ───────────────────────────────────────────────────── */
+/* Galaxy: swirling cosmic drift — smooth orbital sway */
+@keyframes quake-galaxy {
+    0%   { transform: translate(0,0) scale(1) rotate(0deg); }
+    18%  { transform: translate(-6px, 4px) scale(1.04) rotate(2deg); }
+    36%  { transform: translate(5px,-5px) scale(0.97) rotate(-2deg); }
+    54%  { transform: translate(-3px, 5px) scale(1.02) rotate(1.5deg); }
+    72%  { transform: translate(2px,-2px) scale(0.99) rotate(-0.5deg); }
+    100% { transform: translate(0,0) scale(1) rotate(0deg); }
+}
+/* Money: cash drop — quick excited shake */
+@keyframes quake-money {
+    0%   { transform: translate(0,0) scale(1); }
+    8%   { transform: translate(-6px,-4px) scale(1.08); }
+    18%  { transform: translate(6px, 5px) scale(0.94); }
+    30%  { transform: translate(-4px, 3px) scale(1.05); }
+    44%  { transform: translate(4px,-2px) scale(0.97); }
+    60%  { transform: translate(-2px,-1px) scale(1.02); }
+    100% { transform: translate(0,0) scale(1); }
+}
+/* Flower: petal sway — gentle breathing */
+@keyframes quake-flower {
+    0%   { transform: translate(0,0) scale(1); }
+    20%  { transform: translate(-3px, 4px) scale(1.04); }
+    45%  { transform: translate(3px,-3px) scale(1.02); }
+    70%  { transform: translate(-2px, 2px) scale(1.01); }
+    100% { transform: translate(0,0) scale(1); }
+}
+/* Math: rigid grid lock — snap to axes */
+@keyframes quake-math {
+    0%   { transform: translate(0,0) scale(1); }
+    15%  { transform: translate(-5px, 0px) scale(1); }
+    30%  { transform: translate(5px,  0px) scale(1); }
+    45%  { transform: translate(0px,-5px) scale(1); }
+    60%  { transform: translate(0px, 5px) scale(1); }
+    75%  { transform: translate(-2px, 0px) scale(1); }
+    100% { transform: translate(0,0) scale(1); }
+}
+/* Music: rhythmic — quake on beat */
+@keyframes quake-music {
+    0%   { transform: translate(0,0) scale(1); }
+    12%  { transform: translate(-6px,-3px) scale(1.07); }
+    24%  { transform: translate(2px, 1px) scale(0.98); }
+    38%  { transform: translate(6px, 3px) scale(1.07); }
+    50%  { transform: translate(-2px,-1px) scale(0.98); }
+    64%  { transform: translate(-6px, 3px) scale(1.05); }
+    78%  { transform: translate(3px,-2px) scale(0.99); }
+    100% { transform: translate(0,0) scale(1); }
+}
+/* Time Travel: temporal stutter — repeats positions, frame skips */
+@keyframes quake-time {
+    0%   { transform: translate(0,0) scale(1); }
+    10%  { transform: translate(-5px,-4px) scale(1.04); }
+    22%  { transform: translate(-5px,-4px) scale(1.04); }
+    35%  { transform: translate(4px, 5px) scale(0.96); }
+    47%  { transform: translate(4px, 5px) scale(0.96); }
+    62%  { transform: translate(-3px, 2px) scale(1.02); }
+    78%  { transform: translate(2px,-1px) scale(0.99); }
+    100% { transform: translate(0,0) scale(1); }
+}
+/* Chinese: festive firecracker — quick pop, snappy return */
+@keyframes quake-chinese {
+    0%   { transform: translate(0,0) scale(1); }
+    8%   { transform: translate(-7px,-6px) scale(1.1); }
+    20%  { transform: translate(7px, 6px) scale(0.92); }
+    35%  { transform: translate(-4px,-3px) scale(1.05); }
+    52%  { transform: translate(3px, 2px) scale(0.97); }
+    70%  { transform: translate(-2px,-1px) scale(1.02); }
+    100% { transform: translate(0,0) scale(1); }
+}
+/* Black Hole: gravitational implosion — pulls toward center */
+@keyframes quake-blackhole {
+    0%   { transform: translate(0,0) scale(1); }
+    15%  { transform: translate(3px, 3px) scale(0.78); }
+    32%  { transform: translate(-3px,-3px) scale(0.72); }
+    50%  { transform: translate(2px, 2px) scale(0.68); }
+    72%  { transform: translate(-1px,-1px) scale(0.85); }
+    100% { transform: translate(0,0) scale(1); }
+}
+/* Blood: heartbeat — two strong throbs */
+@keyframes quake-blood {
+    0%   { transform: translate(0,0) scale(1); }
+    14%  { transform: translate(0,0) scale(1.14); }
+    26%  { transform: translate(0,0) scale(0.96); }
+    40%  { transform: translate(0,0) scale(1.10); }
+    55%  { transform: translate(0,0) scale(0.98); }
+    72%  { transform: translate(0,0) scale(1.04); }
+    100% { transform: translate(0,0) scale(1); }
+}
+/* Legendary: ascension — mythic levitation, slow majestic float */
+@keyframes quake-legendary {
+    0%   { transform: translate(0,0) scale(1) rotate(0deg); }
+    12%  { transform: translate(-4px,-8px) scale(1.12) rotate(-1.5deg); }
+    28%  { transform: translate(4px,-10px) scale(1.10) rotate(1.5deg); }
+    46%  { transform: translate(-3px,-12px) scale(1.14) rotate(-1deg); }
+    64%  { transform: translate(2px,-8px) scale(1.08) rotate(0.5deg); }
+    82%  { transform: translate(-1px,-3px) scale(1.03) rotate(0deg); }
+    100% { transform: translate(0,0) scale(1) rotate(0deg); }
+}
+
+/* ── Spell-charge ────────────────────────────────────────────── */
+/* Galaxy: nebular core gathers light */
+@keyframes spell-charge-p11 {
+    0%   { box-shadow: 0 0 0px 0px rgba(120,40,200,0); }
+    25%  { box-shadow: 0 0 20px 8px rgba(200,160,255,0.7),
+                       0 0 40px 18px rgba(80,40,160,0.45); }
+    60%  { box-shadow: 0 0 26px 11px rgba(220,180,255,0.85),
+                       0 0 52px 24px rgba(100,40,180,0.55); }
+    100% { box-shadow: 0 0 36px 16px rgba(255,220,255,1),
+                       0 0 68px 30px rgba(120,60,220,0.7),
+                       inset 0 0 22px rgba(80,20,140,0.5); }
+}
+/* Money: cha-ching — staccato gold pulses */
+@keyframes spell-charge-p12 {
+    0%   { box-shadow: 0 0 0px 0px rgba(255,200,40,0); }
+    15%  { box-shadow: 0 0 24px 10px rgba(255,220,40,0.9),
+                       0 0 44px 20px rgba(120,200,40,0.55); }
+    35%  { box-shadow: 0 0 8px 3px rgba(180,160,40,0.4); }
+    55%  { box-shadow: 0 0 26px 11px rgba(255,230,60,0.95),
+                       0 0 48px 22px rgba(100,200,40,0.6); }
+    100% { box-shadow: 0 0 34px 15px rgba(255,240,100,1),
+                       0 0 60px 28px rgba(120,220,40,0.7),
+                       inset 0 0 18px rgba(220,180,40,0.4); }
+}
+/* Flower: petal bloom — soft glow opens outward */
+@keyframes spell-charge-p13 {
+    0%   { box-shadow: 0 0 0px 0px rgba(255,160,210,0); }
+    35%  { box-shadow: 0 0 22px 9px rgba(255,180,220,0.75),
+                       0 0 44px 20px rgba(220,100,180,0.4); }
+    70%  { box-shadow: 0 0 30px 13px rgba(255,200,230,0.9),
+                       0 0 56px 26px rgba(220,120,200,0.55); }
+    100% { box-shadow: 0 0 38px 17px rgba(255,230,240,1),
+                       0 0 66px 30px rgba(255,140,200,0.7),
+                       inset 0 0 18px rgba(220,160,210,0.4); }
+}
+/* Math: clean rising precision — single confident build */
+@keyframes spell-charge-p14 {
+    0%   { box-shadow: 0 0 0px 0px rgba(200,220,255,0); }
+    50%  { box-shadow: 0 0 22px 9px rgba(220,235,255,0.85),
+                       0 0 42px 18px rgba(140,180,240,0.5); }
+    100% { box-shadow: 0 0 32px 14px rgba(240,248,255,1),
+                       0 0 58px 26px rgba(160,200,255,0.65),
+                       inset 0 0 14px rgba(200,220,255,0.4); }
+}
+/* Music: 4/4 beat — pulses on the downbeat */
+@keyframes spell-charge-p15 {
+    0%   { box-shadow: 0 0 0px 0px rgba(255,80,200,0); }
+    12%  { box-shadow: 0 0 24px 10px rgba(255,100,220,0.9),
+                       0 0 44px 20px rgba(80,180,255,0.55); }
+    25%  { box-shadow: 0 0 6px 2px rgba(140,80,180,0.3); }
+    40%  { box-shadow: 0 0 22px 9px rgba(80,200,255,0.85),
+                       0 0 42px 18px rgba(255,100,220,0.5); }
+    55%  { box-shadow: 0 0 6px 2px rgba(120,140,200,0.3); }
+    75%  { box-shadow: 0 0 28px 12px rgba(255,140,240,0.9),
+                       0 0 50px 22px rgba(80,200,255,0.6); }
+    100% { box-shadow: 0 0 36px 16px rgba(255,200,255,1),
+                       0 0 60px 28px rgba(80,200,255,0.7),
+                       inset 0 0 18px rgba(200,100,220,0.4); }
+}
+/* Time Travel: chrono dilation — slow majestic build with gold/blue layers */
+@keyframes spell-charge-p16 {
+    0%   { box-shadow: 0 0 0px 0px rgba(255,200,80,0); }
+    20%  { box-shadow: 0 0 18px 7px rgba(80,160,255,0.6),
+                       0 0 38px 16px rgba(40,100,200,0.35); }
+    45%  { box-shadow: 0 0 24px 10px rgba(255,200,80,0.75),
+                       0 0 48px 22px rgba(80,160,255,0.5); }
+    70%  { box-shadow: 0 0 30px 13px rgba(255,220,120,0.9),
+                       0 0 56px 26px rgba(60,140,240,0.6); }
+    100% { box-shadow: 0 0 40px 18px rgba(255,240,180,1),
+                       0 0 70px 32px rgba(80,180,255,0.7),
+                       inset 0 0 20px rgba(255,200,80,0.5); }
+}
+/* Chinese: lantern light — warm crimson swelling */
+@keyframes spell-charge-p17 {
+    0%   { box-shadow: 0 0 0px 0px rgba(255,40,40,0); }
+    25%  { box-shadow: 0 0 26px 11px rgba(255,180,40,0.85),
+                       0 0 48px 22px rgba(220,30,30,0.55); }
+    60%  { box-shadow: 0 0 30px 13px rgba(255,200,60,0.9),
+                       0 0 56px 26px rgba(220,20,20,0.65); }
+    100% { box-shadow: 0 0 40px 18px rgba(255,220,80,1),
+                       0 0 68px 32px rgba(240,40,40,0.75),
+                       inset 0 0 22px rgba(220,80,20,0.5); }
+}
+/* Black Hole: event horizon — gold accretion encloses pitch-dark core */
+@keyframes spell-charge-p18 {
+    0%   { box-shadow: 0 0 0px 0px rgba(0,0,0,0); }
+    25%  { box-shadow: 0 0 20px 8px rgba(255,140,40,0.7),
+                       0 0 38px 16px rgba(0,0,0,0.7),
+                       inset 0 0 12px rgba(0,0,0,0.9); }
+    60%  { box-shadow: 0 0 26px 11px rgba(255,120,30,0.85),
+                       0 0 50px 22px rgba(0,0,0,0.95),
+                       inset 0 0 24px rgba(0,0,0,1); }
+    100% { box-shadow: 0 0 34px 15px rgba(255,160,40,1),
+                       0 0 64px 30px rgba(0,0,0,1),
+                       inset 0 0 36px rgba(0,0,0,1); }
+}
+/* Blood: arterial pump — pulsing crimson with double-beat */
+@keyframes spell-charge-p19 {
+    0%   { box-shadow: 0 0 0px 0px rgba(180,0,0,0); }
+    14%  { box-shadow: 0 0 26px 11px rgba(220,30,30,0.9),
+                       0 0 48px 22px rgba(120,0,0,0.6); }
+    28%  { box-shadow: 0 0 10px 4px rgba(140,0,0,0.4); }
+    44%  { box-shadow: 0 0 28px 12px rgba(220,20,20,0.95),
+                       0 0 52px 24px rgba(100,0,0,0.65); }
+    60%  { box-shadow: 0 0 12px 5px rgba(160,0,0,0.45); }
+    100% { box-shadow: 0 0 36px 16px rgba(240,40,40,1),
+                       0 0 64px 30px rgba(120,0,0,0.8),
+                       inset 0 0 22px rgba(80,0,0,0.55); }
+}
+/* Legendary: divine ascension — prismatic aurora builds across spectrum */
+@keyframes spell-charge-p20 {
+    0%   { box-shadow: 0 0 0px 0px rgba(255,240,160,0); }
+    15%  { box-shadow: 0 0 24px 10px rgba(255,240,160,0.85),
+                       0 0 46px 20px rgba(255,200,60,0.55); }
+    30%  { box-shadow: 0 0 28px 12px rgba(255,200,80,0.9),
+                       0 0 52px 24px rgba(220,140,255,0.55); }
+    45%  { box-shadow: 0 0 32px 14px rgba(220,140,255,0.92),
+                       0 0 58px 26px rgba(80,180,255,0.6); }
+    60%  { box-shadow: 0 0 36px 16px rgba(80,200,255,0.92),
+                       0 0 64px 30px rgba(140,255,200,0.6); }
+    78%  { box-shadow: 0 0 42px 18px rgba(255,220,160,0.95),
+                       0 0 76px 36px rgba(220,140,255,0.65); }
+    100% { box-shadow: 0 0 56px 26px rgba(255,255,255,1),
+                       0 0 110px 52px rgba(255,220,120,0.85),
+                       0 0 170px 80px rgba(180,140,255,0.5),
+                       inset 0 0 36px rgba(255,240,180,0.6); }
+}
+
+/* ── Explode ─────────────────────────────────────────────────── */
+/* Galaxy: supernova collapse — wide cosmic burst with stardust trail */
+@keyframes explode-p11 {
+    0%   { box-shadow: 0 0 0px 0px rgba(180,120,255,0);   transform: scale(1); }
+    5%   { box-shadow: 0 0 50px 26px rgba(255,240,200,1),
+                       0 0 95px 45px rgba(180,100,240,0.9); transform: scale(1.32); }
+    18%  { box-shadow: 0 0 42px 22px rgba(160,80,240,0.85),
+                       0 0 78px 38px rgba(80,40,180,0.55);  transform: scale(1.1); }
+    40%  { box-shadow: 0 0 48px 24px rgba(220,180,255,0.7),
+                       0 0 86px 42px rgba(100,40,200,0.4);  transform: scale(1.08); }
+    68%  { box-shadow: 0 0 26px 12px rgba(80,40,160,0.4),
+                       0 0 48px 22px rgba(40,20,100,0.2);   transform: scale(1.02); }
+    100% { box-shadow: 0 0 0px 0px rgba(20,10,60,0);        transform: scale(1); }
+}
+/* Money: coin shower — gold burst with green wash */
+@keyframes explode-p12 {
+    0%   { box-shadow: 0 0 0px 0px rgba(255,200,40,0);   transform: scale(1); }
+    5%   { box-shadow: 0 0 50px 24px rgba(255,255,180,1),
+                       0 0 90px 42px rgba(255,220,40,0.9);  transform: scale(1.35); }
+    18%  { box-shadow: 0 0 36px 18px rgba(120,200,40,0.7),
+                       0 0 70px 32px rgba(60,140,20,0.45);  transform: scale(0.95); }
+    35%  { box-shadow: 0 0 44px 22px rgba(255,200,40,0.85),
+                       0 0 80px 38px rgba(80,180,40,0.5);   transform: scale(1.1); }
+    65%  { box-shadow: 0 0 22px 10px rgba(160,160,40,0.4),
+                       0 0 42px 20px rgba(40,100,20,0.22);  transform: scale(1.03); }
+    100% { box-shadow: 0 0 0px 0px rgba(40,80,20,0);        transform: scale(1); }
+}
+/* Flower: bloom unfurl — soft round pastel expansion */
+@keyframes explode-p13 {
+    0%   { box-shadow: 0 0 0px 0px rgba(255,160,210,0);   transform: scale(1); }
+    8%   { box-shadow: 0 0 40px 20px rgba(255,220,240,1),
+                       0 0 78px 38px rgba(255,140,200,0.85); transform: scale(1.25); }
+    30%  { box-shadow: 0 0 52px 26px rgba(255,160,210,0.85),
+                       0 0 92px 44px rgba(220,100,180,0.55); transform: scale(1.15); }
+    60%  { box-shadow: 0 0 36px 18px rgba(220,140,200,0.55),
+                       0 0 64px 30px rgba(180,80,150,0.3);   transform: scale(1.06); }
+    100% { box-shadow: 0 0 0px 0px rgba(160,60,140,0);       transform: scale(1); }
+}
+/* Math: clean unit circle — precise expand-and-fade */
+@keyframes explode-p14 {
+    0%   { box-shadow: 0 0 0px 0px rgba(200,220,255,0);   transform: scale(1); }
+    10%  { box-shadow: 0 0 42px 22px rgba(255,255,255,1),
+                       0 0 70px 32px rgba(180,210,255,0.8); transform: scale(1.22); }
+    50%  { box-shadow: 0 0 30px 14px rgba(200,225,255,0.55),
+                       0 0 54px 24px rgba(120,160,220,0.3);  transform: scale(1.04); }
+    100% { box-shadow: 0 0 0px 0px rgba(80,120,200,0);       transform: scale(1); }
+}
+/* Music: amp-driven — rhythmic shockwaves on beat */
+@keyframes explode-p15 {
+    0%   { box-shadow: 0 0 0px 0px rgba(255,80,220,0);    transform: scale(1); }
+    5%   { box-shadow: 0 0 50px 26px rgba(255,255,255,1),
+                       0 0 90px 44px rgba(255,80,220,0.85); transform: scale(1.32); }
+    14%  { box-shadow: 0 0 16px 6px rgba(180,80,180,0.4),
+                       0 0 36px 16px rgba(80,80,180,0.25);  transform: scale(0.95); }
+    28%  { box-shadow: 0 0 44px 22px rgba(80,200,255,0.9),
+                       0 0 78px 38px rgba(40,140,220,0.6);  transform: scale(1.18); }
+    44%  { box-shadow: 0 0 18px 7px rgba(120,160,200,0.4); transform: scale(0.97); }
+    60%  { box-shadow: 0 0 46px 23px rgba(255,120,240,0.85),
+                       0 0 82px 40px rgba(80,180,255,0.55); transform: scale(1.1); }
+    100% { box-shadow: 0 0 0px 0px rgba(80,40,160,0);       transform: scale(1); }
+}
+/* Time Travel: wormhole — collapse → flash → re-expand → settle */
+@keyframes explode-p16 {
+    0%   { box-shadow: 0 0 0px 0px rgba(255,200,80,0);    transform: scale(1); }
+    8%   { box-shadow: 0 0 18px 7px rgba(80,140,255,0.6); transform: scale(0.78); }
+    22%  { box-shadow: 0 0 60px 30px rgba(255,255,220,1),
+                       0 0 110px 52px rgba(255,200,80,0.95); transform: scale(1.42); }
+    40%  { box-shadow: 0 0 44px 22px rgba(80,160,255,0.75),
+                       0 0 80px 38px rgba(40,100,200,0.5);   transform: scale(1.15); }
+    62%  { box-shadow: 0 0 40px 20px rgba(255,200,80,0.65),
+                       0 0 72px 34px rgba(80,160,255,0.4);   transform: scale(1.08); }
+    85%  { box-shadow: 0 0 18px 8px rgba(180,160,120,0.3),
+                       0 0 36px 16px rgba(40,80,140,0.18);   transform: scale(1.02); }
+    100% { box-shadow: 0 0 0px 0px rgba(40,40,80,0);         transform: scale(1); }
+}
+/* Chinese: firework — single bright snap with golden afterglow */
+@keyframes explode-p17 {
+    0%   { box-shadow: 0 0 0px 0px rgba(255,40,40,0);    transform: scale(1); }
+    5%   { box-shadow: 0 0 55px 28px rgba(255,250,180,1),
+                       0 0 100px 48px rgba(255,180,40,0.95);transform: scale(1.38); }
+    14%  { box-shadow: 0 0 50px 24px rgba(255,80,30,0.9),
+                       0 0 90px 42px rgba(180,20,20,0.7);   transform: scale(1.1); }
+    32%  { box-shadow: 0 0 44px 22px rgba(255,160,40,0.7),
+                       0 0 78px 38px rgba(220,30,20,0.45);  transform: scale(1.06); }
+    65%  { box-shadow: 0 0 20px 10px rgba(160,20,10,0.3),
+                       0 0 38px 18px rgba(80,10,5,0.15);    transform: scale(1.02); }
+    100% { box-shadow: 0 0 0px 0px rgba(60,5,5,0);          transform: scale(1); }
+}
+/* Black Hole: total gravitational collapse — light spirals inward and dies */
+@keyframes explode-p18 {
+    0%   { box-shadow: 0 0 0px 0px rgba(255,140,40,0);    transform: scale(1); }
+    6%   { box-shadow: 0 0 60px 30px rgba(255,200,100,0.95),
+                       0 0 110px 52px rgba(255,140,40,0.85); transform: scale(1.45); }
+    20%  { box-shadow: 0 0 70px 36px rgba(255,160,60,0.9),
+                       0 0 120px 58px rgba(80,20,40,0.7),
+                       inset 0 0 14px rgba(0,0,0,0.8);       transform: scale(1.2); }
+    45%  { box-shadow: 0 0 30px 14px rgba(120,40,30,0.5),
+                       0 0 56px 26px rgba(0,0,0,0.85),
+                       inset 0 0 26px rgba(0,0,0,1);         transform: scale(0.85); }
+    72%  { box-shadow: 0 0 8px 3px rgba(0,0,0,1),
+                       inset 0 0 40px rgba(0,0,0,1);         transform: scale(0.55); }
+    100% { box-shadow: 0 0 0px 0px rgba(0,0,0,0);            transform: scale(1); }
+}
+/* Blood: visceral burst — two crimson thumps then dark stain */
+@keyframes explode-p19 {
+    0%   { box-shadow: 0 0 0px 0px rgba(180,0,0,0);     transform: scale(1); }
+    6%   { box-shadow: 0 0 52px 26px rgba(255,160,140,1),
+                       0 0 96px 44px rgba(200,20,20,0.9);  transform: scale(1.32); }
+    20%  { box-shadow: 0 0 30px 14px rgba(120,0,0,0.55),
+                       0 0 56px 26px rgba(60,0,0,0.3);     transform: scale(0.94); }
+    38%  { box-shadow: 0 0 50px 24px rgba(220,30,30,0.9),
+                       0 0 92px 42px rgba(120,0,0,0.65);   transform: scale(1.18); }
+    62%  { box-shadow: 0 0 22px 10px rgba(80,0,0,0.4),
+                       0 0 42px 20px rgba(40,0,0,0.2);     transform: scale(1.04); }
+    100% { box-shadow: 0 0 0px 0px rgba(30,0,0,0);         transform: scale(1); }
+}
+/* Legendary: divine ascension — radiant prismatic detonation, immense reach */
+@keyframes explode-p20 {
+    0%   { box-shadow: 0 0 0px 0px rgba(255,240,160,0);   transform: scale(1); }
+    4%   { box-shadow: 0 0 90px 46px rgba(255,255,255,1),
+                       0 0 160px 78px rgba(255,240,160,1); transform: scale(1.55); }
+    12%  { box-shadow: 0 0 70px 36px rgba(255,220,100,0.95),
+                       0 0 130px 64px rgba(255,180,60,0.85),
+                       0 0 200px 96px rgba(220,140,255,0.65); transform: scale(1.28); }
+    26%  { box-shadow: 0 0 80px 40px rgba(220,140,255,0.92),
+                       0 0 140px 68px rgba(140,80,240,0.7),
+                       0 0 220px 104px rgba(80,180,255,0.55); transform: scale(1.18); }
+    44%  { box-shadow: 0 0 76px 38px rgba(80,200,255,0.85),
+                       0 0 138px 68px rgba(120,255,220,0.55),
+                       0 0 210px 100px rgba(255,200,120,0.4); transform: scale(1.12); }
+    62%  { box-shadow: 0 0 62px 30px rgba(255,220,140,0.7),
+                       0 0 120px 58px rgba(220,160,255,0.45),
+                       0 0 190px 90px rgba(80,180,240,0.3);   transform: scale(1.06); }
+    82%  { box-shadow: 0 0 32px 16px rgba(180,160,200,0.3),
+                       0 0 60px 28px rgba(120,140,200,0.15);  transform: scale(1.02); }
+    100% { box-shadow: 0 0 0px 0px rgba(80,80,160,0);         transform: scale(1); }
+}
+
 /* ── Theme picker ───────────────────────────────────────────── */
 .theme-picker {
     display: flex;
@@ -2097,6 +3026,15 @@ html[data-theme="10"] {
     text-align: center;
 }
 
+/* Pack name itself sized to match the 56px swatch/preview in the other pickers
+   so the side arrows align horizontally across all three rows. */
+.ep-pack-name-wrap {
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .ep-pack-name {
     font-size: 16px;
     font-weight: 700;
@@ -2171,6 +3109,93 @@ html[data-theme="10"] {
 @keyframes bombastic-pulse {
     from { text-shadow: 0 0 8px rgba(255,200,0,.9),  0 0 18px rgba(255,60,0,.6),  0 0 32px rgba(180,10,0,.3); }
     to   { text-shadow: 0 0 16px rgba(255,240,80,1), 0 0 34px rgba(255,100,0,.85), 0 0 56px rgba(220,20,0,.5); }
+}
+.ep-name-block[data-ep="11"] .ep-pack-name {
+    color: #d8b8ff;
+    text-shadow: 0 0 10px rgba(200,160,255,.85), 0 0 22px rgba(120,40,200,.55), 0 0 36px rgba(40,10,100,.35);
+    animation: galaxy-shimmer 3s ease-in-out infinite;
+}
+@keyframes galaxy-shimmer {
+    0%, 100% { color: #d8b8ff; text-shadow: 0 0 10px rgba(200,160,255,.85), 0 0 22px rgba(120,40,200,.55); }
+    50%      { color: #fff4d0; text-shadow: 0 0 12px rgba(255,240,200,.9),  0 0 26px rgba(180,100,240,.6); }
+}
+.ep-name-block[data-ep="12"] .ep-pack-name {
+    color: #ffe040;
+    text-shadow: 0 0 10px rgba(255,220,40,.9), 0 0 22px rgba(120,200,40,.55), 0 0 36px rgba(40,100,20,.3);
+    animation: money-bling 0.9s steps(1) infinite;
+}
+@keyframes money-bling {
+    0%, 60%, 100% { color: #ffe040; text-shadow: 0 0 10px rgba(255,220,40,.9), 0 0 22px rgba(120,200,40,.55); }
+    30%           { color: #80ff80; text-shadow: 0 0 10px rgba(120,255,120,1),  0 0 22px rgba(40,220,40,.7); }
+}
+.ep-name-block[data-ep="13"] .ep-pack-name {
+    color: #ffaad8;
+    text-shadow: 0 0 10px rgba(255,160,210,.85), 0 0 22px rgba(220,80,160,.5), 0 0 36px rgba(120,30,100,.3);
+    animation: flower-sway 2.4s ease-in-out infinite alternate;
+}
+@keyframes flower-sway {
+    from { text-shadow: 0 0 8px rgba(255,160,210,.75),  0 0 18px rgba(220,100,180,.45); }
+    to   { text-shadow: 0 0 14px rgba(255,200,230,.95), 0 0 28px rgba(255,140,200,.65); }
+}
+.ep-name-block[data-ep="14"] .ep-pack-name {
+    color: #e0e8ff;
+    text-shadow: 0 0 10px rgba(220,235,255,.9), 0 0 22px rgba(140,180,240,.45), 0 0 36px rgba(60,100,180,.25);
+    font-family: 'Courier New', 'Space Grotesk', monospace;
+    letter-spacing: 2px;
+}
+.ep-name-block[data-ep="15"] .ep-pack-name {
+    color: #ff80d8;
+    text-shadow: 0 0 10px rgba(255,120,220,.85), 0 0 22px rgba(80,200,255,.5), 0 0 36px rgba(40,40,140,.3);
+    animation: music-beat 0.6s ease-in-out infinite;
+}
+@keyframes music-beat {
+    0%, 100% { transform: scale(1);    color: #ff80d8; }
+    25%      { transform: scale(1.08); color: #80e0ff; }
+    50%      { transform: scale(1);    color: #ff80d8; }
+    75%      { transform: scale(1.04); color: #b0a0ff; }
+}
+.ep-name-block[data-ep="16"] .ep-pack-name {
+    color: #ffd060;
+    text-shadow: 0 0 10px rgba(255,200,80,.85), 0 0 22px rgba(80,160,255,.5), 0 0 36px rgba(40,80,180,.3);
+}
+.ep-name-block[data-ep="17"] .ep-pack-name {
+    color: #ffc040;
+    text-shadow: 0 0 10px rgba(255,180,40,1), 0 0 22px rgba(220,30,30,.7), 0 0 36px rgba(120,10,10,.45);
+    animation: lantern-flicker 2.2s ease-in-out infinite;
+}
+@keyframes lantern-flicker {
+    0%, 100% { text-shadow: 0 0 10px rgba(255,180,40,1),  0 0 22px rgba(220,30,30,.7); }
+    45%      { text-shadow: 0 0 6px rgba(220,140,40,.7),  0 0 14px rgba(180,20,20,.5); }
+    55%      { text-shadow: 0 0 14px rgba(255,220,80,1),  0 0 28px rgba(255,60,30,.8); }
+}
+.ep-name-block[data-ep="18"] .ep-pack-name {
+    color: #050202;
+    -webkit-text-stroke: 1px #4a1a08;
+    text-shadow: 0 0 8px rgba(0,0,0,1), 0 0 22px rgba(0,0,0,1), 0 0 40px rgba(20,8,4,.9);
+}
+.ep-name-block[data-ep="19"] .ep-pack-name {
+    color: #ff4040;
+    text-shadow: 0 0 10px rgba(220,20,20,1), 0 0 22px rgba(120,0,0,.75), 0 0 36px rgba(60,0,0,.55);
+    animation: blood-pulse 1.1s ease-in-out infinite;
+}
+@keyframes blood-pulse {
+    0%, 100% { color: #ff4040; transform: scale(1);    text-shadow: 0 0 10px rgba(220,20,20,1),  0 0 22px rgba(120,0,0,.75); }
+    25%      { color: #ff8060; transform: scale(1.08); text-shadow: 0 0 14px rgba(255,40,40,1),  0 0 30px rgba(180,0,0,.85); }
+    50%      { color: #ff4040; transform: scale(1); }
+    70%      { color: #ff7060; transform: scale(1.05); text-shadow: 0 0 12px rgba(255,40,40,1),  0 0 26px rgba(160,0,0,.8); }
+}
+.ep-name-block[data-ep="20"] .ep-pack-name {
+    color: #fff0a0;
+    text-shadow: 0 0 12px rgba(255,240,160,1), 0 0 26px rgba(220,140,255,.85), 0 0 48px rgba(80,180,255,.65), 0 0 78px rgba(255,200,80,.4);
+    animation: legendary-aurora 3.2s ease-in-out infinite;
+    font-weight: 800;
+}
+@keyframes legendary-aurora {
+    0%   { color: #fff0a0; text-shadow: 0 0 12px rgba(255,240,160,1), 0 0 28px rgba(255,200,80,.85), 0 0 48px rgba(220,140,255,.55); transform: scale(1)    translateY(0); }
+    25%  { color: #f0c0ff; text-shadow: 0 0 14px rgba(220,160,255,1), 0 0 32px rgba(140,80,240,.85), 0 0 56px rgba(80,180,255,.6);   transform: scale(1.04) translateY(-1px); }
+    50%  { color: #a0e0ff; text-shadow: 0 0 14px rgba(140,220,255,1), 0 0 32px rgba(80,180,255,.85), 0 0 56px rgba(220,140,255,.55); transform: scale(1)    translateY(0); }
+    75%  { color: #ffd8c0; text-shadow: 0 0 14px rgba(255,220,160,1), 0 0 32px rgba(255,160,100,.85),0 0 56px rgba(220,140,255,.55); transform: scale(1.04) translateY(-1px); }
+    100% { color: #fff0a0; text-shadow: 0 0 12px rgba(255,240,160,1), 0 0 28px rgba(255,200,80,.85), 0 0 48px rgba(220,140,255,.55); transform: scale(1)    translateY(0); }
 }
 
 /* ============================================================
