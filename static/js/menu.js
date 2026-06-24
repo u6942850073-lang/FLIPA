@@ -31,6 +31,15 @@ const EFFECT_PACK_NAMES = [null, 'Ember', 'Crystal', 'Shadow', 'Lightning', 'Voi
 document.addEventListener('DOMContentLoaded', () => {
     const socket = io();
 
+    // ── Online presence ───────────────────────────────────────────────────
+    socket.on('connect', () => socket.emit('menu_open'));
+    socket.on('disconnect', () => socket.emit('menu_close'));
+
+    const onlineCountEl = document.getElementById('online-count');
+    socket.on('online_count', (data) => {
+        if (onlineCountEl) onlineCountEl.textContent = data.count;
+    });
+
     // ── Ranked matchmaking ────────────────────────────────────────────────
     const findBtn      = document.getElementById('find-game-btn');
     const cancelBtn    = document.getElementById('cancel-queue-btn');

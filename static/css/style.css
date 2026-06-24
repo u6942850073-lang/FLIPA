@@ -214,6 +214,8 @@ a:hover { text-decoration: underline; }
 .player-name { font-size: 18px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .player-mmr-row { display: flex; align-items: center; gap: 8px; margin-top: 4px; flex-wrap: wrap; }
 .player-mmr { font-size: 13px; color: var(--text-muted); }
+.online-count-row { display: flex; align-items: center; gap: 5px; margin-top: 5px; font-size: 12px; color: var(--text-muted); }
+.online-dot { width: 7px; height: 7px; border-radius: 50%; background: #40c070; flex-shrink: 0; }
 
 .skin-preview-wrap {
     width: 56px;

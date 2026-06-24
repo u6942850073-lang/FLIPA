@@ -426,6 +426,29 @@ def on_play_move(data):
 
 
 # ---------------------------------------------------------------------------
+# SocketIO — Online presence (menu)
+# ---------------------------------------------------------------------------
+
+_menu_sids: set = set()
+
+
+def _broadcast_online_count():
+    socketio.emit("online_count", {"count": len(_menu_sids)})
+
+
+@socketio.on("menu_open")
+def on_menu_open():
+    _menu_sids.add(request.sid)
+    _broadcast_online_count()
+
+
+@socketio.on("menu_close")
+def on_menu_close():
+    _menu_sids.discard(request.sid)
+    _broadcast_online_count()
+
+
+# ---------------------------------------------------------------------------
 # SocketIO — Matchmaking
 # ---------------------------------------------------------------------------
 
@@ -459,6 +482,9 @@ def on_leave_queue():
 @socketio.on("disconnect")
 def on_disconnect():
     gm.dequeue_by_sid(request.sid)
+    if request.sid in _menu_sids:
+        _menu_sids.discard(request.sid)
+        _broadcast_online_count()
 
 
 # ---------------------------------------------------------------------------
