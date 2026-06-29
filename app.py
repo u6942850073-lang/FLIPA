@@ -112,7 +112,7 @@ def logout():
 @login_required
 def menu():
     user = current_user()
-    leaderboard = db.get_leaderboard(10)
+    leaderboard = db.get_leaderboard(20)
     for entry in leaderboard:
         entry["rank"] = gm.get_rank(entry["mmr"])
     user["rank"] = gm.get_rank(user["mmr"])
